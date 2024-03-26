@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <>
-      <div className="py-6 px-0 flex items-center justify-between max-w-[1276px] w-full mx-auto font-Barlow">
+    <div className="fixed z-50 w-full">
+      <div className="py-6 px-0 flex items-center justify-between max-w-[1276px] w-full mx-auto font-Barlow bg-primaryBackground">
         <Link to="/">
           <img src="/logo.png" alt="logo" className="w-[180px]" />
         </Link>
@@ -40,7 +40,7 @@ const Header = () => {
           Staking App
         </Link>
       </div>
-    </>
+    </div>
   );
 };
 

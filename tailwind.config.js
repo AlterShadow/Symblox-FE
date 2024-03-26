@@ -7,6 +7,7 @@ module.exports = {
       colors: {
         primaryBackground: "#08131E",
         primaryText: "#C3E6FF",
+        primaryBoxColor: "#17283B",
         primaryButtonColor: "#EE2D82",
       },
       fontFamily: {
