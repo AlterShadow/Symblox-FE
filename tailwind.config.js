@@ -41,6 +41,7 @@ module.exports = {
       colors: {
         primaryBackground: "#08131E",
         primaryText: "#C3E6FF",
+        secondaryText: "#7F93A2",
         primaryBoxColor: "#17283B",
         primaryButtonColor: "#EE2D82",
       },

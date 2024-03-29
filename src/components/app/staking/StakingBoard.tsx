@@ -1,4 +1,10 @@
-const Staking = () => {
+import { useNavigate } from "react-router-dom";
+
+const StakingBoard = () => {
+  const navigate = useNavigate();
+  const stakingHandler = () => {
+    navigate("/staking/mint");
+  };
   return (
     <div className="pt-[55px] pb-8 w-full min-h-screen font-Barlow px-5 sm:px-5 md:px-10">
       <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-11">
@@ -22,8 +28,11 @@ const Staking = () => {
                 Borrow sUSD by staking your SNX.
               </p>
             </div>
-            <button className="h-10 py-[18px] sm:px-8 md:px-8 px-6 flex items-center gap-[10px] rounded-[60px] bg-primaryButtonColor text-white text-[16px] font-bold leading-[16px] sm:min-w-[190px] md:min-w-[190px]">
-              Connect Wallet
+            <button
+              className="h-10 py-[18px] sm:px-8 md:px-8 px-6 flex items-center gap-[10px] rounded-[60px] bg-primaryButtonColor text-white text-[16px] font-bold leading-[16px] sm:min-w-[190px] md:min-w-[190px]"
+              onClick={stakingHandler}
+            >
+              Start Staking
             </button>
           </div>
           <div className="flex flex-col h-[268px] sm:h-full md:h-full gap-4 flex-[1_0_0] bg-primaryBoxColor py-[34px] px-6 rounded-xl items-start justify-between opacity-50 w-full">
@@ -82,7 +91,7 @@ const Staking = () => {
             <p className="text-[20px] leading-[1em] font-bold text-white">
               ••••%
             </p>
-            <p className="text-[14px] leading-[1em] font-normal text-[#7F93A2]">
+            <p className="text-[14px] leading-[1em] font-normal text-secondaryText">
               Connect wallet first to reveal the APR
             </p>
           </div>
@@ -90,7 +99,7 @@ const Staking = () => {
             <p className="text-[20px] leading-[1em] font-bold text-white">
               SNX Bridge
             </p>
-            <p className="text-[14px] leading-[1em] font-normal text-[#7F93A2]">
+            <p className="text-[14px] leading-[1em] font-normal text-secondaryText">
               Transfer Asset between blockchains
             </p>
           </div>
@@ -98,7 +107,7 @@ const Staking = () => {
             <p className="text-[20px] leading-[1em] font-bold text-white">
               Hedge Debt
             </p>
-            <p className="text-[14px] leading-[1em] font-normal text-[#7F93A2]">
+            <p className="text-[14px] leading-[1em] font-normal text-secondaryText">
               Buy dSNX to hedge
             </p>
           </div>
@@ -106,7 +115,7 @@ const Staking = () => {
             <p className="text-[20px] leading-[1em] font-bold text-white">
               Help
             </p>
-            <p className="text-[14px] leading-[1em] font-normal text-[#7F93A2]">
+            <p className="text-[14px] leading-[1em] font-normal text-secondaryText">
               Learn more about Synthetix
             </p>
           </div>
@@ -116,4 +125,4 @@ const Staking = () => {
   );
 };
 
-export default Staking;
+export default StakingBoard;

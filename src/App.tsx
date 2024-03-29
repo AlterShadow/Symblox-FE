@@ -36,7 +36,7 @@ function App() {
             </LayoutWithNavbarAndFooter>
           }
         />
-        <Route path="/app/*" element={<AppLayout />} />
+        <Route path="/staking/*" element={<AppLayout />} />
       </Routes>
     </Router>
   );

@@ -17,7 +17,7 @@ const Footer = () => {
             Symblox links traditional finance and DeFi with transparency and
             community power. Simple, decentralized, and forward-thinking.
           </span>
-          <span className="text-[#7F93A2] text-[14px] font-normal leading-[1em] md:text-[12px] sm:text-[12px]">
+          <span className="text-secondaryText text-[14px] font-normal leading-[1em] md:text-[12px] sm:text-[12px]">
             Copyright © 2024 Symblox. All rights reserved.
           </span>
         </div>
@@ -53,12 +53,14 @@ const Footer = () => {
           <div className="flex flex-col items-start gap-4 text-primaryText">
             <Link
               to="/staking"
+              target="_blank"
               className="text-[16px] leading-[16px] font-normal"
             >
               Staking
             </Link>
             <Link
               to="/vault"
+              target="_blank"
               className="text-[16px] leading-[16px] font-normal"
             >
               Vault
@@ -70,21 +72,24 @@ const Footer = () => {
             GET CONNECTED
           </span>
           <div className="flex justify-end items-center gap-6">
-            <Link to="/">
+            <Link to="https://t.me/Symblox" target="_blank">
               <Icon
                 icon="mingcute:telegram-fill"
                 color="white"
                 className="w-6 h-6 md:w-4"
               />
             </Link>
-            <Link to="/">
+            <Link
+              to="https://x.com/symbloxdefi?s=21&t=ViM4bnDBQrOq-0pfk1MQgA"
+              target="_blank"
+            >
               <img
                 src="/assets/Icon/twitter.svg"
                 alt="twitter"
                 className="w-6 h-6 md:w-4"
               />
             </Link>
-            <Link to="/">
+            <Link to="https://github.com/symbloxdao" target="_blank">
               <img
                 src="/assets/Icon/github.svg"
                 alt="github"
@@ -105,7 +110,7 @@ const Footer = () => {
             Symblox links traditional finance and DeFi with transparency and
             community power. Simple, decentralized, and forward-thinking.
           </span>
-          <span className="text-[#7F93A2] text-[14px] font-normal leading-[1em] md:text-[12px] sm:text-[12px]">
+          <span className="text-secondaryText text-[14px] font-normal leading-[1em] md:text-[12px] sm:text-[12px]">
             Copyright © 2024 Symblox. All rights reserved.
           </span>
         </div>

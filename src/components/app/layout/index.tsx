@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import Staking from "../staking";
+import StakingBoard from "../staking/StakingBoard";
+import StakingMint from "../staking/StakingMint";
 import AppHeader from "../header";
 import Footer from "../../footer";
 
@@ -9,7 +10,8 @@ const AppLayout = () => {
       <AppHeader />
       <div className="pt-[93px]">
         <Routes>
-          <Route path="/staking" element={<Staking />} />
+          <Route path="/*" element={<StakingBoard />} />
+          <Route path="/mint" element={<StakingMint />} />
         </Routes>
       </div>
       <Footer />

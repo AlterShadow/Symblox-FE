@@ -9,7 +9,8 @@ const Header = () => {
         </Link>
         <div className="flex flex-row gap-8 items-start">
           <Link
-            to="/app/staking"
+            to="/staking"
+            target="_blank"
             className="text-[16px] font-medium leading-[16px] text-white"
           >
             Staking
@@ -35,7 +36,7 @@ const Header = () => {
         </div>
         <Link
           target="_blank"
-          to="/app/staking"
+          to="/staking"
           className="h-10 py-[18px] px-6 flex items-center gap-[10px] rounded-[60px] bg-primaryButtonColor text-white text-[16px] font-bold leading-[16px]"
         >
           Staking App
