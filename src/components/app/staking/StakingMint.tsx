@@ -162,7 +162,7 @@ const StakingMint = () => {
                     disabled={isDisabled}
                     onClick={() => console.log("There")}
                     className={`rounded-[60px] bg-primaryButtonColor w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
-                      isDisabled ? "opacity-50" : ""
+                      isDisabled ? "opacity-50" : "opacity-100"
                     }`}
                   >
                     Mint

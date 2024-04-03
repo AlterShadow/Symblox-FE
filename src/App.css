@@ -61,3 +61,36 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #ffffff;
 }
+
+#wallet-button {
+  font-family: "Barlow", "sans-serif";
+}
+
+#wallet-button > div {
+  gap: 12px;
+}
+#wallet-button > div > button {
+  background-color: #ee2d82 !important;
+  border-radius: 60px !important;
+  padding-left: 32px;
+  padding-right: 32px;
+  font-family: "Barlow", "sans-serif" !important;
+}
+
+@media screen and (max-width: 768px) {
+  #wallet-button {
+    font-family: "Barlow", "sans-serif";
+    font-size: 14px;
+  }
+
+  #wallet-button > div > button {
+    padding-left: 16px;
+    padding-right: 16px;
+    font-family: "Barlow", "sans-serif" !important;
+  }
+}
+
+#wallet-button > div > button > div {
+  border: none !important;
+  padding: 0 12px;
+}
