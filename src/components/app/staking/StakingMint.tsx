@@ -2,18 +2,19 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 
+const regex = /^$|^[0-9]+(\.[0-9]*)?$/;
+
 const StakingMint = () => {
-  const [snxAmount, setSNXAmount] = useState("");
-  const [sUSDAmount, setSUSDAmount] = useState("");
+  const [snxAmount, setSNXAmount] = useState<string>("");
+  const [sUSDAmount, setSUSDAmount] = useState<string>("");
 
-  const handleSUSDChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value.replace(/\D/g, "");
-    setSUSDAmount(newValue);
-  };
-
-  const handleSNXChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value.replace(/\D/g, "");
-    setSNXAmount(newValue);
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    setState: React.Dispatch<React.SetStateAction<string>>
+  ) => {
+    if (regex.test(event.target.value)) {
+      setState(event.target.value);
+    }
   };
 
   const isDisabled = !snxAmount || !sUSDAmount;
@@ -87,8 +88,8 @@ const StakingMint = () => {
                     <input
                       type="text"
                       value={snxAmount}
-                      onChange={handleSNXChange}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white focus-visible:border focus-visible:border-primaryButtonColor"
+                      onChange={(e) => handleInputChange(e, setSNXAmount)}
+                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor"
                       placeholder="Enter Amount"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
@@ -132,8 +133,8 @@ const StakingMint = () => {
                     <input
                       type="text"
                       value={sUSDAmount}
-                      onChange={handleSUSDChange}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white"
+                      onChange={(e) => handleInputChange(e, setSUSDAmount)}
+                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor"
                       placeholder="Enter Amount"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
