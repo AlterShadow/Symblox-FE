@@ -17,9 +17,9 @@ function LayoutWithNavbarAndFooter({
 }: LayoutWithNavbarAndFooterProps) {
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       {children}
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }
