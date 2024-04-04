@@ -3,6 +3,7 @@ import StakingBoard from "../staking/StakingBoard";
 import StakingMint from "../staking/StakingMint";
 import AppHeader from "../header";
 import Footer from "../../footer";
+import PrivacyModal from "../modal/privacy";
 
 const AppLayout = () => {
   return (
@@ -12,6 +13,7 @@ const AppLayout = () => {
         <Routes>
           <Route path="/*" element={<StakingBoard />} />
           <Route path="/mint" element={<StakingMint />} />
+          <Route path="/modal" element={<PrivacyModal />} />
         </Routes>
       </div>
       <Footer />

@@ -1,3 +1,4 @@
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Link } from "react-router-dom";
 
 const AppHeader = () => {
@@ -23,23 +24,9 @@ const AppHeader = () => {
             </div>
           </div>
           <div className="flex flex-row items-center gap-[31px] sm:gap-3 md:gap-5">
-            <div className="flex sm:hidden md:hidden flex-row gap-2 items-center hover:cursor-pointer">
-              <span className="">
-                <img src="/assets/Icon/ethereum.svg" alt="chain-logo" />
-              </span>
-              <span className="text-white text-[16px] leading-[16px] font-medium">
-                Ethereum
-              </span>
-              <span className="">
-                <img src="/assets/Icon/chevron-down.svg" alt="down-arrow" />
-              </span>
+            <div id="wallet-button">
+              <ConnectButton label="Connect Wallet" />
             </div>
-            <div className="sm:flex md:flex hidden w-6 h-6 md:w-7 md:h-7">
-              <img src="/assets/Icon/ethereum.svg" alt="chain-logo" />
-            </div>
-            <button className="h-10 sm:h-8 md:h-8 py-[18px] px-6 sm:px-4 md:px-4 flex items-center gap-[10px] rounded-[60px] bg-primaryButtonColor text-white text-[16px] font-bold leading-[1em] sm:text-[12px] md:text-[14px]">
-              Connect Wallet
-            </button>
           </div>
         </div>
       </div>
