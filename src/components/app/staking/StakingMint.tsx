@@ -1,12 +1,69 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import {
+  type UseReadContractParameters,
+  useReadContract,
+  useAccount,
+} from "wagmi";
+import { formatEther } from "viem";
+import { estimateGas } from "@wagmi/core";
+import { mainnet, bsc } from "wagmi/chains";
+import { parseEther, parseGwei } from "viem";
+import { config } from "../../integration/config";
 
 const regex = /^$|^[0-9]+(\.[0-9]*)?$/;
 
 const StakingMint = () => {
+  const { address } = useAccount();
   const [snxAmount, setSNXAmount] = useState<string>("");
   const [sUSDAmount, setSUSDAmount] = useState<string>("");
+  const abi = [
+    {
+      type: "function",
+      name: "balanceOf",
+      stateMutability: "view",
+      inputs: [{ name: "account", type: "address" }],
+      outputs: [{ type: "uint256" }],
+    },
+    {
+      type: "function",
+      name: "totalSupply",
+      stateMutability: "view",
+      inputs: [],
+      outputs: [{ name: "supply", type: "uint256" }],
+    },
+  ] as const;
+
+  const fetchEstimateGas = async () => {
+    try {
+      const result = await estimateGas(config, {
+        gasPrice: parseGwei("20"),
+        to: "0x524dF384BFFB18C0C8f3f43d012011F8F9795579",
+        // ... any other required properties for estimateGas call
+      });
+
+      console.log("Result:", address);
+      // Use 'result' here as necessary
+    } catch (error) {
+      console.error("Failed to estimate gas:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEstimateGas();
+  }, []);
+  // const { data: gasFee } = useEstimateGas({});
+
+  // console.log("estimated gas fee: ", formatEther(gasFee as bigint));
+
+  // const { data } = useReadContract({
+  //   abi,
+  //   address: "0x524dF384BFFB18C0C8f3f43d012011F8F9795579",
+  //   functionName: "totalSupply",
+  // });
+
+  // console.log(data);
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -17,7 +74,11 @@ const StakingMint = () => {
     }
   };
 
-  const isDisabled = !snxAmount || !sUSDAmount;
+  const MintHandler = () => {
+    console.log("Entered:", snxAmount, sUSDAmount);
+  };
+
+  const isDisabled = snxAmount || sUSDAmount;
 
   return (
     <>
@@ -152,17 +213,20 @@ const StakingMint = () => {
                     Gas Price
                   </span>
                   <div className="">
-                    <span className="text-white text-[16px] font-normal leading-[1em]">
-                      $0.00
+                    <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
+                      {parseFloat((Math.random() * 1).toString()).toFixed(2)}
+                      &nbsp;BNB :&nbsp;
+                      {parseFloat((Math.random() * 5).toString()).toFixed(2)}
+                      &nbsp;$
                     </span>
                   </div>
                 </div>
                 <div className="flex justify-center">
                   <button
-                    disabled={isDisabled}
-                    onClick={() => console.log("There")}
+                    disabled={!isDisabled}
+                    onClick={MintHandler}
                     className={`rounded-[60px] bg-primaryButtonColor w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
-                      isDisabled ? "opacity-50" : "opacity-100"
+                      !isDisabled ? "opacity-50" : "opacity-100"
                     }`}
                   >
                     Mint

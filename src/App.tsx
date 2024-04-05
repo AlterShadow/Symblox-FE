@@ -1,14 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
-import Dashboard from "./components/dashboard";
-import Header from "./components/header";
-import Footer from "./components/footer";
-import AppLayout from "./components/app/layout";
-
-import "./App.css";
-
-import "@rainbow-me/rainbowkit/styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   darkTheme,
@@ -16,29 +7,25 @@ import {
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
-import {
-  arbitrum,
-  base,
-  bsc,
-  bscTestnet,
-  mainnet,
-  optimism,
-  polygon,
-  sepolia,
-} from "wagmi/chains";
+import { bsc, bscTestnet } from "wagmi/chains";
+
+import Dashboard from "./components/dashboard";
+import Header from "./components/header";
+import Footer from "./components/footer";
+import AppLayout from "./components/app/layout";
+
+import "@rainbow-me/rainbowkit/styles.css";
+import "./App.css";
 
 const config = getDefaultConfig({
   appName: "SymbloxStaking",
   projectId: "YOUR_PROJECT_ID",
   chains: [
-    mainnet,
     bsc,
     bscTestnet,
-    polygon,
-    optimism,
-    arbitrum,
-    base,
-    ...(process.env.REACT_APP_ENABLE_TESTNETS === "true" ? [sepolia] : []),
+    ...(process.env.REACT_APP_ENABLE_TESTNETS === "true"
+      ? [bscTestnet]
+      : [bsc]),
   ],
 });
 
