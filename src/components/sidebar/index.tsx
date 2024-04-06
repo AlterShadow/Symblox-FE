@@ -1,31 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 interface SidebarProps {
   isOpen: boolean;
   closeSidebar: () => void;
 }
 
-const sidebarItems = [
-  {
-    name: "Staking",
-    link: "/staking",
-  },
-  {
-    name: "Menu Item",
-    link: "/",
-  },
-  {
-    name: "Menu Item",
-    link: "/",
-  },
-  {
-    name: "Vault",
-    link: "/vault",
-  },
-];
-
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
+  const { t } = useTranslation();
+
+  const sidebarItems = [
+    {
+      name: t("navigation.home"),
+      link: "/home",
+    },
+    {
+      name: t("navigation.perpetual"),
+      link: "/perpetual",
+    },
+    {
+      name: t("navigation.governance"),
+      link: "/governance",
+    },
+  ];
+
   return (
     <div
       className={`fixed inset-y-0 right-0 z-50 flex flex-col w-64 bg-primaryBoxColor shadow-md transform transition-transform ${
@@ -61,12 +60,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
             {item.name}
           </Link>
         ))}
+        <hr className="text-white opacity-20 mt-4 mb-6"/>
         <Link
           target="_blank"
           to="/staking"
           className="flex py-2 px-6 mt-4 mx-4 items-center justify-center rounded-full bg-primaryButtonColor text-white font-bold"
         >
-          Staking App
+          {t("navigation.stakingApp")}
         </Link>
       </div>
     </div>

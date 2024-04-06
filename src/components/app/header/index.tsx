@@ -1,7 +1,10 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 const AppHeader = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <div className="fixed z-50 w-full font-Barlow border-b border-[rgba(255,255,255,0.2)] px-5 sm:px-5 md:px-10">
@@ -20,7 +23,7 @@ const AppHeader = () => {
               />
             </Link>
             <div className="h-6 sm:h-4 md:h-5 bg-primaryButtonColor inline-flex py-1 px-2 items-center justify-center gap-[10px] rounded-[4px] text-white text-[12px] leading-[1em] font-normal uppercase sm:text-[10px] sm:font-medium md:font-medium">
-              staking
+              {t("common.staking")}
             </div>
           </div>
           <div className="flex flex-row items-center gap-[31px] sm:gap-3 md:gap-5">

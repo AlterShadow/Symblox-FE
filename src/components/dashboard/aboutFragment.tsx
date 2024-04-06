@@ -1,4 +1,8 @@
+import { useTranslation } from 'react-i18next';
+
 const AboutFragment = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <div className="hidden lg:flex w-full py-16 px-0 justify-center items-center gap-[58px] flex-row font-Barlow">
@@ -7,11 +11,10 @@ const AboutFragment = () => {
         </div>
         <div className="flex flex-col items-start gap-[26px]">
           <span className="text-white text-[48px] font-bold leading-[48px]">
-            About Symblox
+          {t("about.aboutSymblox")}
           </span>
           <span className="text-[16px] font-normal leading-[16px] text-primaryText max-w-[625px]">
-            Symblox links traditional finance and DeFi with transparency and
-            community power. Simple, decentralized, and forward-thinking.
+          {t("about.aboutDesc")}
           </span>
         </div>
       </div>
@@ -20,11 +23,10 @@ const AboutFragment = () => {
           <img className='absolute inset-0 m-auto -z-10' src="/assets/Image/AboutBackground.png" alt="aboutBackground" />
           <div className="flex flex-col items-center justify-center gap-y-2 text-center px-4 pt-72">
             <span className="text-white text-2xl font-bold leading-[48px]">
-              About Symblox
+            {t("about.aboutSymblox")}
             </span>
             <span className="text-md font-normal leading-[18px] text-primaryText max-w-[625px]">
-              Symblox links traditional finance and DeFi with transparency and
-              community power. Simple, decentralized, and forward-thinking.
+            {t("about.aboutDesc")}
             </span>
           </div>
         </div>

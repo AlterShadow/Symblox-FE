@@ -1,0 +1,128 @@
+{
+  "productTitle": "Symblox",
+  "common": {
+    "staking": "staking",
+    "back": "Back"
+  },
+  "navigation": {
+    "home": "Home",
+    "perpetual": "Perpetual",
+    "governance": "Governance",
+    "stakingApp": "Staking App"
+  },
+  "intro": {
+    "globalAssets": "Global assets access simplified",
+    "symbloxTrade": "Symblox - Trade",
+    "syntheticAssets": "Synthetic Assets",
+    "easily": "Easily",
+    "mintAndTrade": "Mint and trade synthetic assets like crypto, commodities, and stocks easily.",
+    "discoverMore": "Discover More"
+  },
+  "about": {
+    "aboutSymblox": "About Symblox",
+    "aboutDesc": "Symblox links traditional finance and DeFi with transparency and community power. Simple, decentralized, and forward-thinking."
+  },
+  "keyFeature": {
+    "key": "Key",
+    "features": "Features",
+    "experienceTheCore": "Experience the core of our platform's Key Features, providing a dynamic array of tools and opportunities.",
+    "mintingAndTrading": "Minting and Trading",
+    "mintingAndTrading.desc": "Create and exchange assets effortlessly.",
+    "liquidityOptions": "Liquidity Options",
+    "decentralizedOracle": "Decentralized Oracle",
+    "governanceAndStaking": "Governance & Staking"
+  },
+  "howItWorks": {
+    "howItWorks": "How It Works",
+    "smartContracts": "Smart Contracts",
+    "and": "and",
+    "SYXRewards": "SYX Rewards",
+    "fuelOurTech": "fuel our tech, enabling farming, minting, and trading."
+  },
+  "reward": {
+    "differentiation": "Differentiation",
+    "uniqueCollateral": "Unique collateral methods, community-led, and VELAS-powered forunmatched efficiency and security.",
+    "security": "Security",
+    "topNotchSecurity": "Top-notch security with audits, transparent operations, and robust risk controls."
+  },
+  "roadmap": {
+    "roadmap": "Roadmap",
+    "expandingAssets": "Expanding assets, platform growth, and building global partnerships.",
+    "1stQuarter": "1st Quarter 2024",
+    "1stQuarter.desc": "Donec et mauris ullamcorper, condimentum arcu non, imperdiet turpis. Donec at ultrices nisi. Fusce nec lectus sapien. Donec nec tortor velit. Vestibulum gravida pharetra enim, at vulputate orci mollis vitae.",
+    "2ndQuarter": "2nd Quarter 2024",
+    "2ndQuarter.desc": "Donec et mauris ullamcorper, condimentum arcu non, imperdiet turpis. Donec at ultrices nisi. Fusce nec lectus sapien. Donec nec tortor velit. Vestibulum gravida pharetra enim, at vulputate orci mollis vitae.",
+    "3rdQuarter": "3rd Quarter 2024",
+    "3rdQuarter.desc": "Donec et mauris ullamcorper, condimentum arcu non, imperdiet turpis. Donec at ultrices nisi. Fusce nec lectus sapien. Donec nec tortor velit. Vestibulum gravida pharetra enim, at vulputate orci mollis vitae."
+  },
+  "getStarted": {
+    "getStarted": "Get Started",
+    "startTrading": "Start trading synthetic assets today and seize limitless possibilities in the financial markets.",
+    "learnMore": "Learn More"
+  },
+  "footer": {
+    "symbloxLinks": "Symblox links traditional finance and DeFi with transparency and community power. Simple, decentralized, and forward-thinking.",
+    "copyright": "Copyright",
+    "allRightsReserved": " All rights reserved",
+    "home": "Home",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "dapps": "DAPPS",
+    "staking": "Staking",
+    "getConnected": "Get Connected"
+  },
+  "privacy": {
+    "symbloxStaking": "Symblox Staking Terms of Service",
+    "byClickingIAgree": "By clicking “I Agree” below, you agree to be bound by the terms of this Agreement. As such, you fully understand that",
+    "symbloxIsABlockchain": "Symblox is a blockchain-based decentralized finance project. You are participating at your own risk.",
+    "symbloxIsOffered": "Symblox is offered for use “as is” and without any guarantees regarding security. The protocol is made up of immutable code and can be accessed through a variety of user interfaces.",
+    "noCentralEntity": "No central entity operates the Symblox protocol. Decisions related to the protocol are governed by a dispersed group of participants who collectively govern and maintain the protocol.",
+    "symbloxDAO": "Symblox DAO does not unilaterally offer, maintain, operate, administer, or control any trading interfaces. The only user interfaces maintained by Symblox DAO are the governance and staking interfaces herein.",
+    "youCanParticipate": "You can participate in the governance process by staking SNX tokens in accordance with the rules and parameters summarized here, and/or joining the Symblox Discord and contributing to the conversation.",
+    "theRules": "The rules and parameters associated with the Symblox protocol and Symblox DAO governance are subject to change at any time.",
+    "yourUseOfSymblox": "Your use of Symblox is conditioned upon your acceptance to be bound by the Symblox Term of Use, which can be found here.",
+    "theLawsThatApply": "The laws that apply to your use of Symblox may vary based upon the jurisdiction in which you are located. We strongly encourage you to speak with legal counsel in your jurisdiction if you have any questions regarding your use of Symblox.",
+    "byEntering": "By entering into this agreement, you are not agreeing to enter into a partnership. You understand that Symblox is a decentralized protocol provided on an “as is” basis.",
+    "youHereby": "You hereby release all present and future claims against Symblox DAO related to your use of the protocol, the SNX token, SNX DAO governance, and any other facet of the protocol.",
+    "youAgree": "You agree to indemnify and hold harmless SNX DAO and its affiliates for any costs arising out of or relating to your use of the Symblox protocol.",
+    "youAreNot": "You are not accessing the protocol from Burma (Myanmar), Cuba, Iran, Sudan, Syria, the Western Balkans, Belarus, Côte d’Ivoire, Democratic Republic of the Congo, Iraq, Lebanon, Liberia, Libya, North Korea, Russia, certain sanctioned areas of Ukraine, Somalia, Venezuela, Yemen, or Zimbabwe (collectively, “Prohibited Jurisdictions”), or any other jurisdiction listed as a Specially Designated National by the United States Office of Foreign Asset Control (“OFAC”).",
+    "iAgree": "I Agree"
+  },
+  "stakingBoard": {
+    "step1": "Step 1",
+    "stakeAndBorrow": "Stake & Borrow",
+    "borrowSUSD": "Borrow sUSD by staking your SNX.",
+    "startStaking": "Start Staking",
+    "step2": "Step 2",
+    "maintainCollateralization": "Maintain Collateralization Ratio",
+    "useTheBurn": "Use the burn feature to maintain your c-ratio or completely pay off debt and unstake your SNX.",
+    "cRatioExplained": "C-Ratio explained",
+    "step3": "Step 3",
+    "collectRewards": "Collect Rewards",
+    "maintainYourTarget": "Maintain your target C-Ratio to collect your weekly rewards.",
+    "rewardsExplained": "Rewards explained",
+    "estimatedAPR": "Estimated APR",
+    "connectWalletFirst": "Connect wallet first to reveal the APR",
+    "SNXBridge": "SNX Bridge",
+    "transferAsset": "Transfer Asset between blockchains",
+    "hedgeDebt": "Hedge Debt",
+    "buyDSNX": "Buy dSNX to hedge",
+    "help": "Help",
+    "learnMoreAbout": "Learn more about Synthetix"
+  },
+  "stakingMint": {
+    "stakeSNX": "Stake SNX By Miniting sUSD",
+    "mintSUSD": "Mint sUSD by staking your SNX. SNX stakers earn weekly staking rewards in exchange for managing their Collateralization Ratio and debt.",
+    "yourStakedSNX": "Your staked SNX will be locked for 7 days.",
+    "epoch": "EPOCH",
+    "snxPrice": "SNX PRICE",
+    "howMuchSNX": "How much SNX do you want to stake?",
+    "borrowing": "Borrowing",
+    "gasPrice": "Gas Price",
+    "mint": "Mint",
+    "stakingGuide": "Staking Guide",
+    "guideYour": "Guide your through the processes",
+    "hedgeDebt": "Hedge Debt",
+    "buyDSNX": "Buy dSNX to hedge"
+  }
+}

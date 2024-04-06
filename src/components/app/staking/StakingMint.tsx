@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import { useTranslation } from 'react-i18next';
 
 const regex = /^$|^[0-9]+(\.[0-9]*)?$/;
 
 const StakingMint = () => {
+  const { t } = useTranslation();
+
   const [snxAmount, setSNXAmount] = useState<string>("");
   const [sUSDAmount, setSUSDAmount] = useState<string>("");
 
@@ -25,14 +28,12 @@ const StakingMint = () => {
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
           <div className="flex flex-col gap-4 items-center">
             <p className="text-[24px] sm:text-[20px] leading-[1em] font-medium text-white">
-              Stake SNX By Miniting sUSD
+              {t("stakingMint.stakeSNX")}
             </p>
             <span className="max-w-[695px] text-center text-[16px] sm:text-[14px] font-normal leading-[1em] inline-block text-secondaryText">
-              Mint sUSD by staking your SNX. SNX stakers earn weekly staking
-              rewars in exchange for managing their Collateralization Ratio and
-              debt.&nbsp;
+              {t("stakingMint.mintSUSD")}&nbsp;
               <span className="text-white">
-                Your staked SNX will be locked for 7 days.
+                {t("stakingMint.yourStakedSNX")}
               </span>
             </span>
           </div>
@@ -45,7 +46,7 @@ const StakingMint = () => {
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-start">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-secondaryText text-[14px] sm:text-[12px] font-semibold leading-[1em]">
-                      EPOCH
+                      {t("stakingMint.epoch")}
                     </span>
                     <span className="w-[14px] h-[14px]">
                       <img
@@ -61,7 +62,7 @@ const StakingMint = () => {
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-end">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-secondaryText text-[14px] sm:text-[12px] font-semibold leading-[1em]">
-                      SNX PRICE
+                      {t("stakingMint.snxPrice")}
                     </span>
                   </span>
                   <span className="text-[16px] sm:text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
@@ -76,7 +77,7 @@ const StakingMint = () => {
                 <div className="gap-3 flex flex-col w-full">
                   <div className="flex flex-row gap-1 items-center">
                     <span className="text-white text-[16px] font-normal leading-[1em] sm:text-[14px]">
-                      How much SNX do you want to stake?
+                      {t("stakingMint.howMuchSNX")}
                     </span>
                     <img
                       src="/assets/Icon/question-mark.svg"
@@ -119,7 +120,7 @@ const StakingMint = () => {
                 <div className="flex flex-col gap-3">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-white text-[16px] sm:text-[14px] font-normal leading-[1em]">
-                      Borrowing
+                      {t("stakingMint.borrowing")}
                     </span>
                     <span className="w-[14px] h-[14px]">
                       <img
@@ -149,7 +150,7 @@ const StakingMint = () => {
                 </div>
                 <div className="flex flex-row w-full justify-between items-center">
                   <span className="text-white text-[16px] font-normal leading-[1em]">
-                    Gas Price
+                    {t("stakingMint.gasPrice")}
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em]">
@@ -165,7 +166,7 @@ const StakingMint = () => {
                       isDisabled ? "opacity-50" : "opacity-100"
                     }`}
                   >
-                    Mint
+                    {t("stakingMint.mint")}
                   </button>
                 </div>
               </div>
@@ -176,10 +177,10 @@ const StakingMint = () => {
                 className="p-5 sm:p-4 border border-[#293745] w-1/2 sm:w-full md:w-full border-r-0 sm:border-r md:border-r rounded-l-xl sm:rounded-l-none md:rounded-l-none sm:rounded-tr-xl md:rounded-tr-xl sm:rounded-tl-xl md:rounded-tl-xl bg-[#0a1a2a] flex flex-col gap-2"
               >
                 <span className="text-white text-[16px] font-bold sm:font-semibold leading-[1em]">
-                  Staking Guide
+                  {t("stakingMint.stakingGuide")}
                 </span>
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                  Guide your through the processes
+                  {t("stakingMint.guideYour")}
                 </span>
               </Link>
               <Link
@@ -187,10 +188,10 @@ const StakingMint = () => {
                 className="p-5 sm:p-4 border border-[#293745] w-1/2 sm:w-full md:w-full rounded-r-xl sm:rounded-tr-none md:rounded-tr-none sm:border-t-0 md:border-t-0 sm:rounded-bl-xl md:rounded-bl-xl bg-[#0a1a2a] flex flex-col gap-2"
               >
                 <span className="text-white text-[16px] font-bold sm:font-semibold leading-[1em]">
-                  Hedge Debt
+                  {t("stakingMint.hedgeDebt")}
                 </span>
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                  Buy dSNX to hedge
+                  {t("stakingMint.buyDSNX")}
                 </span>
               </Link>
             </div>
@@ -202,7 +203,7 @@ const StakingMint = () => {
         >
           <Icon icon="iconamoon:arrow-left-1" className="text-white w-4 h-4" />
           <span className="text-[14px] leading-[1em] font-medium text-white">
-            Back
+            {t("common.back")}
           </span>
         </Link>
       </div>

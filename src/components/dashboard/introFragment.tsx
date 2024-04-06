@@ -1,4 +1,8 @@
+import { useTranslation } from 'react-i18next';
+
 const IntroFragment = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col items-center">
       <div className="flex pt-56 md:pt-0 md:items-center justify-center font-Barlow w-full h-screen relative">
@@ -8,25 +12,24 @@ const IntroFragment = () => {
             <img src="/assets/SVG/HowItWorksEllipse.svg" alt="ellipse"/>
           </div>
             <span className="text-[20px] font-normal leading-[20px] text-white">
-              Global assets access simplified
+              {t("intro.globalAssets")}
             </span>
             <span className="text-white text-[42px] md:text-[56px] font-bold leading-[50px] md:leading-[61.6px] md:max-w-[643px]">
-              Symblox - Trade
+            {t("intro.symbloxTrade")}
               <div className="flex">
                 <span className="inline-block text-gradient">
-                  Synthetic Assets
+                {t("intro.syntheticAssets")}
                 </span>
-                <p className="hidden md:flex">&nbsp;Easily</p>
+                <p className="hidden md:flex">&nbsp;{t("intro.easily")}</p>
               </div>
-              <p className="md:hidden">Easily</p>
+              <p className="md:hidden">{t("intro.easily")}</p>
             </span>
             <span className="text-primaryText text-[18px] mt-4 md:text-[16px] font-normal leading-[20px]">
-              Mint and trade synthetic assets like crypto, commodities, and
-              stocks easily.
+            {t("intro.mintAndTrade")}
             </span>
           </div>
           <button className="flex items-center w-[205px] h-[56px] py-[18px] px-10 gap-[10px] bg-[#EE2D82] rounded-[60px] text-white font-bold leading-[20px] text-[20px]">
-            Discover More
+          {t("intro.discoverMore")}
           </button>
         </div>
         <div className="md:pt-[115px] -z-10 pb-0 md:px-[54px] absolute bottom-0 md:right-[calc(5%)]">

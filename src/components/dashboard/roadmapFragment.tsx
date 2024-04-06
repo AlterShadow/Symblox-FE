@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 const RoadmapFragment = () => {
+  const { t } = useTranslation();
 
   const [activeItem, setActiveItem] = useState(0);
 
@@ -16,16 +18,16 @@ const RoadmapFragment = () => {
 
   const RoadMaps = [
     {
-      title: '1st Quarter 2024',
-      content: 'Donec et mauris ullamcorper, condimentum arcu non, imperdiet turpis. Donec at ultrices nisi. Fusce nec lectus sapien. Donec nec tortor velit. Vestibulum gravida pharetra enim, at vulputate orci mollis vitae.'
+      title: t("roadmap.1stQuarter"),
+      content: t("roadmap.1stQuarter.desc")
     },
     {
-      title: '2nd Quarter 2024',
-      content: 'Donec et mauris ullamcorper, condimentum arcu non, imperdiet turpis. Donec at ultrices nisi. Fusce nec lectus sapien. Donec nec tortor velit. Vestibulum gravida pharetra enim, at vulputate orci mollis vitae.'
+      title: t("roadmap.2ndQuarter"),
+      content: t("roadmap.2ndQuarter.desc")
     },
     {
-      title: '3rd Quarter 2024',
-      content: 'Donec et mauris ullamcorper, condimentum arcu non, imperdiet turpis. Donec at ultrices nisi. Fusce nec lectus sapien. Donec nec tortor velit. Vestibulum gravida pharetra enim, at vulputate orci mollis vitae.'
+      title: t("roadmap.3rdQuarter"),
+      content: t("roadmap.3rdQuarter.desc")
     }
   ]
 
@@ -33,8 +35,8 @@ const RoadmapFragment = () => {
     <div className="px-6 md:px-24 lg:px-36 font-Barlow relative">
       <img className='absolute inset-0 m-auto -z-10' src="/assets/SVG/RoadMapEllipse.svg" alt="arrow" />
       <div className="mt-24 flex flex-col justify-center items-center">
-        <p className="text-white font-semibold text-4xl">Roadmap</p>
-        <p className="text-primaryText text-center mt-4">Expanding assets, platform growth, and building global partnerships.</p>
+        <p className="text-white font-semibold text-4xl">{t("roadmap.roadmap")}</p>
+        <p className="text-primaryText text-center mt-4">{t("roadmap.expandingAssets")}</p>
       </div>
       <div className="mt-12 md:hidden overflow-hidden flex md:grid gap-8 md:grid-cols-3">
         <div
