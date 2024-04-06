@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { useTranslation } from 'react-i18next';
 
 const PrivacyModal = () => {
-  const { t } = useTranslation();
-
   const [showModal, setShowModal] = useState<boolean>(true);
   const [agreeActive, setAgreeActive] = useState<boolean>(false);
 
@@ -26,10 +23,11 @@ const PrivacyModal = () => {
     <div className="fixed top-0 left-0 w-[100vw] h-[100vh] z-50 flex bg-[#0008] backdrop-blur-[2px]">
       <div className="m-auto w-[480px] sm:w-[335px] p-8 sm:p-5 gap-4 flex flex-col items-center rounded-[16px] sm:rounded-xl border border-[#293745] bg-primaryBoxColor font-Barlow">
         <div className="text-white text-[20px] sm:text-[18px] font-bold leading-[1em]">
-          {t("privacy.symbloxStaking")}
+          Symblox Staking Terms of Service
         </div>
         <div className="text-primaryText text-[16px] sm:text-[14px] leading-[1em] font-normal">
-          {t("privacy.byClickingIAgree")}:
+          By clicking “I Agree” below, you agree to be bound by the terms of
+          this Agreement. As such, you fully understand that:
         </div>
         <div
           className="overflow-y-auto will-change-scroll"
@@ -37,40 +35,69 @@ const PrivacyModal = () => {
         >
           <ul className="h-[400px] sm:h-[310px] pl-[1.5em] sm:pl-[1em] gap-[10px] flex flex-col items-center self-stretch">
             <li className="text-secondaryText text-[16px] sm:text-[14px] leading-[1em] font-normal list-disc">
-              {t("privacy.symbloxIsABlockchain")}
+              Symblox is a blockchain-based decentralized finance project. You
+              are participating at your own risk.
             </li>
             <li className="text-secondaryText text-[16px] sm:text-[14px] leading-[1em] font-normal list-disc">
-              {t("privacy.symbloxIsOffered")}
+              Symblox is offered for use “as is” and without any guarantees
+              regarding security. The protocol is made up of immutable code and
+              can be accessed through a variety of user interfaces.
             </li>
             <li className="text-secondaryText text-[16px] sm:text-[14px] leading-[1em] font-normal list-disc">
-              {t("privacy.noCentralEntity")}
+              No central entity operates the Symblox protocol. Decisions related
+              to the protocol are governed by a dispersed group of participants
+              who collectively govern and maintain the protocol.
             </li>
             <li className="text-secondaryText text-[16px] sm:text-[14px] leading-[1em] font-normal list-disc">
-              {t("privacy.symbloxDAO")}
+              Symblox DAO does not unilaterally offer, maintain, operate,
+              administer, or control any trading interfaces. The only user
+              interfaces maintained by Symblox DAO are the governance and
+              staking interfaces herein.
             </li>
             <li className="text-secondaryText text-[16px] sm:text-[14px] leading-[1em] font-normal list-disc">
-              {t("privacy.youCanParticipate")}
+              You can participate in the governance process by staking SNX
+              tokens in accordance with the rules and parameters summarized
+              here, and/or joining the Symblox Discord and contributing to the
+              conversation.
             </li>
             <li className="text-secondaryText text-[16px] sm:text-[14px] leading-[1em] font-normal list-disc">
-              {t("privacy.theRules")}
+              The rules and parameters associated with the Symblox protocol and
+              Symblox DAO governance are subject to change at any time.
             </li>
             <li className="text-secondaryText text-[16px] sm:text-[14px] leading-[1em] font-normal list-disc">
-              {t("privacy.yourUseOfSymblox")}
+              Your use of Symblox is conditioned upon your acceptance to be
+              bound by the Symblox Term of Use, which can be found here.
             </li>
             <li className="text-secondaryText text-[16px] sm:text-[14px] leading-[1em] font-normal list-disc">
-              {t("privacy.theLawsThatApply")}
+              The laws that apply to your use of Symblox may vary based upon the
+              jurisdiction in which you are located. We strongly encourage you
+              to speak with legal counsel in your jurisdiction if you have any
+              questions regarding your use of Symblox.
             </li>
             <li className="text-secondaryText text-[16px] sm:text-[14px] leading-[1em] font-normal list-disc">
-              {t("privacy.byEntering")}
+              By entering into this agreement, you are not agreeing to enter
+              into a partnership. You understand that Symblox is a decentralized
+              protocol provided on an “as is” basis.
             </li>
             <li className="text-secondaryText text-[16px] sm:text-[14px] leading-[1em] font-normal list-disc">
-              {t("privacy.youHereby")}
+              You hereby release all present and future claims against Symblox
+              DAO related to your use of the protocol, the SNX token, SNX DAO
+              governance, and any other facet of the protocol.
             </li>
             <li className="text-secondaryText text-[16px] sm:text-[14px] leading-[1em] font-normal list-disc">
-              {t("privacy.youAgree")}
+              You agree to indemnify and hold harmless SNX DAO and its
+              affiliates for any costs arising out of or relating to your use of
+              the Symblox protocol.
             </li>
             <li className="text-secondaryText text-[16px] sm:text-[14px] leading-[1em] font-normal list-disc">
-              {t("privacy.youAreNot")}
+              You are not accessing the protocol from Burma (Myanmar), Cuba,
+              Iran, Sudan, Syria, the Western Balkans, Belarus, Côte d’Ivoire,
+              Democratic Republic of the Congo, Iraq, Lebanon, Liberia, Libya,
+              North Korea, Russia, certain sanctioned areas of Ukraine, Somalia,
+              Venezuela, Yemen, or Zimbabwe (collectively, “Prohibited
+              Jurisdictions”), or any other jurisdiction listed as a Specially
+              Designated National by the United States Office of Foreign Asset
+              Control (“OFAC”).
             </li>
           </ul>
         </div>
@@ -81,7 +108,7 @@ const PrivacyModal = () => {
             !agreeActive ? "opacity-50 hover:cursor-not-allowed" : "opacity-100"
           }`}
         >
-          {t("privacy.iAgree")}
+          I Agree
         </button>
       </div>
     </div>

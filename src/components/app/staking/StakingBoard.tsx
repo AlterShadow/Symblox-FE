@@ -1,12 +1,9 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
 
 import PrivacyModal from "../modal/privacy";
 
 const StakingBoard = () => {
-  const { t } = useTranslation();
-
   const navigate = useNavigate();
   const stakingHandler = () => {
     navigate("/staking/mint");
@@ -26,20 +23,20 @@ const StakingBoard = () => {
                   />
                 </div>
                 <p className="text-white text-[14px] font-normal leading-[1em]">
-                  {t("stakingBoard.step1")}
+                  Step 1
                 </p>
                 <p className="text-white text-[24px] font-bold leading-[1em]">
-                  {t("stakingBoard.stakeAndBorrow")}
+                  Stake & Borrow
                 </p>
                 <p className="text-white text-[16px] font-normal leading-[1em]">
-                  {t("stakingBoard.borrowSUSD")}
+                  Borrow sUSD by staking your SNX.
                 </p>
               </div>
               <button
                 className="h-10 py-[18px] sm:px-8 md:px-8 px-6 flex items-center gap-[10px] rounded-[60px] bg-primaryButtonColor text-white text-[16px] font-bold leading-[16px] sm:min-w-[190px] md:min-w-[190px] text-center justify-center"
                 onClick={stakingHandler}
               >
-                {t("stakingBoard.startStaking")}
+                Start Staking
               </button>
             </div>
             <div className="flex flex-col h-[268px] sm:h-full md:h-full gap-4 flex-[1_0_0] bg-primaryBoxColor py-[34px] px-6 rounded-xl items-start justify-between opacity-50 w-full">
@@ -52,17 +49,18 @@ const StakingBoard = () => {
                   />
                 </div>
                 <p className="text-white text-[14px] font-normal leading-[1em]">
-                  {t("stakingBoard.step2")}
+                  Step 2
                 </p>
                 <p className="text-white text-[24px] font-bold leading-[1em] self-stretch">
-                  {t("stakingBoard.maintainCollateralization")}
+                  Maintain Collateralization Ratio
                 </p>
                 <p className="text-white text-[16px] font-normal leading-[1em]">
-                  {t("stakingBoard.useTheBurn")}
+                  Use the burn feature to maintain your c-ratio or completely
+                  pay off debt and unstake your SNX.
                 </p>
               </div>
               <button className="h-10 py-[18px] sm:px-8 md:px-8 px-6 flex items-center gap-[10px] rounded-[60px] text-white text-[16px] font-bold leading-[16px] border border-white sm:min-w-[190px] md:min-w-[190px]">
-                {t("stakingBoard.cRatioExplained")}
+                C-Ratio explained
               </button>
             </div>
             <div className="flex flex-col h-[268px] sm:h-full md:h-full gap-4 flex-[1_0_0] bg-primaryBoxColor py-[34px] px-6 rounded-xl items-start justify-between opacity-50 w-full">
@@ -75,17 +73,17 @@ const StakingBoard = () => {
                   />
                 </div>
                 <p className="text-white text-[14px] font-normal leading-[1em]">
-                  {t("stakingBoard.step3")}
+                  Step 3
                 </p>
                 <p className="text-white text-[24px] font-bold leading-[1em] self-stretch">
-                  {t("stakingBoard.collectRewards")}
+                  Collect Rewards
                 </p>
                 <p className="text-white text-[16px] font-normal leading-[1em]">
-                  {t("stakingBoard.maintainYourTarget")}
+                  Maintain your target C-Ratio to collect your weekly rewards.
                 </p>
               </div>
               <button className="h-10 py-[18px] sm:px-8 md:px-8 px-6 flex items-center gap-[10px] rounded-[60px] text-white text-[16px] font-bold leading-[16px] border border-white sm:min-w-[190px] md:min-w-[190px]">
-                {t("stakingBoard.rewardsExplained")}
+                Rewards explained
               </button>
             </div>
           </div>
@@ -95,13 +93,13 @@ const StakingBoard = () => {
               className="w-1/4 sm:w-full md:w-full p-5 flex flex-col gap-2 border border-[#293745] rounded-bl-xl rounded-tl-xl sm:rounded-bl-none md:rounded-bl-none sm:rounded-tr-xl md:rounded-tr-xl"
             >
               <p className="text-[14px] leading-[1em] font-normal text-white">
-                {t("stakingBoard.estimatedAPR")}
+                Estimated APR
               </p>
               <p className="text-[20px] leading-[1em] font-bold text-white">
                 ••••%
               </p>
               <p className="text-[14px] leading-[1em] font-normal text-secondaryText">
-                {t("stakingBoard.connectWalletFirst")}
+                Connect wallet first to reveal the APR
               </p>
             </Link>
             <Link
@@ -109,10 +107,10 @@ const StakingBoard = () => {
               className="w-1/4 sm:w-full md:w-full p-5 flex flex-col gap-2 border border-[#293745] border-l-0 justify-center sm:border-l md:border-l"
             >
               <p className="text-[20px] leading-[1em] font-bold text-white">
-                {t("stakingBoard.SNXBridge")}
+                SNX Bridge
               </p>
               <p className="text-[14px] leading-[1em] font-normal text-secondaryText">
-                {t("stakingBoard.transferAsset")}
+                Transfer Asset between blockchains
               </p>
             </Link>
             <Link
@@ -120,10 +118,10 @@ const StakingBoard = () => {
               className="w-1/4 sm:w-full md:w-full p-5 flex flex-col gap-2 border border-[#293745] border-l-0 justify-center sm:border-l md:border-l"
             >
               <p className="text-[20px] leading-[1em] font-bold text-white">
-                {t("stakingBoard.hedgeDebt")}
+                Hedge Debt
               </p>
               <p className="text-[14px] leading-[1em] font-normal text-secondaryText">
-                {t("stakingBoard.buyDSNX")}
+                Buy dSNX to hedge
               </p>
             </Link>
             <Link
@@ -131,10 +129,10 @@ const StakingBoard = () => {
               className="w-1/4 sm:w-full md:w-full p-5 flex flex-col gap-2 border border-[#293745] border-l-0 rounded-br-xl rounded-tr-xl sm:rounded-tr-none md:rounded-tr-none sm:border-l md:border-l sm:rounded-bl-xl md:rounded-bl-xl justify-center "
             >
               <p className="text-[20px] leading-[1em] font-bold text-white">
-                {t("stakingBoard.help")}
+                Help
               </p>
               <p className="text-[14px] leading-[1em] font-normal text-secondaryText">
-                {t("stakingBoard.learnMoreAbout")}
+                Learn more about Synthetix
               </p>
             </Link>
           </div>
