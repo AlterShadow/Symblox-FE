@@ -21,6 +21,9 @@ module.exports = {
       fontFamily: {
         Barlow: ["Barlow", "sans-serif"],
       },
+      boxShadow: {
+        primary: "0px 0px 0px 2px rgba(238, 45, 130, 0.30)",
+      },
     },
   },
   plugins: [],
