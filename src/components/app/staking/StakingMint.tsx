@@ -1,18 +1,35 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { styled } from "@mui/material/styles";
 import { Icon } from "@iconify/react";
-import {
-  type UseReadContractParameters,
-  useReadContract,
-  useAccount,
-} from "wagmi";
-import { formatEther } from "viem";
-import { estimateGas } from "@wagmi/core";
+import { useReadContract, useAccount } from "wagmi";
+import { formatEther, formatGwei } from "viem";
 import { mainnet, bsc } from "wagmi/chains";
 import { parseEther, parseGwei } from "viem";
 import { config } from "../../integration/config";
+import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 
 const regex = /^$|^[0-9]+(\.[0-9]*)?$/;
+
+const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    maxWidth: 274,
+    backgroundColor: "#283C50",
+    color: "#fff",
+    boxShadow: theme.shadows[1],
+    fontSize: 14,
+    fontWeight: "400",
+    fontFamily: "Barlow ,sans-serif",
+    padding: "10px",
+    borderRadius: "8px",
+    lineHeight: "1em",
+  },
+  [`& .${tooltipClasses.arrow}::before`]: {
+    backgroundColor: "#283C50",
+  },
+}));
 
 const StakingMint = () => {
   const { address } = useAccount();
@@ -35,35 +52,13 @@ const StakingMint = () => {
     },
   ] as const;
 
-  const fetchEstimateGas = async () => {
-    try {
-      const result = await estimateGas(config, {
-        gasPrice: parseGwei("20"),
-        to: "0x524dF384BFFB18C0C8f3f43d012011F8F9795579",
-        // ... any other required properties for estimateGas call
-      });
+  const { data } = useReadContract({
+    abi,
+    address: "0x524dF384BFFB18C0C8f3f43d012011F8F9795579",
+    functionName: "totalSupply",
+  });
 
-      console.log("Result:", address);
-      // Use 'result' here as necessary
-    } catch (error) {
-      console.error("Failed to estimate gas:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchEstimateGas();
-  }, []);
-  // const { data: gasFee } = useEstimateGas({});
-
-  // console.log("estimated gas fee: ", formatEther(gasFee as bigint));
-
-  // const { data } = useReadContract({
-  //   abi,
-  //   address: "0x524dF384BFFB18C0C8f3f43d012011F8F9795579",
-  //   functionName: "totalSupply",
-  // });
-
-  // console.log(data);
+  console.log(data ? (data as bigint).toString() : "Undefined");
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -88,7 +83,7 @@ const StakingMint = () => {
             <p className="text-[24px] sm:text-[20px] leading-[1em] font-medium text-white">
               Stake SNX By Miniting sUSD
             </p>
-            <span className="max-w-[695px] text-center text-[16px] sm:text-[14px] font-normal leading-[1em] inline-block text-secondaryText">
+            <span className="max-w-[695px] text-center text-[16px] sm:text-[14px] font-normal leading-[1.1em] inline-block text-secondaryText">
               Mint sUSD by staking your SNX. SNX stakers earn weekly staking
               rewars in exchange for managing their Collateralization Ratio and
               debt.&nbsp;
@@ -108,12 +103,18 @@ const StakingMint = () => {
                     <span className="text-secondaryText text-[14px] sm:text-[12px] font-semibold leading-[1em]">
                       EPOCH
                     </span>
-                    <span className="w-[14px] h-[14px]">
-                      <img
-                        src="/assets/Icon/question-mark.svg"
-                        alt="question-mark"
-                      />
-                    </span>
+                    <LightTooltip
+                      title="Time to next EPOCH"
+                      arrow
+                      placement="right"
+                    >
+                      <span className="w-[14px] h-[14px]">
+                        <img
+                          src="/assets/Icon/question-mark.svg"
+                          alt="question-mark"
+                        />
+                      </span>
+                    </LightTooltip>
                   </span>
                   <span className="text-[16px] sm:text-[14px] font-medium leading-[1em] text-white">
                     02D 20H 42M
@@ -139,18 +140,24 @@ const StakingMint = () => {
                     <span className="text-white text-[16px] font-normal leading-[1em] sm:text-[14px]">
                       How much SNX do you want to stake?
                     </span>
-                    <img
-                      src="/assets/Icon/question-mark.svg"
-                      className="mt-[2px]"
-                      alt="question-mark"
-                    />
+                    <LightTooltip
+                      title="How much SNX you stake will determine how much sUSD you can borrow"
+                      arrow
+                      placement="bottom-start"
+                    >
+                      <img
+                        src="/assets/Icon/question-mark.svg"
+                        className="mt-[2px]"
+                        alt="question-mark"
+                      />
+                    </LightTooltip>
                   </div>
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="text"
                       value={snxAmount}
                       onChange={(e) => handleInputChange(e, setSNXAmount)}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor"
+                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary"
                       placeholder="Enter Amount"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
@@ -163,16 +170,16 @@ const StakingMint = () => {
                     </div>
                   </div>
                   <div className="flex flex-row gap-3 sm:gap-1 md:gap-2 items-center w-full">
-                    <button className="w-1/4 rounded-[60px] justify-center border border-[#293745] items-center flex py-[18px] px-8 text-[#C3E6FF] font-bold text-[14px] leading-[1em] hover:bg-[rgb(28,30,35)] sm:h-8 md:h-8 sm:text-[12px] sm:px-4">
+                    <button className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] px-8 text-[#C3E6FF] font-bold text-[14px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary sm:h-8 md:h-8 sm:text-[12px] sm:px-4">
                       25%
                     </button>
-                    <button className="w-1/4 rounded-[60px] justify-center border border-[#293745] items-center flex py-[18px] px-8 text-[#C3E6FF] font-bold text-[14px] leading-[1em] hover:bg-[rgb(28,30,35)] sm:h-8 md:h-8 sm:text-[12px] sm:px-4">
+                    <button className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] px-8 text-[#C3E6FF] font-bold text-[14px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary sm:h-8 md:h-8 sm:text-[12px] sm:px-4">
                       50%
                     </button>
-                    <button className="w-1/4 rounded-[60px] justify-center border border-[#293745] items-center flex py-[18px] px-8 text-[#C3E6FF] font-bold text-[14px] leading-[1em] hover:bg-[rgb(28,30,35)] sm:h-8 md:h-8 sm:text-[12px] sm:px-4">
+                    <button className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] px-8 text-[#C3E6FF] font-bold text-[14px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary sm:h-8 md:h-8 sm:text-[12px] sm:px-4">
                       75%
                     </button>
-                    <button className="w-1/4 rounded-[60px] justify-center border border-[#293745] items-center flex py-[18px] px-8 text-[#C3E6FF] font-bold text-[14px] leading-[1em] hover:bg-[rgb(28,30,35)] sm:h-8 md:h-8 sm:text-[12px] sm:px-4">
+                    <button className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] px-8 text-[#C3E6FF] font-bold text-[14px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary sm:h-8 md:h-8 sm:text-[12px] sm:px-4">
                       100%
                     </button>
                   </div>
@@ -182,20 +189,26 @@ const StakingMint = () => {
                     <span className="text-white text-[16px] sm:text-[14px] font-normal leading-[1em]">
                       Borrowing
                     </span>
-                    <span className="w-[14px] h-[14px]">
-                      <img
-                        src="/assets/Icon/question-mark.svg"
-                        alt="question-mark"
-                        className="mt-[1px]"
-                      />
-                    </span>
+                    <LightTooltip
+                      title="How much SNX you stake will determine how much sUSD you can borrow"
+                      arrow
+                      placement="bottom-end"
+                    >
+                      <span className="w-[14px] h-[14px]">
+                        <img
+                          src="/assets/Icon/question-mark.svg"
+                          alt="question-mark"
+                          className="mt-[1px]"
+                        />
+                      </span>
+                    </LightTooltip>
                   </span>
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="text"
                       value={sUSDAmount}
                       onChange={(e) => handleInputChange(e, setSUSDAmount)}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor"
+                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary"
                       placeholder="Enter Amount"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
@@ -237,7 +250,7 @@ const StakingMint = () => {
             <div className="w-full flex flex-row sm:flex-col md:flex-col">
               <Link
                 to="/guide/staking"
-                className="p-5 sm:p-4 border border-[#293745] w-1/2 sm:w-full md:w-full border-r-0 sm:border-r md:border-r rounded-l-xl sm:rounded-l-none md:rounded-l-none sm:rounded-tr-xl md:rounded-tr-xl sm:rounded-tl-xl md:rounded-tl-xl bg-[#0a1a2a] flex flex-col gap-2"
+                className="p-5 sm:p-4 border border-[#293745] w-1/2 sm:w-full md:w-full border-r-0 sm:border-r md:border-r rounded-l-xl sm:rounded-l-none md:rounded-l-none sm:rounded-tr-xl md:rounded-tr-xl sm:rounded-tl-xl md:rounded-tl-xl bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
               >
                 <span className="text-white text-[16px] font-bold sm:font-semibold leading-[1em]">
                   Staking Guide
@@ -248,7 +261,7 @@ const StakingMint = () => {
               </Link>
               <Link
                 to="/guide/debt"
-                className="p-5 sm:p-4 border border-[#293745] w-1/2 sm:w-full md:w-full rounded-r-xl sm:rounded-tr-none md:rounded-tr-none sm:border-t-0 md:border-t-0 sm:rounded-bl-xl md:rounded-bl-xl bg-[#0a1a2a] flex flex-col gap-2"
+                className="p-5 sm:p-4 border border-[#293745] w-1/2 sm:w-full md:w-full rounded-r-xl sm:rounded-tr-none md:rounded-tr-none sm:border-t-0 md:border-t-0 sm:rounded-bl-xl md:rounded-bl-xl bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
               >
                 <span className="text-white text-[16px] font-bold sm:font-semibold leading-[1em]">
                   Hedge Debt

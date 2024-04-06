@@ -12,7 +12,7 @@ module.exports = {
         // => @media (min-width: 640px and max-width: 767px) { ... }
 
         md: {
-          min: "767px",
+          min: "768px",
           max: "1023px",
         },
         // => @media (min-width: 768px and max-width: 1023px) { ... }
@@ -47,6 +47,9 @@ module.exports = {
       },
       fontFamily: {
         Barlow: ["Barlow", "sans-serif"],
+      },
+      boxShadow: {
+        primary: "0px 0px 0px 2px rgba(238, 45, 130, 0.30)",
       },
     },
   },

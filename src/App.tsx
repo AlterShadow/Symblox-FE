@@ -18,15 +18,9 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "./App.css";
 
 const config = getDefaultConfig({
-  appName: "SymbloxStaking",
-  projectId: "YOUR_PROJECT_ID",
-  chains: [
-    bsc,
-    bscTestnet,
-    ...(process.env.REACT_APP_ENABLE_TESTNETS === "true"
-      ? [bscTestnet]
-      : [bsc]),
-  ],
+  appName: "Symblox",
+  projectId: process.env.REACT_APP_PROJECT_ID || "",
+  chains: [bsc, bscTestnet],
 });
 
 interface LayoutWithNavbarAndFooterProps {
@@ -51,7 +45,7 @@ function App() {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider theme={darkTheme({})}>
+        <RainbowKitProvider coolMode theme={darkTheme({})}>
           <Router>
             <Routes>
               <Route
