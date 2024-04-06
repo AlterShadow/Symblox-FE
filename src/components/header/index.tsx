@@ -1,47 +1,86 @@
 import { Link } from "react-router-dom";
+import Sidebar from "../sidebar";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
+  const { t, i18n } = useTranslation();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // const [selectedLang, setSelectedLang] = useState("en");
+
+  const navigationItems = [
+    {
+      name: t("navigation.home"),
+      link: "/home",
+    },
+    {
+      name: t("navigation.perpetual"),
+      link: "/perpetual",
+    },
+    {
+      name: t("navigation.governance"),
+      link: "/governance",
+    },
+  ];
+
+  // const changeLanguage = (lang: string) => {
+  //   setSelectedLang(lang);
+  //   i18n.changeLanguage(lang);
+  // }
+
+  const openSidebar = () => {
+    setIsSidebarOpen(true);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
+  // useEffect(() => {
+  //   let lang = i18n.language
+  //   if (!lang) {
+  //     lang = "en"
+  //   }
+  //   setSelectedLang(lang);
+  // }, [i18n.language])
+
   return (
     <div className="fixed z-50 w-full">
-      <div className="py-6 px-0 flex items-center justify-between max-w-[1276px] w-full mx-auto font-Barlow bg-primaryBackground">
+      <div className="py-6 px-6 flex items-center justify-between container-xl w-full mx-auto font-Barlow bg-primaryBackground">
         <Link to="/">
-          <img src="/logo.png" alt="logo" className="w-[180px]" />
+          <img src="/logo.png" alt="logo" className="w-[115px] sm:w-[160px]" />
         </Link>
-        <div className="flex flex-row gap-8 items-start">
-          <Link
-            to="/staking"
-            target="_blank"
-            className="text-[16px] font-medium leading-[16px] text-white"
-          >
-            Staking
-          </Link>
-          <Link
-            to="/"
-            className="text-[16px] font-medium leading-[16px] text-white"
-          >
-            Menu Item
-          </Link>
-          <Link
-            to="/"
-            className="text-[16px] font-medium leading-[16px] text-white"
-          >
-            Menu Item
-          </Link>
-          <Link
-            to="/vault"
-            className="text-[16px] font-medium leading-[16px] text-white"
-          >
-            Vault
-          </Link>
+        <div className="hidden md:flex flex-row gap-8 items-start">
+          {navigationItems.map((item, index) => (
+            <Link
+              to={item.link}
+              key={index}
+              className="text-[16px] font-medium leading-[16px] text-white"
+            >
+              {item.name}
+            </Link>
+          ))}
         </div>
+        {/* <select className="my-select bg-primaryBackground text-white" value={selectedLang} onChange={e => changeLanguage(e.target.value)}>
+          <option value="en">English</option>
+          <option value="zh-CN">中文</option>
+          <option value="ms">Bahasa Melayu</option>
+        </select> */}
         <Link
           target="_blank"
           to="/staking"
-          className="h-10 py-[18px] px-6 flex items-center gap-[10px] rounded-[60px] bg-primaryButtonColor text-white text-[16px] font-bold leading-[16px]"
+          className="hidden md:flex py-2 px-6 items-center rounded-full bg-primaryButtonColor text-white font-bold"
         >
-          Staking App
+          {t("navigation.stakingApp")}
         </Link>
+        <img
+          src="/assets/Icon/filter.svg"
+          alt="filter"
+          className="md:hidden w-[30px] h-[30px] cursor-pointer"
+          onClick={openSidebar}
+        />
       </div>
+      <Sidebar isOpen={isSidebarOpen} closeSidebar={closeSidebar} />
     </div>
   );
 };
