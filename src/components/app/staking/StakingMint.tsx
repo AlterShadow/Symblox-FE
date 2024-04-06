@@ -192,7 +192,7 @@ const StakingMint = () => {
                     <LightTooltip
                       title="How much SNX you stake will determine how much sUSD you can borrow"
                       arrow
-                      placement="bottom-end"
+                      placement="bottom-start"
                     >
                       <span className="w-[14px] h-[14px]">
                         <img
