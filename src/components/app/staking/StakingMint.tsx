@@ -169,7 +169,7 @@ const StakingMint = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-row gap-3 sm:gap-1 md:gap-2 items-center w-full">
+                  <div className="flex flex-row lg:gap-3 sm:gap-2 gap-1 items-center w-full">
                     <button className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6">
                       25%
                     </button>
