@@ -11,7 +11,7 @@ const Header = () => {
   const navigationItems = [
     {
       name: t("navigation.home"),
-      link: "/home",
+      link: "/",
     },
     {
       name: t("navigation.perpetual"),
@@ -46,11 +46,11 @@ const Header = () => {
 
   return (
     <div className="fixed z-50 w-full">
-      <div className="py-6 px-6 flex items-center justify-between container-xl w-full mx-auto font-Barlow bg-primaryBackground">
+      <div className="py-6 px-6 flex items-center container-xl w-full mx-auto font-Barlow bg-primaryBackground">
         <Link to="/">
           <img src="/logo.png" alt="logo" className="w-[115px] sm:w-[160px]" />
         </Link>
-        <div className="hidden md:flex flex-row gap-8 items-start">
+        <div className="hidden md:flex flex-row gap-8 items-start ml-8">
           {navigationItems.map((item, index) => (
             <Link
               to={item.link}
@@ -69,7 +69,7 @@ const Header = () => {
         <Link
           target="_blank"
           to="/staking"
-          className="hidden md:flex py-2 px-6 items-center rounded-full bg-primaryButtonColor text-white font-bold"
+          className="hidden md:flex py-2 px-6 items-center rounded-full bg-primaryButtonColor text-white font-bold ml-auto"
         >
           {t("navigation.stakingApp")}
         </Link>
