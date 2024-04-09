@@ -1,0 +1,31 @@
+<svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="img_feature2">
+<g id="Group 122">
+<circle id="Ellipse 35" cx="22.875" cy="38.625" r="16.875" fill="url(#paint0_linear_321_532)" fill-opacity="0.2"/>
+<circle id="Ellipse 34" cx="29.625" cy="38.625" r="16.875" fill="url(#paint1_linear_321_532)" fill-opacity="0.4"/>
+<circle id="Ellipse 36" cx="37.875" cy="38.625" r="16.875" fill="url(#paint2_linear_321_532)" fill-opacity="0.6"/>
+<g id="Group 85">
+<circle id="Ellipse 30" cx="47.625" cy="38.625" r="16.875" fill="url(#paint3_linear_321_532)"/>
+<path id="Polygon 1" d="M46.5985 31.1176C47.2173 30.7604 47.9797 30.7604 48.5985 31.1176L53.5769 33.9919C54.1957 34.3492 54.5769 35.0094 54.5769 35.724V41.4726C54.5769 42.1871 54.1957 42.8474 53.5769 43.2046L48.5985 46.0789C47.9797 46.4362 47.2173 46.4362 46.5985 46.0789L41.6201 43.2046C41.0013 42.8474 40.6201 42.1871 40.6201 41.4726V35.724C40.6201 35.0094 41.0013 34.3492 41.6201 33.9919L46.5985 31.1176Z" stroke="white" stroke-width="1.5"/>
+</g>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_321_532" x1="4.08213" y1="39.1045" x2="42.6268" y2="39.1045" gradientUnits="userSpaceOnUse">
+<stop stop-color="#EE2D82"/>
+<stop offset="1" stop-color="#FCF3C3"/>
+</linearGradient>
+<linearGradient id="paint1_linear_321_532" x1="10.8321" y1="39.1045" x2="49.3768" y2="39.1045" gradientUnits="userSpaceOnUse">
+<stop stop-color="#EE2D82"/>
+<stop offset="1" stop-color="#FCF3C3"/>
+</linearGradient>
+<linearGradient id="paint2_linear_321_532" x1="19.0821" y1="39.1045" x2="57.6268" y2="39.1045" gradientUnits="userSpaceOnUse">
+<stop stop-color="#EE2D82"/>
+<stop offset="1" stop-color="#FCF3C3"/>
+</linearGradient>
+<linearGradient id="paint3_linear_321_532" x1="28.8321" y1="39.1045" x2="67.3768" y2="39.1045" gradientUnits="userSpaceOnUse">
+<stop stop-color="#EE2D82"/>
+<stop offset="1" stop-color="#FCF3C3"/>
+</linearGradient>
+</defs>
+</svg>

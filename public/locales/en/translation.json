@@ -147,5 +147,31 @@
     "initiativesBy.desc": "Apart from the governing councils, non-governing DAOs like the Treasury Council, Ambassadors, and Grants Committee undertake various initiatives within each epoch. These initiatives include allocating new grants, fostering partnerships, and managing the treasury's assets.",
     "decisionMaking": "Decision-Making on Proposals",
     "decisionMaking.desc": "Once elected, Spartan Councillors have the responsibility to deliberate on Symblox Improvement Proposals (SIPs) and Symblox Configuration Change Proposals (SCCPs). These decisions are made after considering presentations and feedback from the community, gathered through the Symblox Discord."
+  },
+  "perpetual": {
+    "decentralized": "Decentralized",
+    "perpetual": "Perpetual",
+    "futures": "Futures",
+    "header.desc": "Symblox Perps offers integrators deep liquidity, low fees and additional resources for building your own frontend.",
+    "symbloxPerps": "Symblox Perps",
+    "symbloxPerps.start": "Symblox ",
+    "symbloxPerps.perpetualFutures": "perpetual futures ",
+    "symbloxPerps.descMid": "are a set of permissionless and decentralized smart contracts, offering ",
+    "symbloxPerps.deepLiquidity": "deep liquidity and low trading fees ",
+    "symbloxPerps.end": "on a range of synthetic assets.",
+    "protocolFeatures": "Protocol Features",
+    "deepLiquidity": "Deep Liquidity & Low Fees",
+    "deepLiquidity.desc": "All supported markets benefit from deep liquidity and low fees, thanks to the use of fully decentralized off-chain oracles and Symblox liquidity.",
+    "wideVariety": "Wide Variety of Assets",
+    "wideVariety.desc": "Symblox Perps supports a wide array of synthetic assets, which is determined and updated by the decentralized governance process.",
+    "revenueShare": "Revenue Share",
+    "revenueShare.desc": "Integrators are rewarded for driving volume through Symblox Perps.",
+    "capitalEfficient": "Capital Efficient",
+    "capitalEfficient.desc": "The protocol supports leverage up to 50x on supported markets, making Symblox Perps highly capital-efficient.",
+    "supportedLaunch": "Supported Launch",
+    "supportedLaunch.desc": "There is a thriving ecosystem of integrators and related Symblox protocols, to provide feedback, early testing and support.",
+    "integrateSymblox": "Integrate Symblox Perps with your platform",
+    "integrateSymblox.desc": "Learn more about how to integrate Perps and other Symblox markets in our developer documentation and reach out to the developer over",
+    "integrateSymblox.discord": "Symblox Discord."
   }
 }

@@ -16,6 +16,7 @@ import AppLayout from "./components/app/layout";
 
 import "@rainbow-me/rainbowkit/styles.css";
 import "./App.css";
+import Perpetual from "./components/perpetual";
 
 const config = getDefaultConfig({
   appName: "Symblox",
@@ -53,6 +54,13 @@ function App() {
                 element={
                   <LayoutWithNavbarAndFooter>
                     <Dashboard />
+                  </LayoutWithNavbarAndFooter>
+                }
+              />
+              <Route path="/perpetual"
+                element={
+                  <LayoutWithNavbarAndFooter>
+                    <Perpetual />
                   </LayoutWithNavbarAndFooter>
                 }
               />
