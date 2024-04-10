@@ -17,12 +17,8 @@ import AppLayout from "./components/app/layout";
 import "@rainbow-me/rainbowkit/styles.css";
 import "./App.css";
 import Perpetual from "./components/perpetual";
+import Governance from "./components/governance";
 
-const config = getDefaultConfig({
-  appName: "Symblox",
-  projectId: process.env.REACT_APP_PROJECT_ID || "",
-  chains: [bsc, bscTestnet],
-});
 
 interface LayoutWithNavbarAndFooterProps {
   children: React.ReactNode;
@@ -64,6 +60,11 @@ function App() {
                   </LayoutWithNavbarAndFooter>
                 }
               />
+              <Route path="/governance" element={
+                <LayoutWithNavbarAndFooter>
+                  <Governance />
+                </LayoutWithNavbarAndFooter>
+              } />
               <Route path="/staking/*" element={<AppLayout />} />
             </Routes>
           </Router>

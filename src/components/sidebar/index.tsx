@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from "react";
+import { LANG_MAPPING } from "../../consts/lang";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -8,7 +10,9 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const [selectedLang, setSelectedLang] = useState("en");
 
   const sidebarItems = [
     {
@@ -24,6 +28,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
       link: "/governance",
     },
   ];
+
+  const changeLanguage = (lang: string) => {
+    setSelectedLang(lang);
+    i18n.changeLanguage(lang);
+  };
+
+  useEffect(() => {
+    let lang = i18n.language;
+    if (!lang) {
+      lang = "en";
+    }
+    setSelectedLang(lang);
+  }, [i18n.language]);
 
   return (
     <div
@@ -61,6 +78,17 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, closeSidebar }) => {
           </Link>
         ))}
         <hr className="text-white opacity-20 mt-4 mb-6"/>
+        <select
+            className="bg-primaryBoxColor text-white outline-none mr-4 px-3"
+            value={selectedLang}
+            onChange={(e) => changeLanguage(e.target.value)}
+          >
+            {Object.keys(LANG_MAPPING).map((lang, index) => (
+              <option key={index} value={lang}>
+                {LANG_MAPPING[lang as keyof typeof LANG_MAPPING]}
+              </option>
+            ))}
+          </select>
         <Link
           target="_blank"
           to="/staking"
