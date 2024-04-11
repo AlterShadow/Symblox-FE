@@ -7,7 +7,7 @@ import { LANG_MAPPING } from "../../consts/lang";
 const Header = () => {
   const { t, i18n } = useTranslation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  // const [selectedLang, setSelectedLang] = useState("en");
+  const [selectedLang, setSelectedLang] = useState("en");
 
   const navigationItems = [
     {
