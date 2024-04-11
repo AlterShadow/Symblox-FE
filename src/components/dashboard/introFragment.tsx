@@ -16,7 +16,7 @@ const IntroFragment = () => {
             </span>
             <span className="text-white text-[42px] md:text-[56px] font-bold leading-[50px] md:leading-[61.6px] md:max-w-[643px]">
             {t("intro.symbloxTrade")}
-              <div className="flex">
+              <div className="flex md:flex-col lg:flex-row">
                 <span className="inline-block text-gradient">
                 {t("intro.syntheticAssets")}
                 </span>
