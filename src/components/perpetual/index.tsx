@@ -1,36 +1,31 @@
 import { useTranslation } from "react-i18next";
-import Perpetual1Icon from "./Perpetual1.svg";
-import Perpetual2Icon from "./Perpetual2.svg";
-import Perpetual3Icon from "./Perpetual3.svg";
-import Perpetual4Icon from "./Perpetual4.svg";
-import Perpetual5Icon from "./Perpetual5.svg";
 
 const Perpetual = () => {
   const { t } = useTranslation();
 
   const protocolFeatures = [
     {
-      img: Perpetual1Icon,
+      img: '/assets/Image/Perpetual/Perpetual1.svg',
       title: t("perpetual.deepLiquidity"),
       desc: t("perpetual.deepLiquidity.desc"),
     },
     {
-      img: Perpetual2Icon,
+      img: '/assets/Image/Perpetual/Perpetual2.svg',
       title: t("perpetual.wideVariety"),
       desc: t("perpetual.wideVariety.desc"),
     },
     {
-      img: Perpetual3Icon,
+      img: '/assets/Image/Perpetual/Perpetual3.svg',
       title: t("perpetual.revenueShare"),
       desc: t("perpetual.revenueShare.desc"),
     },
     {
-      img: Perpetual4Icon,
+      img: '/assets/Image/Perpetual/Perpetual4.svg',
       title: t("perpetual.capitalEfficient"),
       desc: t("perpetual.capitalEfficient.desc"),
     },
     {
-      img: Perpetual5Icon,
+      img: '/assets/Image/Perpetual/Perpetual5.svg',
       title: t("perpetual.supportedLaunch"),
       desc: t("perpetual.supportedLaunch.desc"),
     },
