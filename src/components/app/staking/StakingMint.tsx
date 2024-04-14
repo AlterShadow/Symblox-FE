@@ -81,14 +81,14 @@ const StakingMint = () => {
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
           <div className="flex flex-col gap-4 items-center">
             <p className="lg:text-[24px] md:text-[22px] text-[20px] leading-[1em] font-medium text-white">
-              Stake SNX By Miniting sUSD
+              Stake SYM By Miniting sUSD
             </p>
             <span className="max-w-[695px] text-center lg:text-[16px] text-[14px] font-normal leading-[1.1em] inline-block text-secondaryText">
-              Mint sUSD by staking your SNX. SNX stakers earn weekly staking
+              Mint sUSD by staking your SYM. SYM stakers earn weekly staking
               rewars in exchange for managing their Collateralization Ratio and
               debt.&nbsp;
               <span className="text-white">
-                Your staked SNX will be locked for 7 days.
+                Your staked SYM will be locked for 7 days.
               </span>
             </span>
           </div>
@@ -123,7 +123,7 @@ const StakingMint = () => {
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-end">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-secondaryText lg:text-[14px] text-[12px] font-semibold leading-[1em]">
-                      SNX PRICE
+                      SYM PRICE
                     </span>
                   </span>
                   <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
@@ -138,10 +138,10 @@ const StakingMint = () => {
                 <div className="gap-3 flex flex-col w-full">
                   <div className="flex flex-row gap-1 items-center">
                     <span className="text-white lg:text-[16px] text-[14px] font-normal leading-[1em]">
-                      How much SNX do you want to stake?
+                      How much SYM do you want to stake?
                     </span>
                     <LightTooltip
-                      title="How much SNX you stake will determine how much sUSD you can borrow"
+                      title="How much SYM you stake will determine how much sUSD you can borrow"
                       arrow
                       placement="bottom-start"
                     >
@@ -162,10 +162,10 @@ const StakingMint = () => {
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
                       <div className="text-white text-[14px] leading-[1em] font-bold text-right">
-                        SNX
+                        SYM
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        Unstaked SNX : 0.00
+                        Unstaked SYM : 0.00
                       </div>
                     </div>
                   </div>
@@ -190,7 +190,7 @@ const StakingMint = () => {
                       Borrowing
                     </span>
                     <LightTooltip
-                      title="How much SNX you stake will determine how much sUSD you can borrow"
+                      title="How much SYM you stake will determine how much sUSD you can borrow"
                       arrow
                       placement="bottom-start"
                     >

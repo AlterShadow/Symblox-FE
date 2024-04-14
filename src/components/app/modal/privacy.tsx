@@ -55,7 +55,7 @@ const PrivacyModal = () => {
               staking interfaces herein.
             </li>
             <li className="text-secondaryText text-[14px] sm:text-[16px] leading-[1em] font-normal list-disc">
-              You can participate in the governance process by staking SNX
+              You can participate in the governance process by staking SYM
               tokens in accordance with the rules and parameters summarized
               here, and/or joining the Symblox Discord and contributing to the
               conversation.
@@ -81,11 +81,11 @@ const PrivacyModal = () => {
             </li>
             <li className="text-secondaryText text-[14px] sm:text-[16px] leading-[1em] font-normal list-disc">
               You hereby release all present and future claims against Symblox
-              DAO related to your use of the protocol, the SNX token, SNX DAO
+              DAO related to your use of the protocol, the SYM token, SYM DAO
               governance, and any other facet of the protocol.
             </li>
             <li className="text-secondaryText text-[14px] sm:text-[16px] leading-[1em] font-normal list-disc">
-              You agree to indemnify and hold harmless SNX DAO and its
+              You agree to indemnify and hold harmless SYM DAO and its
               affiliates for any costs arising out of or relating to your use of
               the Symblox protocol.
             </li>
