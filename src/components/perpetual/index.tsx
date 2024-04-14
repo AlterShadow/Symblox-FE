@@ -5,27 +5,27 @@ const Perpetual = () => {
 
   const protocolFeatures = [
     {
-      img: '/assets/Image/Perpetual/Perpetual1.svg',
+      img: "/assets/Image/Perpetual/Perpetual1.svg",
       title: t("perpetual.deepLiquidity"),
       desc: t("perpetual.deepLiquidity.desc"),
     },
     {
-      img: '/assets/Image/Perpetual/Perpetual2.svg',
+      img: "/assets/Image/Perpetual/Perpetual2.svg",
       title: t("perpetual.wideVariety"),
       desc: t("perpetual.wideVariety.desc"),
     },
     {
-      img: '/assets/Image/Perpetual/Perpetual3.svg',
+      img: "/assets/Image/Perpetual/Perpetual3.svg",
       title: t("perpetual.revenueShare"),
       desc: t("perpetual.revenueShare.desc"),
     },
     {
-      img: '/assets/Image/Perpetual/Perpetual4.svg',
+      img: "/assets/Image/Perpetual/Perpetual4.svg",
       title: t("perpetual.capitalEfficient"),
       desc: t("perpetual.capitalEfficient.desc"),
     },
     {
-      img: '/assets/Image/Perpetual/Perpetual5.svg',
+      img: "/assets/Image/Perpetual/Perpetual5.svg",
       title: t("perpetual.supportedLaunch"),
       desc: t("perpetual.supportedLaunch.desc"),
     },
