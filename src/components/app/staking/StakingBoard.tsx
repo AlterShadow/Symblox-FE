@@ -35,7 +35,7 @@ const StakingBoard = () => {
                   Stake & Borrow
                 </p>
                 <p className="text-white lg:text-[16px] text-[14px] font-normal leading-[1em]">
-                  Borrow sUSD by staking your SYM.
+                  Borrow sUSD by staking your SBX.
                 </p>
               </div>
               {isConnected ? (
@@ -72,7 +72,7 @@ const StakingBoard = () => {
                 </p>
                 <p className="text-white lg:text-[16px] text-[14px] font-normal leading-[1em]">
                   Use the burn feature to maintain your c-ratio or completely
-                  pay off debt and unstake your SYM.
+                  pay off debt and unstake your SBX.
                 </p>
               </div>
               <button
@@ -133,7 +133,7 @@ const StakingBoard = () => {
               className="lg:w-1/4 w-full p-5 flex flex-col gap-2 border border-[#293745] lg:border-l-0 justify-center border-l border-b-0 lg:border-b hover:bg-[rgba(255,255,255,0.03)]"
             >
               <p className="lg:text-[20px] text-[16px] leading-[1em] font-bold text-white">
-                SYM Bridge
+                SBX Bridge
               </p>
               <p className="lg:text-[14px] text-[12px] leading-[1em] font-normal text-secondaryText">
                 Transfer Asset between blockchains
