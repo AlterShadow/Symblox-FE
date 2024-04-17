@@ -1,7 +1,12 @@
 import { useTranslation } from "react-i18next";
+import useScrollVisibility from "../../hooks/useScrollVisibility";
 
 const Perpetual = () => {
   const { t } = useTranslation();
+  const isVisibleMain = useScrollVisibility("perpetual-main", 0);
+  const isVisiblePerps = useScrollVisibility("perpetual-symblox-perps", 0);
+  const isVisibleProtocol = useScrollVisibility("perpetual-protocol-features", 0);
+  const isVisibleIntegrate = useScrollVisibility("perpetual-integrate-symblox", 0);
 
   const protocolFeatures = [
     {
@@ -33,18 +38,20 @@ const Perpetual = () => {
 
   return (
     <div className="min-h-screen overflow-x-hidden w-full text-white px-6 xl:px-36 font-Barlow">
-      <div className="flex flex-col pt-36 xl:pt-0 xl:h-screen xl:flex-row gap-x-8">
+      <div id="perpetual-main" className="flex flex-col pt-36 xl:pt-0 xl:h-screen xl:flex-row gap-x-8">
         <div className="flex flex-col justify-center items-center text-center xl:text-start xl:items-start">
-          <span className="text-white text-3xl sm:text-5xl font-bold max-w-[643px] mr-2">
-            {t("perpetual.decentralized")}
-          </span>
-          <div className="text-white text-3xl sm:text-5xl font-bold max-w-[643px]">
-            <span className="inline-block text-gradient">
-              {t("perpetual.perpetual")}
+          <div className={`transition-all duration-500 ${isVisibleMain ? "scale-100" : "scale-50"} `}>
+            <span className="text-white text-3xl sm:text-5xl font-bold max-w-[643px] mr-2">
+              {t("perpetual.decentralized")}
             </span>
-            <span className="mr-2">&nbsp;{t("perpetual.futures")}</span>
+            <div className="text-white text-3xl sm:text-5xl font-bold max-w-[643px]">
+              <span className="inline-block text-gradient">
+                {t("perpetual.perpetual")}
+              </span>
+              <span className="mr-2">&nbsp;{t("perpetual.futures")}</span>
+            </div>
           </div>
-          <div className="text-primaryText text-sm sm:text-base mt-4 max-w-[550px]">
+          <div className={`transition-all duration-500 ease-in delay-300 ${isVisibleMain ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"} text-primaryText text-sm sm:text-base mt-4 max-w-[550px]`}>
             {t("perpetual.header.desc")}
           </div>
         </div>
@@ -56,9 +63,9 @@ const Perpetual = () => {
           />
         </div>
       </div>
-      <div className="text-center pt-24 xl:pt-16 w-full flex flex-col justify-content items-center mb-36">
-        <div className="mb-3">{t("perpetual.symbloxPerps").toUpperCase()}</div>
-        <div className="text-gradient text-3xl max-w-[1218px] sm:text-4xl font-bold">
+      <div id="perpetual-symblox-perps" className={`text-center mt-24 xl:mt-16 w-full flex flex-col justify-content items-center mb-36`}>
+        <div className={`transition-all duration-500 ease-in ${isVisiblePerps ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"} mb-3`}>{t("perpetual.symbloxPerps").toUpperCase()}</div>
+        <div className={`transition-all duration-500 ease-in delay-300 ${isVisiblePerps ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"} text-gradient text-3xl max-w-[1218px] sm:text-4xl font-bold`}>
           <span className="text-primaryText">
             {t("perpetual.symbloxPerps.start")}
           </span>
@@ -73,18 +80,16 @@ const Perpetual = () => {
         </div>
       </div>
       <div className="mb-20">
-        <div className="font-semibold text-center text-2xl sm:text-4xl mb-10">
+        <div id="perpetual-protocol-features" className={`transition-all duration-500 ease-in ${isVisibleProtocol ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"} font-semibold text-center text-2xl sm:text-4xl mb-10`}>
           {t("perpetual.protocolFeatures")}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-6 gap-6">
           {protocolFeatures.map((item, index) => (
             <div
               key={index}
-              className={`flex-col ${
-                index === 4 ? "lg:col-start-2 xl:col-start-4" : ""
-              } ${
-                index === 3 ? "md:col-span-2 xl:col-start-2" : "md:col-span-2"
-              } bg-primaryBoxColor p-10 w-full h-full rounded-xl`}
+              className={`flex-col ${index === 4 ? "lg:col-start-2 xl:col-start-4" : ""
+                } ${index === 3 ? "md:col-span-2 xl:col-start-2" : "md:col-span-2"
+                } bg-primaryBoxColor p-10 w-full h-full rounded-xl transition-all duration-500 ease-in delay-[${(index + 1) * 200}ms] ${isVisibleProtocol ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"} `}
             >
               <img
                 src={item.img}
@@ -98,7 +103,7 @@ const Perpetual = () => {
             </div>
           ))}
         </div>
-        <div className="flex flex-col justify-center items-center lg:pr-72 text-center lg:justify-start lg:items-start lg:text-start font-[18px] relative bg-primaryBoxColor p-8 rounded-2xl mt-32">
+        <div id="perpetual-integrate-symblox" className={` transition-all duration-500 ease-in delay-200 ${isVisibleIntegrate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"} flex flex-col justify-center items-center lg:pr-72 text-center lg:justify-start lg:items-start lg:text-start font-[18px] relative bg-primaryBoxColor p-8 rounded-2xl mt-32`}>
           <div className="text-white text-[32px] mt-24 text-center lg:text-start lg:mt-0 font-semibold max-w-sm">
             {t("perpetual.integrateSymblox")}
           </div>

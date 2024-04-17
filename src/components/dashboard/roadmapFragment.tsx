@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
+import useScrollVisibility from "../../hooks/useScrollVisibility";
 
 const RoadmapFragment = () => {
   const { t } = useTranslation();
 
   const [activeItem, setActiveItem] = useState(0);
+  const isVisible = useScrollVisibility('roadmap-fragment', 0);
 
   const handlePrev = () => {
     if (activeItem !== 0)
@@ -32,13 +34,13 @@ const RoadmapFragment = () => {
   ]
 
   return (
-    <div className="px-6 md:px-24 lg:px-36 font-Barlow relative">
+    <div id="roadmap-fragment" className="px-6 md:px-24 lg:px-36 font-Barlow relative">
       <img className='absolute inset-0 m-auto -z-10' src="/assets/SVG/RoadMapEllipse.svg" alt="arrow" />
-      <div className="mt-24 flex flex-col justify-center items-center">
+      <div className={`transition-all duration-500 ease-in ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"} mt-24 flex flex-col justify-center items-center`}>
         <p className="text-white font-semibold text-4xl">{t("roadmap.roadmap")}</p>
         <p className="text-primaryText text-center mt-4">{t("roadmap.expandingAssets")}</p>
       </div>
-      <div className="mt-12 md:hidden overflow-hidden flex md:grid gap-8 md:grid-cols-3">
+      <div className={`mt-12 md:hidden overflow-hidden flex md:grid gap-8 md:grid-cols-3`}>
         <div
           className="flex transition-transform duration-500"
           style={{ transform: `translateX(-${activeItem * 100}%)` }}
@@ -52,7 +54,7 @@ const RoadmapFragment = () => {
           ))}
         </div>
       </div>
-      <div className="mt-12 hidden md:flex overflow-hidden grid gap-8 grid-cols-3">
+      <div className={`transition-all duration-500 ease-in delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"}  mt-12 hidden md:flex overflow-hidden grid gap-8 grid-cols-3`}>
         {RoadMaps.map((item, index) => (
           <div className="flex flex-col font-Barlow gap-y-4" key={index}>
             <img className="w-full" src="/assets/SVG/RoadMapHeaderArrow.svg" alt="arrow" />

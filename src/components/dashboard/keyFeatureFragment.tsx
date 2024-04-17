@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from 'react-i18next';
+import useScrollVisibility from "../../hooks/useScrollVisibility";
 
 // Define a type for the feature items
 type FeatureItem = {
@@ -11,6 +12,7 @@ type FeatureItem = {
 
 const KeyFeatureFragment: React.FC = () => {
   const { t } = useTranslation();
+  const isVisible = useScrollVisibility('key-feature-fragment', 0);
 
   // Create a constant array with the feature items
   const featureItems: FeatureItem[] = [
@@ -42,9 +44,9 @@ const KeyFeatureFragment: React.FC = () => {
 
   return (
     <div className="flex md:pt-16 pb-[120px] px-6 md:px-36 gap-6 items-start justify-center relative font-Barlow">
-      <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6 items-start justify-center mx-auto w-full">
+      <div id="key-feature-fragment" className="flex flex-col lg:grid lg:grid-cols-3 gap-6 items-start justify-center mx-auto w-full">
         <div className="flex flex-col py-8 lg:py-16 items-start gap-6 flex-[1_0_0] self-stretch">
-          <div className="flex flex-col w-full items-center lg:items-start lg:gap-6 relative">
+          <div className={`transition-all duration-1000 ease-in ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"} flex flex-col w-full items-center lg:items-start lg:gap-6 relative`}>
             <div className="absolute -z-10 bottom-[-109.716px]">
               <img
                 src="/assets/Image/KeyFeatureStar.svg"
@@ -60,7 +62,7 @@ const KeyFeatureFragment: React.FC = () => {
               <span className="text-gradient">&nbsp;{t("keyFeature.features")}</span>
             </div>
             <span className="text-center lg:text-start lg:max-w-[308px] text-md leading-[16px] font-normal text-primaryText">
-            {t("keyFeature.experienceTheCore")}
+              {t("keyFeature.experienceTheCore")}
             </span>
           </div>
         </div>
@@ -68,7 +70,7 @@ const KeyFeatureFragment: React.FC = () => {
           {featureItems.map((item, index) => (
             <div
               key={index}
-              className="flex flex-col gap-2 lg:gap-4 items-start p-6 lg:p-10 h-full w-full rounded-[12px] bg-primaryBoxColor"
+              className={`transition-all duration-1000 delay-[${(index + 1) * 200}ms] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"} flex flex-col gap-2 lg:gap-4 items-start p-6 lg:p-10 h-full w-full rounded-[12px] bg-primaryBoxColor`}
             >
               <div className="w-16 md:w-[96px] h-[96px]">
                 <img

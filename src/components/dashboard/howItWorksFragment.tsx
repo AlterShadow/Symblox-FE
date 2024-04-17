@@ -1,14 +1,16 @@
 import { useTranslation } from 'react-i18next';
+import useScrollVisibility from '../../hooks/useScrollVisibility';
 
 const HowItWorksFragment = () => {
     const { t } = useTranslation();
+    const isVisible = useScrollVisibility('how-it-works-fragment', 0);
 
     return (
         <div className="pt-16 px-16 font-Barlow md:px-24 lg:px-36">
-            <div className="justify-center relative items-center flex">
+            <div id="how-it-works-fragment" className="justify-center relative items-center flex">
                 <div className="text-primaryText hidden md:flex md:flex-col max-w-xl">
-                    <p className="text-white font-Barlow text-[16px]">{t("howItWorks.howItWorks")}</p>
-                    <div className="text-4xl">
+                    <p className={`transition-all duration-500 ease-in ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"} text-white font-Barlow text-[16px]`}>{t("howItWorks.howItWorks")}</p>
+                    <div className={`transition-all duration-500 ease-in delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"} text-4xl`}>
                         <span className="text-gradient font-bold">{t("howItWorks.smartContracts")}</span>
                         <span className="font-normal">&nbsp;{t("howItWorks.and")}</span>
                         <span className="text-gradient font-bold">&nbsp;{t("howItWorks.SYXRewards")}</span>
@@ -28,7 +30,7 @@ const HowItWorksFragment = () => {
                     <img src='/assets/Image/HowItWorksBackground.png' alt='howitworksbackground' />
                 </div>
                 <div className="absolute md:-top-8 w-[1024px] md:left-8 lg:left-24 xl:left-32 md:w-full">
-                    <img src="/assets/SVG/HowItWorksEllipse.svg" alt='ellipse'/>
+                    <img src="/assets/SVG/HowItWorksEllipse.svg" alt='ellipse' />
                 </div>
             </div>
         </div>
