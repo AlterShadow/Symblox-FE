@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import useScrollVisibility from '../../hooks/useScrollVisibility';
+import { useTranslation } from "react-i18next";
+import useScrollVisibility from "../../hooks/useScrollVisibility";
 
 const IntroFragment = () => {
   const { t } = useTranslation();
-  const isVisible = useScrollVisibility('intro-fragment', 0);
+  const isVisible = useScrollVisibility("intro-fragment", 0);
 
   return (
     <div id="intro-fragment" className="flex flex-col items-center">
@@ -14,10 +13,20 @@ const IntroFragment = () => {
             <div className="absolute w-[1024px] select-none">
               <img src="/assets/SVG/HowItWorksEllipse.svg" alt="ellipse" />
             </div>
-            <span className={`transition-all duration-500 ease-in delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-5"} text-[20px] font-normal leading-[20px] text-white`}>
+            <span
+              className={`transition-all duration-500 ease-in delay-300 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 -translate-y-5"
+              } text-[20px] font-normal leading-[20px] text-white`}
+            >
               {t("intro.globalAssets")}
             </span>
-            <span className={`transition-all duration-500 ${isVisible ? "scale-100" : "scale-50"} text-white text-[42px] md:text-[56px] font-bold leading-[50px] md:leading-[61.6px] md:max-w-[643px]`}>
+            <span
+              className={`transition-all duration-500 ${
+                isVisible ? "scale-100" : "scale-50"
+              } text-white text-[42px] md:text-[56px] font-bold leading-[50px] md:leading-[61.6px] md:max-w-[643px]`}
+            >
               {t("intro.symbloxTrade")}
               <div className="flex md:flex-col lg:flex-row">
                 <span className="inline-block text-gradient">
@@ -27,11 +36,23 @@ const IntroFragment = () => {
               </div>
               <p className="md:hidden">{t("intro.easily")}</p>
             </span>
-            <span className={`transition-all duration-500 delay-[600ms] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"} text-primaryText text-[18px] mt-4 md:text-[16px] font-normal leading-[20px]`}>
+            <span
+              className={`transition-all duration-500 delay-[600ms] ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-5"
+              } text-primaryText text-[18px] mt-4 md:text-[16px] font-normal leading-[20px]`}
+            >
               {t("intro.mintAndTrade")}
             </span>
           </div>
-          <button className={`transition-all duration-500 delay-[900ms] ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"} flex items-center w-[205px] h-[56px] py-[18px] px-10 gap-[10px] bg-[#EE2D82] rounded-[60px] text-white font-bold leading-[20px] text-[20px]`}>
+          <button
+            className={`transition-all duration-500 delay-[900ms] ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10"
+            } flex items-center w-[205px] h-[56px] py-[18px] px-10 gap-[10px] bg-[#EE2D82] rounded-[60px] text-white font-bold leading-[20px] text-[20px]`}
+          >
             {t("intro.discoverMore")}
           </button>
         </div>
