@@ -1,13 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Icon } from "@iconify/react";
 import { useReadContract, useAccount } from "wagmi";
-import { formatEther, formatGwei } from "viem";
-import { mainnet, bsc } from "wagmi/chains";
-import { parseEther, parseGwei } from "viem";
-import { config } from "../../integration/config";
+import { formatEther } from "viem";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
+import sbxContractABI from "../../../config/abis/ISymbloxToken.json";
 
 const regex = /^$|^[0-9]+(\.[0-9]*)?$/;
 
@@ -33,47 +31,37 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
 
 const StakingMint = () => {
   const { address } = useAccount();
-  const [snxAmount, setSNXAmount] = useState<string>("");
-  const [sUSDAmount, setSUSDAmount] = useState<string>("");
-  const abi = [
-    {
-      type: "function",
-      name: "balanceOf",
-      stateMutability: "view",
-      inputs: [{ name: "account", type: "address" }],
-      outputs: [{ type: "uint256" }],
-    },
-    {
-      type: "function",
-      name: "totalSupply",
-      stateMutability: "view",
-      inputs: [],
-      outputs: [{ name: "supply", type: "uint256" }],
-    },
-  ] as const;
+  const [sbxAmount, setSBXAmount] = useState<number>(0);
+  const [sUSDAmount, setSUSDAmount] = useState<number>(0);
+
+  const setSBXAmountHandler = (percent: number) => {
+    const newAmount = (formattedSBXAmount * percent) / 100;
+    setSBXAmount(newAmount);
+  };
 
   const { data } = useReadContract({
-    abi,
-    address: "0x524dF384BFFB18C0C8f3f43d012011F8F9795579",
-    functionName: "totalSupply",
+    address: "0x7EF737b865464434b7Ac59137f3EF3Fd086bc4bb",
+    abi: sbxContractABI,
+    functionName: "balanceOf",
+    args: [address],
   });
 
-  console.log(data ? (data as bigint).toString() : "Undefined");
+  const formattedSBXAmount = data ? parseFloat(formatEther(data as bigint)) : 0;
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    setState: React.Dispatch<React.SetStateAction<string>>
+    setState: React.Dispatch<React.SetStateAction<number>>
   ) => {
     if (regex.test(event.target.value)) {
-      setState(event.target.value);
+      setState(parseFloat(event.target.value));
     }
   };
 
   const MintHandler = () => {
-    console.log("Entered:", snxAmount, sUSDAmount);
+    console.log("Entered:", sbxAmount, sUSDAmount);
   };
 
-  const isDisabled = snxAmount || sUSDAmount;
+  const isDisabled = sbxAmount || sUSDAmount;
 
   return (
     <>
@@ -81,11 +69,11 @@ const StakingMint = () => {
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
           <div className="flex flex-col gap-4 items-center">
             <p className="lg:text-[24px] md:text-[22px] text-[20px] leading-[1em] font-medium text-white">
-              Stake SBX By Miniting sUSD
+              Stake SBX By Minting sUSD
             </p>
             <span className="max-w-[695px] text-center lg:text-[16px] text-[14px] font-normal leading-[1.1em] inline-block text-secondaryText">
               Mint sUSD by staking your SBX. SBX stakers earn weekly staking
-              rewars in exchange for managing their Collateralization Ratio and
+              rewards in exchange for managing their Collateralization Ratio and
               debt.&nbsp;
               <span className="text-white">
                 Your staked SBX will be locked for 7 days.
@@ -155,8 +143,8 @@ const StakingMint = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="text"
-                      value={snxAmount}
-                      onChange={(e) => handleInputChange(e, setSNXAmount)}
+                      value={sbxAmount}
+                      onChange={(e) => handleInputChange(e, setSBXAmount)}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary"
                       placeholder="Enter Amount"
                     />
@@ -165,23 +153,20 @@ const StakingMint = () => {
                         SBX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        Unstaked SBX : 0.00
+                        Unstaked SBX : {formattedSBXAmount}
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-row lg:gap-3 sm:gap-2 gap-1 items-center w-full">
-                    <button className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6">
-                      25%
-                    </button>
-                    <button className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6">
-                      50%
-                    </button>
-                    <button className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6">
-                      75%
-                    </button>
-                    <button className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6">
-                      100%
-                    </button>
+                    {[25, 50, 75, 100].map((percentage) => (
+                      <button
+                        key={percentage}
+                        onClick={() => setSBXAmountHandler(percentage)}
+                        className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
+                      >
+                        {percentage}%
+                      </button>
+                    ))}
                   </div>
                 </div>
                 <div className="flex flex-col gap-3">
