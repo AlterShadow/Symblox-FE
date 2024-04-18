@@ -2,6 +2,14 @@ const colors = require("tailwindcss/colors");
 const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  safelist: [
+    'delay-[200ms]',
+    'delay-[400ms]',
+    'delay-[600ms]',
+    'delay-[800ms]',
+    'delay-[1000ms]',
+    'delay-[1200ms]',
+  ],
   theme: {
     extend: {
       screens: {

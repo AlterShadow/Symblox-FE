@@ -1,20 +1,22 @@
 import { useTranslation } from 'react-i18next';
+import useScrollVisibility from '../../hooks/useScrollVisibility';
 
 const RewardFragment = () => {
   const { t } = useTranslation();
+  const isVisible = useScrollVisibility("reward-fragment", 0);
 
   return (
     <>
-      <div className="pt-20 pb-16 mx-auto w-full font-Barlow">
+      <div id="reward-fragment" className="pt-20 pb-16 mx-auto w-full font-Barlow">
         <div className="px-24 lg:px-36 mx-auto hidden lg:flex flex-col items-center justify-center">
           <div className="grid grid-cols-2 items-start gap-16">
-            <div className="relative p-12 gap-5 h-full w-full items-start bg-primaryBoxColor rounded-[20px]">
+            <div className={`transition-all duration-500 ease-in ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"} relative p-12 gap-5 h-full w-full items-start bg-primaryBoxColor rounded-[20px]`}>
               <div className="pr-36 flex flex-col">
                 <span className="text-white font-bold font-Barlow text-[24px] leading-[24px]">
-                {t("reward.differentiation")}
+                  {t("reward.differentiation")}
                 </span>
                 <span className="text-primaryText font-Barlow leading-[18px] text-[18px] ">
-                {t("reward.uniqueCollateral")}
+                  {t("reward.uniqueCollateral")}
                 </span>
                 <span className="absolute w-[220px] right-[-23.334px] top-[-28.903px] rotate-[167.59]">
                   <img
@@ -25,7 +27,7 @@ const RewardFragment = () => {
                 </span>
               </div>
             </div>
-            <div className="relative p-12 gap-5 h-full w-full items-start bg-primaryBoxColor rounded-[20px]">
+            <div className={`transition-all duration-500 ease-in delay-300 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20"} relative p-12 gap-5 h-full w-full items-start bg-primaryBoxColor rounded-[20px]`}>
               <div className="pr-36 flex flex-col">
                 <span className="text-white font-bold text-[24px] leading-[24px]">
                   {t("reward.security")}
@@ -45,7 +47,7 @@ const RewardFragment = () => {
           </div>
         </div>
         <div className="w-full md:px-24 font-Barlow lg:hidden px-6 flex flex-col">
-          <div className="relative mt-16 h-[191px] flex flex-col p-6 gap-5 items-start flex-[1_0_0] bg-primaryBoxColor rounded-[20px]">
+          <div className={`transition-all duration-500 ease-in ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"} relative mt-16 h-[191px] flex flex-col p-6 gap-5 items-start flex-[1_0_0] bg-primaryBoxColor rounded-[20px]`}>
             <span className="text-white mt-20 font-bold text-lg leading-[24px]">
               {t("reward.differentiation")}
             </span>
@@ -60,7 +62,7 @@ const RewardFragment = () => {
               />
             </span>
           </div>
-          <div className="relative mt-24 flex flex-col p-6 gap-5 items-start flex-[1_0_0] bg-primaryBoxColor rounded-[20px]">
+          <div className={`transition-all duration-500 ease-in delay-300 ${isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20"} relative mt-24 flex flex-col p-6 gap-5 items-start flex-[1_0_0] bg-primaryBoxColor rounded-[20px]`}>
             <span className="text-white mt-20 font-bold text-lg leading-[24px]">
               {t("reward.security")}
             </span>

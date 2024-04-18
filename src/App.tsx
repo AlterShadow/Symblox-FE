@@ -19,11 +19,11 @@ import "./App.css";
 import Perpetual from "./components/perpetual";
 import Governance from "./components/governance";
 
-const config = getDefaultConfig({
-  appName: "Symblox",
-  projectId: process.env.REACT_APP_PROJECT_ID || "",
-  chains: [bsc, bscTestnet],
-});
+// const config = getDefaultConfig({
+//   appName: "Symblox",
+//   projectId: process.env.REACT_APP_PROJECT_ID || "",
+//   chains: [bsc, bscTestnet],
+// });
 
 interface LayoutWithNavbarAndFooterProps {
   children: React.ReactNode;
@@ -45,37 +45,37 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider coolMode theme={darkTheme({})}>
-          <Router>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <LayoutWithNavbarAndFooter>
-                    <Dashboard />
-                  </LayoutWithNavbarAndFooter>
-                }
-              />
-              <Route path="/perpetual"
-                element={
-                  <LayoutWithNavbarAndFooter>
-                    <Perpetual />
-                  </LayoutWithNavbarAndFooter>
-                }
-              />
-              <Route path="/governance" element={
-                <LayoutWithNavbarAndFooter>
-                  <Governance />
-                </LayoutWithNavbarAndFooter>
-              } />
-              <Route path="/staking/*" element={<AppLayout />} />
-            </Routes>
-          </Router>
-        </RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    // <WagmiProvider config={config}>
+    //   <QueryClientProvider client={queryClient}>
+    //     <RainbowKitProvider coolMode theme={darkTheme({})}>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <LayoutWithNavbarAndFooter>
+              <Dashboard />
+            </LayoutWithNavbarAndFooter>
+          }
+        />
+        <Route path="/perpetual"
+          element={
+            <LayoutWithNavbarAndFooter>
+              <Perpetual />
+            </LayoutWithNavbarAndFooter>
+          }
+        />
+        <Route path="/governance" element={
+          <LayoutWithNavbarAndFooter>
+            <Governance />
+          </LayoutWithNavbarAndFooter>
+        } />
+        <Route path="/staking/*" element={<AppLayout />} />
+      </Routes>
+    </Router>
+    //     </RainbowKitProvider>
+    //   </QueryClientProvider>
+    // </WagmiProvider>
   );
 }
 
