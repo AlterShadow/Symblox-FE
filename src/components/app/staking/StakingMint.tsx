@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Icon } from "@iconify/react";
-import { useReadContract, useAccount } from "wagmi";
+import { useAccount, useReadContracts } from "wagmi";
 import { formatEther } from "viem";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import sbxContractABI from "../../../config/abis/ISymbloxToken.json";
+import FactoryABI from "../../../config/abis/IUniswapV2Factory.json";
+import PairABI from "../../../config/abis/IUniswapV2Pair.json";
 
 const regex = /^$|^[0-9]+(\.[0-9]*)?$/;
 
@@ -39,14 +41,51 @@ const StakingMint = () => {
     setSBXAmount(newAmount);
   };
 
-  const { data } = useReadContract({
+  const SBXContract = {
     address: "0x7EF737b865464434b7Ac59137f3EF3Fd086bc4bb",
     abi: sbxContractABI,
-    functionName: "balanceOf",
-    args: [address],
+  } as const;
+
+  const FactoryContract = {
+    address: "0x6725F303b657a9451d8BA641348b6761A6CC7a17",
+    abi: FactoryABI,
+  } as const;
+
+  const PairContract = {
+    address: "0x401362B6DB01B59491d2668B8b2ad8c9756053F9",
+    abi: PairABI,
+  } as const;
+
+  const { data } = useReadContracts({
+    contracts: [
+      {
+        ...SBXContract,
+        functionName: "balanceOf",
+        args: [address],
+      },
+      {
+        ...PairContract,
+        functionName: "price0CumulativeLast",
+      },
+      {
+        ...PairContract,
+        functionName: "price1CumulativeLast",
+      },
+    ],
   });
 
-  const formattedSBXAmount = data ? parseFloat(formatEther(data as bigint)) : 0;
+  const number1 = data
+    ? parseFloat(formatEther(data?.[2].result as bigint))
+    : 0;
+
+  const number2 = data
+    ? parseFloat(formatEther(data?.[1].result as bigint))
+    : 0;
+  console.log("Result:", number1, number2);
+
+  const formattedSBXAmount = data
+    ? parseFloat(formatEther(data?.[0].result as bigint))
+    : 0;
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
