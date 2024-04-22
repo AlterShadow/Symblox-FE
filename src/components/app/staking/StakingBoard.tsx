@@ -5,10 +5,47 @@ import { useAccount } from "wagmi";
 
 import PrivacyModal from "../modal/privacy";
 
+import sbxContractABI from "../../../config/abis/ISymbloxToken.json";
+import FactoryABI from "../../../config/abis/IUniswapV2Factory.json";
+import PairABI from "../../../config/abis/IUniswapV2Pair.json";
+
 const StakingBoard = () => {
   const { isConnected } = useAccount();
 
   console.log("Connect State:", isConnected);
+
+  const SBXContract = {
+    address: "0x7EF737b865464434b7Ac59137f3EF3Fd086bc4bb",
+    abi: sbxContractABI,
+  } as const;
+
+  const FactoryContract = {
+    address: "0x6725F303b657a9451d8BA641348b6761A6CC7a17",
+    abi: FactoryABI,
+  } as const;
+
+  const PairContract = {
+    address: "0x401362B6DB01B59491d2668B8b2ad8c9756053F9",
+    abi: PairABI,
+  } as const;
+
+  const { data } = useReadContracts({
+    contracts: [
+      {
+        ...SBXContract,
+        functionName: "balanceOf",
+        args: [address],
+      },
+      {
+        ...PairContract,
+        functionName: "price0CumulativeLast",
+      },
+      {
+        ...PairContract,
+        functionName: "price1CumulativeLast",
+      },
+    ],
+  });
 
   const navigate = useNavigate();
   const stakingHandler = () => {
