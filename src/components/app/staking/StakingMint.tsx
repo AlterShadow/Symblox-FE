@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Icon } from "@iconify/react";
-import { useAccount, useReadContracts } from "wagmi";
+import { useAccount, useReadContracts, useWriteContract } from "wagmi";
 import { formatEther } from "viem";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
-import sbxContractABI from "../../../config/abis/ISymbloxToken.json";
-import FactoryABI from "../../../config/abis/IUniswapV2Factory.json";
-import PairABI from "../../../config/abis/IUniswapV2Pair.json";
+import sbxContractABI from "../../../config/abis/IsbxABi.json";
+import PriceOracleABI from "../../../config/abis/IPriceOracle.json";
+import StakingABI from "../../../config/abis/IStaking.json";
 
 const regex = /^$|^[0-9]+(\.[0-9]*)?$/;
 
@@ -33,27 +33,23 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
 
 const StakingMint = () => {
   const { address } = useAccount();
+  const { writeContract } = useWriteContract();
   const [sbxAmount, setSBXAmount] = useState<number>(0);
   const [sUSDAmount, setSUSDAmount] = useState<number>(0);
 
-  const setSBXAmountHandler = (percent: number) => {
-    const newAmount = (formattedSBXAmount * percent) / 100;
-    setSBXAmount(newAmount);
-  };
+  const StakingContract = {
+    address: "0xB632907D2baA339664d99bED8B031897C91501bD",
+    abi: StakingABI,
+  } as const;
 
   const SBXContract = {
-    address: "0x7EF737b865464434b7Ac59137f3EF3Fd086bc4bb",
+    address: "0xBeAafa95D3a9EEd3DcDa18ddA6aB1c8f77D6C752",
     abi: sbxContractABI,
   } as const;
 
-  const FactoryContract = {
-    address: "0x6725F303b657a9451d8BA641348b6761A6CC7a17",
-    abi: FactoryABI,
-  } as const;
-
-  const PairContract = {
-    address: "0x401362B6DB01B59491d2668B8b2ad8c9756053F9",
-    abi: PairABI,
+  const PriceOracleContract = {
+    address: "0x2a9D38E9643f969029F73c4E5f91d8C54Ec04a18",
+    abi: PriceOracleABI,
   } as const;
 
   const { data } = useReadContracts({
@@ -64,28 +60,23 @@ const StakingMint = () => {
         args: [address],
       },
       {
-        ...PairContract,
-        functionName: "price0CumulativeLast",
-      },
-      {
-        ...PairContract,
-        functionName: "price1CumulativeLast",
+        ...PriceOracleContract,
+        functionName: "getTokenPrice",
+        args: [0xbeaafa95d3a9eed3dcda18dda6ab1c8f77d6c752],
       },
     ],
   });
 
-  const number1 = data
-    ? parseFloat(formatEther(data?.[2].result as bigint))
-    : 0;
-
-  const number2 = data
-    ? parseFloat(formatEther(data?.[1].result as bigint))
-    : 0;
-  console.log("Result:", number1, number2);
+  console.log("Data:", data?.[1]);
 
   const formattedSBXAmount = data
     ? parseFloat(formatEther(data?.[0].result as bigint))
     : 0;
+
+  const setSBXAmountHandler = (percent: number) => {
+    const newAmount = (formattedSBXAmount * percent) / 100;
+    setSBXAmount(newAmount);
+  };
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -97,7 +88,11 @@ const StakingMint = () => {
   };
 
   const MintHandler = () => {
-    console.log("Entered:", sbxAmount, sUSDAmount);
+    writeContract({
+      ...StakingContract,
+      functionName: "stakeSYM",
+      args: [sbxAmount],
+    });
   };
 
   const isDisabled = sbxAmount || sUSDAmount;
