@@ -5,7 +5,6 @@ import { useAccount } from "wagmi";
 
 import PrivacyModal from "../modal/privacy";
 
-
 const StakingBoard = () => {
   const { isConnected } = useAccount();
 

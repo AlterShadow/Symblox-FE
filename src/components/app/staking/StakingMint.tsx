@@ -2,8 +2,13 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Icon } from "@iconify/react";
-import { useAccount, useReadContracts, useWriteContract } from "wagmi";
-import { formatEther } from "viem";
+import {
+  useAccount,
+  useReadContracts,
+  useWalletClient,
+  useWriteContract,
+} from "wagmi";
+import { formatEther, parseEther } from "viem";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import sbxContractABI from "../../../config/abis/IsbxABi.json";
 import PriceOracleABI from "../../../config/abis/IPriceOracle.json";
@@ -36,19 +41,19 @@ const StakingMint = () => {
   const { writeContract } = useWriteContract();
   const [sbxAmount, setSBXAmount] = useState<number>(0);
   const [sUSDAmount, setSUSDAmount] = useState<number>(0);
-
+  const { data: walletClient } = useWalletClient();
   const StakingContract = {
-    address: "0xB632907D2baA339664d99bED8B031897C91501bD",
+    address: "0x2CC278b0137A8E0de188D2839Be3c47082136EFc",
     abi: StakingABI,
   } as const;
 
   const SBXContract = {
-    address: "0xBeAafa95D3a9EEd3DcDa18ddA6aB1c8f77D6C752",
+    address: "0x91a14891bC882561aabeFC1e2b1626C13b38f37C",
     abi: sbxContractABI,
   } as const;
 
   const PriceOracleContract = {
-    address: "0x2a9D38E9643f969029F73c4E5f91d8C54Ec04a18",
+    address: "0xd8BEFC60fd1F1b799357791f5ff7814679f264F1",
     abi: PriceOracleABI,
   } as const;
 
@@ -62,12 +67,10 @@ const StakingMint = () => {
       {
         ...PriceOracleContract,
         functionName: "getTokenPrice",
-        args: [0xbeaafa95d3a9eed3dcda18dda6ab1c8f77d6c752],
+        args: [0x91a14891bc882561aabefc1e2b1626c13b38f37c],
       },
     ],
   });
-
-  console.log("Data:", data?.[1]);
 
   const formattedSBXAmount = data
     ? parseFloat(formatEther(data?.[0].result as bigint))
@@ -88,10 +91,11 @@ const StakingMint = () => {
   };
 
   const MintHandler = () => {
-    writeContract({
+    console.log("SBX Amount:", parseEther(sbxAmount.toString()));
+    walletClient?.writeContract({
       ...StakingContract,
       functionName: "stakeSYM",
-      args: [sbxAmount],
+      args: [parseEther(sbxAmount.toString())],
     });
   };
 
@@ -176,10 +180,10 @@ const StakingMint = () => {
                   </div>
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
-                      type="text"
-                      value={sbxAmount}
+                      type="number"
+                      value={sbxAmount ? sbxAmount : 0}
                       onChange={(e) => handleInputChange(e, setSBXAmount)}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary"
+                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar"
                       placeholder="Enter Amount"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
@@ -224,8 +228,8 @@ const StakingMint = () => {
                   </span>
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
-                      type="text"
-                      value={sUSDAmount}
+                      type="number"
+                      value={sUSDAmount ? sUSDAmount : 0}
                       onChange={(e) => handleInputChange(e, setSUSDAmount)}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary"
                       placeholder="Enter Amount"
