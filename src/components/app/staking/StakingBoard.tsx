@@ -147,7 +147,7 @@ const StakingBoard = () => {
                 Hedge Debt
               </p>
               <p className="lg:text-[14px] text-[12px] leading-[1em] font-normal text-secondaryText">
-                Buy dSNX to hedge
+                Buy dSBX to hedge
               </p>
             </Link>
             <Link

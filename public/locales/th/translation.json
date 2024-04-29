@@ -106,14 +106,14 @@
     "SNXBridge": "สะพาน SBX",
     "transferAsset": "โอนทรัพย์สินระหว่างบล็อกเชน",
     "hedgeDebt": "ป้องกันหนี้",
-    "buyDSNX": "ซื้อ dSNX เพื่อป้องกัน",
+    "buydSBX": "ซื้อ dSBX เพื่อป้องกัน",
     "help": "ช่วยเหลือ",
     "learnMoreAbout": "เรียนรู้เพิ่มเติมเกี่ยวกับ Synthetix"
   },
   "stakingMint": {
     "stakeSNX": "เดิมพัน SBX โดยการสร้าง sUSD",
     "mintSUSD": "สร้าง sUSD โดยการเดิมพัน SBX ของคุณ SBX stakers ได้รับรางวัลการเดิมพันรายสัปดาห์เป็นการตอบแทนสำหรับการจัดการอัตราส่วนหลักประกันและหนี้ของพวกเขา",
-    "yourStakedSNX": "SBX ที่คุณเดิมพันจะถูกล็อคเป็นเวลา 7 วัน",
+    "yourStakedSBX": "SBX ที่คุณเดิมพันจะถูกล็อคเป็นเวลา 7 วัน",
     "epoch": "EPOCH",
     "snxPrice": "ราคา SBX",
     "howMuchSNX": "คุณต้องการเดิมพัน SBX จำนวนเท่าไหร่?",
@@ -123,7 +123,7 @@
     "stakingGuide": "คู่มือการเดิมพัน",
     "guideYour": "แนะนำคุณผ่านกระบวนการ",
     "hedgeDebt": "ป้องกันหนี้",
-    "buyDSNX": "ซื้อ dSNX เพื่อป้องกัน"
+    "buydSBX": "ซื้อ dSBX เพื่อป้องกัน"
   },
   "governance": {
     "aDecentralized": "การกำกับดูแลแบบกระจายอำนาจ",

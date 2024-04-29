@@ -106,14 +106,14 @@
     "SNXBridge": "SNX跨链",
     "transferAsset": "在区块链之间转移资产",
     "hedgeDebt": "对冲债务",
-    "buyDSNX": "购买dSNX进行对冲",
+    "buydSBX": "购买dSBX进行对冲",
     "help": "帮助",
     "learnMoreAbout": "了解更多关于Synthetix"
   },
   "stakingMint": {
     "stakeSNX": "通过铸造sUSD质押SNX",
     "mintSUSD": "通过质押你的SNX铸造sUSD。SNX质押者通过管理他们的抵押比例和债务来赚取每周的质押奖励。",
-    "yourStakedSNX": "你质押的SNX将被锁定7天。",
+    "yourStakedSBX": "你质押的SNX将被锁定7天。",
     "epoch": "纪元",
     "snxPrice": "SNX价格",
     "howMuchSNX": "你想质押多少SNX？",
@@ -123,7 +123,7 @@
     "stakingGuide": "质押指南",
     "guideYour": "指导您完成整个流程",
     "hedgeDebt": "对冲债务",
-    "buyDSNX": "购买dSNX进行对冲"
+    "buydSBX": "购买dSBX进行对冲"
   },
   "governance": {
     "aDecentralized": "一个去中心化",

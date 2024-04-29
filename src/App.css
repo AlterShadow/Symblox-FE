@@ -37,6 +37,21 @@
   }
 }
 
+.anim-colorExchange {
+  animation-name: colorExchange;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes colorExchange {
+  from {
+    background-color: gray;
+  }
+  to {
+    background-color: #282c34;
+  }
+}
 .bg-effect {
   backdrop-filter: blur(4px);
 }

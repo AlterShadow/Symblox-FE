@@ -31,13 +31,13 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-const StakingMint = () => {
+const StakingBurn = () => {
   const { address } = useAccount();
   const [sbxAmount, setSBXAmount] = useState<number>(0);
   const [sUSDAmount, setSUSDAmount] = useState<number>(0);
   const { data: walletClient } = useWalletClient();
   const StakingContract = {
-    address: "0xcd576F95E7a52662e1bD81A7B25923A172C23186",
+    address: "0x2CC278b0137A8E0de188D2839Be3c47082136EFc",
     abi: StakingABI,
   } as const;
 
@@ -65,6 +65,7 @@ const StakingMint = () => {
       },
     ],
   });
+
   const formattedSBXAmount = data
     ? parseFloat(formatEther(data?.[0].result as bigint))
     : 0;
@@ -83,11 +84,11 @@ const StakingMint = () => {
     }
   };
 
-  const MintHandler = () => {
+  const BurnHandler = () => {
     console.log("SBX Amount:", parseEther(sbxAmount.toString()));
     walletClient?.writeContract({
       ...StakingContract,
-      functionName: "burnXUSD",
+      functionName: "burn",
       args: [parseEther(sbxAmount.toString())],
     });
   };
@@ -100,30 +101,27 @@ const StakingMint = () => {
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
           <div className="flex flex-col gap-4 items-center">
             <p className="lg:text-[24px] md:text-[22px] text-[20px] leading-[1em] font-medium text-white">
-              Stake SBX By Minting sUSD
+              Burn Debt
             </p>
             <span className="max-w-[695px] text-center lg:text-[16px] text-[14px] font-normal leading-[1.1em] inline-block text-secondaryText">
-              Mint sUSD by staking your SBX. SBX stakers earn weekly staking
-              rewards in exchange for managing their Collateralization Ratio and
-              debt.&nbsp;
-              <span className="text-white">
-                Your staked SBX will be locked for 7 days.
-              </span>
+              Burn your sUSD debt to unlock your staked SNX. This will increase
+              your Collateralization Ratio and reduce your debt.&nbsp;
+              <span className="text-white">Learn more.</span>
             </span>
           </div>
           <div className="flex flex-col lg:gap-6 gap-4 max-w-[1024px] w-full items-center">
             <div className="flex flex-col w-full">
               <div
                 className="px-6 sm:px-5 py-4 w-full flex flex-row bg-[#17283B] rounded-t-[14px] border-b border-[#293745]"
-                id="mint-header"
+                id="burn-header"
               >
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-start">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-secondaryText lg:text-[14px] text-[12px] font-semibold leading-[1em]">
-                      EPOCH
+                      BURN
                     </span>
                     <LightTooltip
-                      title="Time to next EPOCH"
+                      title="Burn Your sUSD or Staked SBX"
                       arrow
                       placement="right"
                     >
@@ -135,32 +133,133 @@ const StakingMint = () => {
                       </span>
                     </LightTooltip>
                   </span>
-                  <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-white">
-                    02D 20H 42M
+                  <span className="lg:text-[16px] text-[12px] font-medium leading-[1em] text-white">
+                    Burn sUSD or Staked SBX
                   </span>
                 </div>
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-end">
-                  <span className="flex flex-row gap-1 items-center">
-                    <span className="text-secondaryText lg:text-[14px] text-[12px] font-semibold leading-[1em]">
-                      SBX PRICE
+                  <div className="flex flex-row gap-2 flex-[1_0_0] items-center">
+                    <span className="flex flex-row gap-1 items-center">
+                      <span className="text-secondaryText lg:text-[14px] text-[12px] font-semibold leading-[1em]">
+                        SBX PRICE
+                      </span>
                     </span>
-                  </span>
-                  <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
-                    $4.16
-                  </span>
+                    <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
+                      $4.16
+                    </span>
+                  </div>
+                  <div className="flex flex-row gap-2 flex-[1_0_0] items-center">
+                    <span className="flex flex-row gap-1 items-center">
+                      <span className="text-secondaryText lg:text-[14px] text-[12px] font-semibold leading-[1em]">
+                        sUSD PRICE
+                      </span>
+                    </span>
+                    <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
+                      $1.12
+                    </span>
+                  </div>
                 </div>
               </div>
               <div
                 className="sm:px-6 sm:py-8 px-4 py-5 flex flex-col gap-6 w-full rounded-b-[14px] border border-[#293745] border-t-0 bg-[#0a1a2a]"
-                id="mint-body"
+                id="burn-body"
               >
+                <div className="w-full md:flex flex-row hidden justify-between">
+                  <div className="lg:w-[58%] w-full flex flex-col py-5 px-4 rounded-[4px] border border-primaryBoxColor bg-black gap-8">
+                    <div className="w-full flex flex-row justify-between items-center">
+                      <div className="flex flex-row gap-1 items-center">
+                        <span className="text-[#63636E] sm:text-[10px] text-[12px] font-normal leading-[1em]">
+                          current &lt; 160%
+                        </span>
+                        <LightTooltip
+                          title="You maybe flagged for liquidation"
+                          arrow
+                          placement="bottom-start"
+                        >
+                          <span className="w-[12px] h-[12px]">
+                            <img
+                              src="/assets/Icon/question-mark.svg"
+                              alt="question-mark"
+                              className="mt-[1px]"
+                            />
+                          </span>
+                        </LightTooltip>
+                      </div>
+                      <div className="flex flex-row gap-1 items-center">
+                        <span className="text-[#63636E] sm:text-[10px] text-[12px] font-normal leading-[1em]">
+                          Target 4000%
+                        </span>
+                        <LightTooltip
+                          title="Required to claim rewards"
+                          arrow
+                          placement="bottom-start"
+                        >
+                          <span className="w-[12px] h-[12px]">
+                            <img
+                              src="/assets/Icon/question-mark.svg"
+                              alt="question-mark"
+                              className="mt-[1px]"
+                            />
+                          </span>
+                        </LightTooltip>
+                      </div>
+                    </div>
+                    <div className="relative w-full h-3 bg-[#ffffff0f]">
+                      <div className="absolute w-[1px] h-10 bg-[#303037] left-5 bottom-[-15px]"></div>
+                      <div className="absolute w-[1px] h-10 bg-[#303037] right-10 bottom-[-15px]"></div>
+                    </div>
+                  </div>
+                  <div className="lg:w-[40%] flex flex-col w-full rounded-[4px] border border-primaryBoxColor bg-black">
+                    <div className="flex flex-row justify-between items-center pt-3 px-4 pb-4">
+                      <div className="flex flex-row gap-1 items-center">
+                        <span className="text-white lg:text-[16px] text-[14px] font-semibold leading-[1em]">
+                          Current Health
+                        </span>
+                        <LightTooltip
+                          title="Your Current C-ratio"
+                          arrow
+                          placement="bottom-start"
+                        >
+                          <img
+                            src="/assets/Icon/question-mark.svg"
+                            className="mt-[2px]"
+                            alt="question-mark"
+                          />
+                        </LightTooltip>
+                      </div>
+                      <div className="w-12 h-5 rounded-sm anim-colorExchange"></div>
+                    </div>
+                    <div className="w-full opacity-60 bg-[#303037] h-[1px]"></div>
+                    <div className="flex flex-row justify-between items-center pt-2 px-4 pb-10">
+                      <div className="flex flex-row gap-1 items-center">
+                        <span className="text-white lg:text-[14px] text-[14px] font-semibold leading-[1em]">
+                          Target Health
+                        </span>
+                        <LightTooltip
+                          title="Target Health"
+                          arrow
+                          placement="bottom-start"
+                        >
+                          <img
+                            src="/assets/Icon/question-mark.svg"
+                            className="mt-[2px]"
+                            alt="question-mark"
+                          />
+                        </LightTooltip>
+                      </div>
+                      <span className="lg:text-[20px] text-[16px] text-[#2DFF8C] font-medium leading-[1em]">
+                        4,000%
+                      </span>
+                    </div>
+                  </div>
+                </div>
                 <div className="gap-3 flex flex-col w-full">
                   <div className="flex flex-row gap-1 items-center">
-                    <span className="text-white lg:text-[16px] text-[14px] font-normal leading-[1em]">
-                      How much SBX do you want to stake?
+                    <span className="text-white lg:text-[14px] text-[14px] font-normal leading-[1em]">
+                      Burn sUSD
                     </span>
                     <LightTooltip
-                      title="How much SBX you stake will determine how much sUSD you can borrow"
+                      title="Burn sUSD to increase your C-ratio"
                       arrow
                       placement="bottom-start"
                     >
@@ -181,32 +280,30 @@ const StakingMint = () => {
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
                       <div className="text-white text-[14px] leading-[1em] font-bold text-right">
-                        SBX
+                        sUSD
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        Unstaked SBX : {formattedSBXAmount}
+                        Active debt : {formattedSBXAmount} &nbsp; sUSD Balance:
+                        0.00
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-row lg:gap-3 sm:gap-2 gap-1 items-center w-full">
-                    {[25, 50, 75, 100].map((percentage) => (
-                      <button
-                        key={percentage}
-                        onClick={() => setSBXAmountHandler(percentage)}
-                        className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
-                      >
-                        {percentage}%
-                      </button>
-                    ))}
+                    <button className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6">
+                      Burn Max
+                    </button>
+                    <button className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6">
+                      Burn To Target
+                    </button>
                   </div>
                 </div>
                 <div className="flex flex-col gap-3">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-white sm:text-[16px] text-[14px] font-normal leading-[1em]">
-                      Borrowing
+                      Unstaking
                     </span>
                     <LightTooltip
-                      title="How much SBX you stake will determine how much sUSD you can borrow"
+                      title="When your c-ratio is below target, all your SBX is staked"
                       arrow
                       placement="bottom-start"
                     >
@@ -229,10 +326,10 @@ const StakingMint = () => {
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
                       <div className="text-white text-[14px] leading-[1em] font-bold text-right">
-                        sUSD
+                        SBX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        sUSD Balance : 0.00
+                        Staked SBX : 0.00
                       </div>
                     </div>
                   </div>
@@ -253,12 +350,12 @@ const StakingMint = () => {
                 <div className="flex justify-center">
                   <button
                     disabled={!isDisabled}
-                    onClick={MintHandler}
+                    onClick={BurnHandler}
                     className={`rounded-[60px] bg-primaryButtonColor w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
                       !isDisabled ? "opacity-50" : "opacity-100"
                     }`}
                   >
-                    Mint
+                    Burn
                   </button>
                 </div>
               </div>
@@ -276,14 +373,25 @@ const StakingMint = () => {
                 </span>
               </Link>
               <Link
-                to="/guide/debt"
-                className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full rounded-r-xl lg:rounded-tr-xl rounded-tr-none border-t-0 lg:border-t rounded-bl-xl lg:rounded-bl-none bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
+                to="/staking/self-liquidation"
+                className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full rounded-tr-none border-t-0 lg:border-t bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
               >
                 <span className="text-white text-[16px] sm:font-bold font-semibold leading-[1em]">
                   Hedge Debt
                 </span>
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
                   Buy dSBX to hedge
+                </span>
+              </Link>
+              <Link
+                to="/staking/self-liquidation"
+                className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full rounded-r-xl lg:rounded-tr-xl rounded-tr-none border-t-0 lg:border-t rounded-bl-xl lg:rounded-bl-none bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
+              >
+                <span className="text-white text-[16px] sm:font-bold font-semibold leading-[1em]">
+                  Self Liquidate
+                </span>
+                <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
+                  Self Liquidate SBX Collateral
                 </span>
               </Link>
             </div>
@@ -303,4 +411,4 @@ const StakingMint = () => {
   );
 };
 
-export default StakingMint;
+export default StakingBurn;
