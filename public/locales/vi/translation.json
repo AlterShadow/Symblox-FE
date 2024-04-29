@@ -106,14 +106,14 @@
     "SNXBridge": "Cầu SBX",
     "transferAsset": "Chuyển Tài sản giữa các blockchain",
     "hedgeDebt": "Hedge Nợ",
-    "buyDSNX": "Mua dSNX để hedge",
+    "buydSBX": "Mua dSBX để hedge",
     "help": "Trợ giúp",
     "learnMoreAbout": "Tìm hiểu thêm về Synthetix"
   },
   "stakingMint": {
     "stakeSNX": "Cược SBX Bằng Cách Tạo sUSD",
     "mintSUSD": "Tạo sUSD bằng cách cược SBX của bạn. Người cược SBX kiếm được phần thưởng cược hàng tuần đổi lại việc quản lý Tỷ lệ Thế chấp và nợ của họ.",
-    "yourStakedSNX": "SBX của bạn cược sẽ bị khóa trong 7 ngày.",
+    "yourStakedSBX": "SBX của bạn cược sẽ bị khóa trong 7 ngày.",
     "epoch": "EPOCH",
     "snxPrice": "GIÁ SBX",
     "howMuchSNX": "Bạn muốn cược bao nhiêu SBX?",
@@ -123,7 +123,7 @@
     "stakingGuide": "Hướng dẫn Cược",
     "guideYour": "Hướng dẫn bạn qua các quy trình",
     "hedgeDebt": "Hedge Nợ",
-    "buyDSNX": "Mua dSNX để hedge"
+    "buydSBX": "Mua dSBX để hedge"
   },
   "governance": {
     "aDecentralized": "Một Hình thức Quản trị Phân quyền",

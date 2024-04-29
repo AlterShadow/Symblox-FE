@@ -106,14 +106,14 @@
     "SNXBridge": "SBX Bridge",
     "transferAsset": "Transfer Asset between blockchains",
     "hedgeDebt": "Hedge Debt",
-    "buyDSNX": "Buy dSNX to hedge",
+    "buydSBX": "Buy dSBX to hedge",
     "help": "Help",
     "learnMoreAbout": "Learn more about Synthetix"
   },
   "stakingMint": {
     "stakeSNX": "Stake SBX By Miniting sUSD",
     "mintSUSD": "Mint sUSD by staking your SBX. SBX stakers earn weekly staking rewards in exchange for managing their Collateralization Ratio and debt.",
-    "yourStakedSNX": "Your staked SBX will be locked for 7 days.",
+    "yourStakedSBX": "Your staked SBX will be locked for 7 days.",
     "epoch": "EPOCH",
     "snxPrice": "SBX PRICE",
     "howMuchSNX": "How much SBX do you want to stake?",
@@ -123,7 +123,7 @@
     "stakingGuide": "Staking Guide",
     "guideYour": "Guide your through the processes",
     "hedgeDebt": "Hedge Debt",
-    "buyDSNX": "Buy dSNX to hedge"
+    "buydSBX": "Buy dSBX to hedge"
   },
   "governance": {
     "aDecentralized": "A Decentralized",
