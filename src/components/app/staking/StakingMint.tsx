@@ -87,7 +87,7 @@ const StakingMint = () => {
     console.log("SBX Amount:", parseEther(sbxAmount.toString()));
     walletClient?.writeContract({
       ...StakingContract,
-      functionName: "burnXUSD",
+      functionName: "stake",
       args: [parseEther(sbxAmount.toString())],
     });
   };
