@@ -255,7 +255,9 @@ const StakingMint = () => {
                     disabled={!isDisabled}
                     onClick={MintHandler}
                     className={`rounded-[60px] bg-primaryButtonColor w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
-                      !isDisabled ? "opacity-50" : "opacity-100"
+                      !isDisabled
+                        ? "opacity-50 hover:opacity-100 active:scale-[0.95]"
+                        : "opacity-100 hover:scale-[1.02] active:scale-[0.95]"
                     }`}
                   >
                     Mint
