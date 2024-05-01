@@ -66,14 +66,9 @@ const StakingBurn = () => {
     ],
   });
 
-  const formattedSBXAmount = data
+  const susdAmountofAccount = data
     ? parseFloat(formatEther(data?.[0].result as bigint))
     : 0;
-
-  const setSBXAmountHandler = (percent: number) => {
-    const newAmount = (formattedSBXAmount * percent) / 100;
-    setSBXAmount(newAmount);
-  };
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -85,10 +80,9 @@ const StakingBurn = () => {
   };
 
   const BurnHandler = () => {
-    console.log("SBX Amount:", parseEther(sbxAmount.toString()));
     walletClient?.writeContract({
       ...StakingContract,
-      functionName: "burn",
+      functionName: "burnXUSD",
       args: [parseEther(sbxAmount.toString())],
     });
   };
@@ -273,8 +267,8 @@ const StakingBurn = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="number"
-                      value={sbxAmount || ""}
-                      onChange={(e) => handleInputChange(e, setSBXAmount)}
+                      value={sUSDAmount || ""}
+                      onChange={(e) => handleInputChange(e, setSUSDAmount)}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar"
                       placeholder="Enter Amount"
                     />
@@ -283,16 +277,22 @@ const StakingBurn = () => {
                         sUSD
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        Active debt : {formattedSBXAmount} &nbsp; sUSD Balance:
+                        Active debt : {susdAmountofAccount} &nbsp; sUSD Balance:
                         0.00
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-row lg:gap-3 sm:gap-2 gap-1 items-center w-full">
-                    <button className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6">
+                    <button
+                      onClick={() => setSUSDAmount(susdAmountofAccount)}
+                      className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
+                    >
                       Burn Max
                     </button>
-                    <button className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6">
+                    <button
+                      onClick={() => setSUSDAmount(susdAmountofAccount * 0.5)}
+                      className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
+                    >
                       Burn To Target
                     </button>
                   </div>
@@ -319,8 +319,8 @@ const StakingBurn = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="number"
-                      value={sUSDAmount || ""}
-                      onChange={(e) => handleInputChange(e, setSUSDAmount)}
+                      value={sbxAmount || ""}
+                      onChange={(e) => handleInputChange(e, setSBXAmount)}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary"
                       placeholder="Enter Amount"
                     />
