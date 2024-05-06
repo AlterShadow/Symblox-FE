@@ -5,9 +5,10 @@ import { Icon } from "@iconify/react";
 import { useAccount, useReadContracts, useWalletClient } from "wagmi";
 import { formatEther, parseEther } from "viem";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
-import SBXContractABI from "../../../config/abis/IsbxABi.json";
+import SBXContractABI from "../../../config/abis/SymbloxABI.json";
 import PriceOracleABI from "../../../config/abis/IPriceOracle.json";
 import StakingABI from "../../../config/abis/IStaking.json";
+import { SymbloxTokenCA } from "../../../config/params/contractAddresses";
 
 const regex = /^$|^[0-9]+(\.[0-9]*)?$/;
 
@@ -42,7 +43,7 @@ const StakingBurn = () => {
   } as const;
 
   const SBXContract = {
-    address: "0x91a14891bC882561aabeFC1e2b1626C13b38f37C",
+    address: SymbloxTokenCA,
     abi: SBXContractABI,
   } as const;
 
