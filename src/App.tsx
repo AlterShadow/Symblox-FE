@@ -7,7 +7,7 @@ import {
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
-import { bsc, bscTestnet } from "wagmi/chains";
+import { bsc, bscTestnet, sepolia } from "wagmi/chains";
 
 import Dashboard from "./components/dashboard";
 import Header from "./components/header";
@@ -22,7 +22,7 @@ import Governance from "./components/governance";
 const config = getDefaultConfig({
   appName: "Symblox",
   projectId: process.env.REACT_APP_PROJECT_ID || "",
-  chains: [bsc, bscTestnet],
+  chains: [bsc, bscTestnet, sepolia],
 });
 
 interface LayoutWithNavbarAndFooterProps {
