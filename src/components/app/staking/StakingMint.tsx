@@ -7,7 +7,7 @@ import { formatEther, parseEther } from "viem";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import { SymbloxTokenCA } from "../../../config/params/contractAddresses";
 import SBXContractABI from "../../../config/abis/SymbloxABI.json";
-import PriceOracleABI from "../../../config/abis/IPriceOracle.json";
+import PriceOracleABI from "../../../config/abis/PriceOracleABI.json";
 import StakingABI from "../../../config/abis/IStaking.json";
 import { useTranslation } from "react-i18next";
 
