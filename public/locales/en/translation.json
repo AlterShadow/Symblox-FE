@@ -73,7 +73,7 @@
   },
   "privacy": {
     "symbloxStaking": "Symblox Staking Terms of Service",
-    "byClickingIAgree": "By clicking “I Agree” below, you agree to be bound by the terms of this Agreement. As such, you fully understand that",
+    "byClickingIAgree": "By clicking “I Agree” below, you agree to be bound by the terms of this Agreement. As such, you fully understand that:",
     "symbloxIsABlockchain": "Symblox is a blockchain-based decentralized finance project. You are participating at your own risk.",
     "symbloxIsOffered": "Symblox is offered for use “as is” and without any guarantees regarding security. The protocol is made up of immutable code and can be accessed through a variety of user interfaces.",
     "noCentralEntity": "No central entity operates the Symblox protocol. Decisions related to the protocol are governed by a dispersed group of participants who collectively govern and maintain the protocol.",
@@ -110,14 +110,45 @@
     "help": "Help",
     "learnMoreAbout": "Learn more about Synthetix"
   },
+  "stakingBurn": {
+    "title": "Burn Debt",
+    "description": "Burn your sUSD debt to unlock your staked SNX. This will increase your Collateralization Ratio and reduce your debt. Learn more.",
+    "burn": "Burn",
+    "burnSUSD": "Burn sUSD",
+    "burnSUSDOrStakedSBX": "Burn sUSD or Staked SBX",
+    "sbxPrice": "SBX PRICE",
+    "sUSDPrice": "sUSD PRICE",
+    "current": "current",
+    "currentHealth": "Current Health",
+    "target": "Target",
+    "targetHealth": "Target Health",
+    "activeDebt": "Active debt",
+    "balance": "Balance",
+    "burnMax": "Burn Max",
+    "burnToTarget": "Burn To Target",
+    "unstaking": "Unstaking",
+    "staked": "Staked",
+    "gasPrice": "Gas Price",
+    "burnButton": "Burn",
+    "stakingGuide": "Staking Guide",
+    "guideDescription": "Guide your through the processes",
+    "hedgeDebt": "Hedge Debt",
+    "hedgeDebtDescription": "Buy dSBX to hedge",
+    "selfLiquidate": "Self Liquidate",
+    "selfLiquidateDescription": "Self Liquidate SBX Collateral"
+  },
   "stakingMint": {
-    "stakeSNX": "Stake SBX By Miniting sUSD",
+    "stakeSNX": "Stake SBX By Minting sUSD",
     "mintSUSD": "Mint sUSD by staking your SBX. SBX stakers earn weekly staking rewards in exchange for managing their Collateralization Ratio and debt.",
     "yourStakedSBX": "Your staked SBX will be locked for 7 days.",
     "epoch": "EPOCH",
-    "snxPrice": "SBX PRICE",
-    "howMuchSNX": "How much SBX do you want to stake?",
+    "timeToNextEpoch": "Time to next EPOCH",
+    "sbxPrice": "SBX PRICE",
+    "howMuchSBX": "How much SBX do you want to stake?",
+    "howMuchSBXYouStake": "How much SBX you stake will determine how much sUSD you can borrow",
+    "unstaked": "Unstaked",
     "borrowing": "Borrowing",
+    "balance": "Balance",
     "gasPrice": "Gas Price",
     "mint": "Mint",
     "stakingGuide": "Staking Guide",
@@ -173,5 +204,9 @@
     "integrateSymblox": "Integrate Symblox Perps with your platform",
     "integrateSymblox.desc": "Learn more about how to integrate Perps and other Symblox markets in our developer documentation and reach out to the developer over",
     "integrateSymblox.discord": "Symblox Discord."
+  },
+  "header": {
+    "staking": "staking",
+    "connectWallet": "Connect Wallet"
   }
 }
