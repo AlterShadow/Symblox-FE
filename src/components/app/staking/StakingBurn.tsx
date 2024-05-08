@@ -9,8 +9,12 @@ import PriceOracleABI from "../../../config/abis/PriceOracleABI.json";
 import StakingABI from "../../../config/abis/IStaking.json";
 import { SymbloxTokenCA } from "../../../config/params/contractAddresses";
 import { onlyNumberRegex } from "../../../utils/formatter";
+import { useTranslation } from "react-i18next";
+
+const regex = /^$|^[0-9]+(\.[0-9]*)?$/;
 
 const StakingBurn = () => {
+  const { t } = useTranslation();
   const { address } = useAccount();
   const [sbxAmount, setSBXAmount] = useState<number>(0);
   const [sUSDAmount, setSUSDAmount] = useState<number>(0);
@@ -74,12 +78,10 @@ const StakingBurn = () => {
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
           <div className="flex flex-col gap-4 items-center">
             <p className="lg:text-[24px] md:text-[22px] text-[20px] leading-[1em] font-medium text-white">
-              Burn Debt
+              {t("stakingBurn.title")}
             </p>
             <span className="max-w-[695px] text-center lg:text-[16px] text-[14px] font-normal leading-[1.1em] inline-block text-secondaryText">
-              Burn your sUSD debt to unlock your staked SNX. This will increase
-              your Collateralization Ratio and reduce your debt.&nbsp;
-              <span className="text-white">Learn more.</span>
+              {t("stakingBurn.description")}
             </span>
           </div>
           <div className="flex flex-col lg:gap-6 gap-4 max-w-[1024px] w-full items-center">
@@ -91,7 +93,7 @@ const StakingBurn = () => {
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-start">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-secondaryText lg:text-[14px] text-[12px] font-semibold leading-[1em]">
-                      BURN
+                      {t("stakingBurn.burn")}
                     </span>
                     <LightTooltip
                       title="Burn Your sUSD or Staked SBX"
@@ -107,14 +109,14 @@ const StakingBurn = () => {
                     </LightTooltip>
                   </span>
                   <span className="lg:text-[16px] text-[12px] font-medium leading-[1em] text-white">
-                    Burn sUSD or Staked SBX
+                    {t("stakingBurn.burnSUSDOrStakedSBX")}
                   </span>
                 </div>
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-end">
                   <div className="flex flex-row gap-2 flex-[1_0_0] items-center">
                     <span className="flex flex-row gap-1 items-center">
                       <span className="text-secondaryText lg:text-[14px] text-[12px] font-semibold leading-[1em]">
-                        SBX PRICE
+                        {t("stakingBurn.sbxPrice")}
                       </span>
                     </span>
                     <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
@@ -124,7 +126,7 @@ const StakingBurn = () => {
                   <div className="flex flex-row gap-2 flex-[1_0_0] items-center">
                     <span className="flex flex-row gap-1 items-center">
                       <span className="text-secondaryText lg:text-[14px] text-[12px] font-semibold leading-[1em]">
-                        sUSD PRICE
+                        {t("stakingBurn.sUSDPrice")}
                       </span>
                     </span>
                     <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
@@ -142,7 +144,7 @@ const StakingBurn = () => {
                     <div className="w-full flex flex-row justify-between items-center">
                       <div className="flex flex-row gap-1 items-center">
                         <span className="text-[#63636E] sm:text-[10px] text-[12px] font-normal leading-[1em]">
-                          current &lt; 160%
+                          {t("stakingBurn.current")} &lt; 160%
                         </span>
                         <LightTooltip
                           title="You maybe flagged for liquidation"
@@ -160,7 +162,7 @@ const StakingBurn = () => {
                       </div>
                       <div className="flex flex-row gap-1 items-center">
                         <span className="text-[#63636E] sm:text-[10px] text-[12px] font-normal leading-[1em]">
-                          Target 4000%
+                          {t("stakingBurn.target")} 4000%
                         </span>
                         <LightTooltip
                           title="Required to claim rewards"
@@ -186,7 +188,7 @@ const StakingBurn = () => {
                     <div className="flex flex-row justify-between items-center pt-3 px-4 pb-4">
                       <div className="flex flex-row gap-1 items-center">
                         <span className="text-white lg:text-[16px] text-[14px] font-semibold leading-[1em]">
-                          Current Health
+                          {t("stakingBurn.currentHealth")}
                         </span>
                         <LightTooltip
                           title="Your Current C-ratio"
@@ -206,7 +208,7 @@ const StakingBurn = () => {
                     <div className="flex flex-row justify-between items-center pt-2 px-4 pb-10">
                       <div className="flex flex-row gap-1 items-center">
                         <span className="text-white lg:text-[14px] text-[14px] font-semibold leading-[1em]">
-                          Target Health
+                          {t("stakingBurn.targetHealth")}
                         </span>
                         <LightTooltip
                           title="Target Health"
@@ -229,7 +231,7 @@ const StakingBurn = () => {
                 <div className="gap-3 flex flex-col w-full">
                   <div className="flex flex-row gap-1 items-center">
                     <span className="text-white lg:text-[14px] text-[14px] font-normal leading-[1em]">
-                      Burn sUSD
+                      {t("stakingBurn.burnSUSD")}
                     </span>
                     <LightTooltip
                       title="Burn sUSD to increase your C-ratio"
@@ -256,8 +258,8 @@ const StakingBurn = () => {
                         sUSD
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        Active debt : {susdAmountofAccount} &nbsp; sUSD Balance:
-                        0.00
+                        {t("stakingBurn.activeDebt")} : {susdAmountofAccount}
+                        &nbsp; sUSD {t("stakingBurn.balance")}: 0.00
                       </div>
                     </div>
                   </div>
@@ -266,20 +268,20 @@ const StakingBurn = () => {
                       onClick={() => setSUSDAmount(susdAmountofAccount)}
                       className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
                     >
-                      Burn Max
+                      {t("stakingBurn.burnMax")}
                     </button>
                     <button
                       onClick={() => setSUSDAmount(susdAmountofAccount * 0.5)}
                       className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
                     >
-                      Burn To Target
+                      {t("stakingBurn.burnToTarget")}
                     </button>
                   </div>
                 </div>
                 <div className="flex flex-col gap-3">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-white sm:text-[16px] text-[14px] font-normal leading-[1em]">
-                      Unstaking
+                      {t("stakingBurn.unstaking")}
                     </span>
                     <LightTooltip
                       title="When your c-ratio is below target, all your SBX is staked"
@@ -308,14 +310,14 @@ const StakingBurn = () => {
                         SBX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        Staked SBX : 0.00
+                        {t("stakingBurn.staked")} SBX : 0.00
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="flex flex-row w-full justify-between items-center">
                   <span className="text-white text-[16px] font-normal leading-[1em]">
-                    Gas Price
+                    {t("stakingBurn.gasPrice")}
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
@@ -334,7 +336,7 @@ const StakingBurn = () => {
                       !isDisabled ? "opacity-50" : "opacity-100"
                     }`}
                   >
-                    Burn
+                    {t("stakingBurn.burn")}
                   </button>
                 </div>
               </div>
@@ -345,10 +347,10 @@ const StakingBurn = () => {
                 className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full lg:border-r-0 border-r lg:rounded-l-xl rounded-l-none rounded-tr-xl lg:rounded-tr-none rounded-tl-xl bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
               >
                 <span className="text-white text-[16px] sm:font-bold font-semibold leading-[1em]">
-                  Staking Guide
+                  {t("stakingBurn.stakingGuide")}
                 </span>
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                  Guide your through the processes
+                  {t("stakingBurn.guideDescription")}
                 </span>
               </Link>
               <Link
@@ -356,10 +358,10 @@ const StakingBurn = () => {
                 className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full rounded-tr-none border-t-0 lg:border-t bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
               >
                 <span className="text-white text-[16px] sm:font-bold font-semibold leading-[1em]">
-                  Hedge Debt
+                  {t("stakingBurn.hedgeDebt")}
                 </span>
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                  Buy dSBX to hedge
+                  {t("stakingBurn.hedgeDebtDescription")}
                 </span>
               </Link>
               <Link
@@ -367,10 +369,10 @@ const StakingBurn = () => {
                 className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full rounded-r-xl lg:rounded-tr-xl rounded-tr-none border-t-0 lg:border-t rounded-bl-xl lg:rounded-bl-none bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
               >
                 <span className="text-white text-[16px] sm:font-bold font-semibold leading-[1em]">
-                  Self Liquidate
+                  {t("stakingBurn.selfLiquidate")}
                 </span>
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                  Self Liquidate SBX Collateral
+                  {t("stakingBurn.selfLiquidateDescription")}
                 </span>
               </Link>
             </div>
@@ -382,7 +384,7 @@ const StakingBurn = () => {
         >
           <Icon icon="iconamoon:arrow-left-1" className="text-white w-4 h-4" />
           <span className="text-[14px] leading-[1em] font-medium text-white">
-            Back
+            {t("common.back")}
           </span>
         </Link>
       </div>

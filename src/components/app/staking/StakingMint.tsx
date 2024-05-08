@@ -9,8 +9,12 @@ import PriceOracleABI from "../../../config/abis/PriceOracleABI.json";
 import StakingABI from "../../../config/abis/IStaking.json";
 import LightTooltip from "../../widgets/LightTooltip";
 import { onlyNumberRegex } from "../../../utils/formatter";
+import { useTranslation } from "react-i18next";
+
+const regex = /^$|^[0-9]+(\.[0-9]*)?$/;
 
 const StakingMint = () => {
+  const { t } = useTranslation();
   const { address } = useAccount();
   const [sbxAmount, setSBXAmount] = useState<number>(0);
   const [sUSDAmount, setSUSDAmount] = useState<number>(0);
@@ -79,14 +83,12 @@ const StakingMint = () => {
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
           <div className="flex flex-col gap-4 items-center">
             <p className="lg:text-[24px] md:text-[22px] text-[20px] leading-[1em] font-medium text-white">
-              Stake SBX By Minting sUSD
+              {t("stakingMint.stakeSNX")}
             </p>
             <span className="max-w-[695px] text-center lg:text-[16px] text-[14px] font-normal leading-[1.1em] inline-block text-secondaryText">
-              Mint sUSD by staking your SBX. SBX stakers earn weekly staking
-              rewards in exchange for managing their Collateralization Ratio and
-              debt.&nbsp;
+              {t("stakingMint.mintSUSD")}&nbsp;
               <span className="text-white">
-                Your staked SBX will be locked for 7 days.
+                {t("stakingMint.yourStakedSBX")}
               </span>
             </span>
           </div>
@@ -99,10 +101,10 @@ const StakingMint = () => {
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-start">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-secondaryText lg:text-[14px] text-[12px] font-semibold leading-[1em]">
-                      EPOCH
+                      {t("stakingMint.epoch")}
                     </span>
                     <LightTooltip
-                      title="Time to next EPOCH"
+                      title={t("stakingMint.timeToNextEpoch")}
                       arrow
                       placement="right"
                     >
@@ -121,7 +123,7 @@ const StakingMint = () => {
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-end">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-secondaryText lg:text-[14px] text-[12px] font-semibold leading-[1em]">
-                      SBX PRICE
+                      {t("stakingMint.sbxPrice")}
                     </span>
                   </span>
                   <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
@@ -136,10 +138,10 @@ const StakingMint = () => {
                 <div className="gap-3 flex flex-col w-full">
                   <div className="flex flex-row gap-1 items-center">
                     <span className="text-white lg:text-[16px] text-[14px] font-normal leading-[1em]">
-                      How much SBX do you want to stake?
+                      {t("stakingMint.howMuchSBX")}
                     </span>
                     <LightTooltip
-                      title="How much SBX you stake will determine how much sUSD you can borrow"
+                      title={t("stakingMint.howMuchSBXYouStake")}
                       arrow
                       placement="bottom-start"
                     >
@@ -163,7 +165,7 @@ const StakingMint = () => {
                         SBX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        Unstaked SBX : {formattedSBXAmount}
+                        {t("stakingMint.unstaked")} SBX : {formattedSBXAmount}
                       </div>
                     </div>
                   </div>
@@ -182,10 +184,10 @@ const StakingMint = () => {
                 <div className="flex flex-col gap-3">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-white sm:text-[16px] text-[14px] font-normal leading-[1em]">
-                      Borrowing
+                      {t("stakingMint.borrowing")}
                     </span>
                     <LightTooltip
-                      title="How much SBX you stake will determine how much sUSD you can borrow"
+                      title={t("stakingMint.howMuchSBXYouStake")}
                       arrow
                       placement="bottom-start"
                     >
@@ -211,14 +213,14 @@ const StakingMint = () => {
                         sUSD
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        sUSD Balance : 0.00
+                        sUSD {t("stakingMint.balance")} : 0.00
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="flex flex-row w-full justify-between items-center">
                   <span className="text-white text-[16px] font-normal leading-[1em]">
-                    Gas Price
+                    {t("stakingMint.gasPrice")}
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
@@ -239,7 +241,7 @@ const StakingMint = () => {
                         : "opacity-100 hover:scale-[1.02] active:scale-[0.95]"
                     }`}
                   >
-                    Mint
+                    {t("stakingMint.mint")}
                   </button>
                 </div>
               </div>
@@ -250,10 +252,10 @@ const StakingMint = () => {
                 className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full lg:border-r-0 border-r lg:rounded-l-xl rounded-l-none rounded-tr-xl lg:rounded-tr-none rounded-tl-xl bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
               >
                 <span className="text-white text-[16px] sm:font-bold font-semibold leading-[1em]">
-                  Staking Guide
+                  {t("stakingMint.stakingGuide")}
                 </span>
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                  Guide your through the processes
+                  {t("stakingMint.guideYour")}
                 </span>
               </Link>
               <Link
@@ -261,10 +263,10 @@ const StakingMint = () => {
                 className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full rounded-r-xl lg:rounded-tr-xl rounded-tr-none border-t-0 lg:border-t rounded-bl-xl lg:rounded-bl-none bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
               >
                 <span className="text-white text-[16px] sm:font-bold font-semibold leading-[1em]">
-                  Hedge Debt
+                  {t("stakingMint.hedgeDebt")}
                 </span>
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                  Buy dSBX to hedge
+                  {t("stakingMint.buydSBX")}
                 </span>
               </Link>
             </div>
@@ -276,7 +278,7 @@ const StakingMint = () => {
         >
           <Icon icon="iconamoon:arrow-left-1" className="text-white w-4 h-4" />
           <span className="text-[14px] leading-[1em] font-medium text-white">
-            Back
+            {t("common.back")}
           </span>
         </Link>
       </div>
