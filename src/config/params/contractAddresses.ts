@@ -1,7 +1,17 @@
-const SymbloxTokenCA = "0xBeAafa95D3a9EEd3DcDa18ddA6aB1c8f77D6C752";
-const PriceOracleCA = "0xBeAafa95D3a9EEd3DcDa18ddA6aB1c8f77D6C752";
-
-const MigrationCA = "0xBeAafa95D3a9EEd3DcDa18ddA6aB1c8f77D6C752";
+const GovernanceNFTCA = "0xe74AbFdc2369A5E42c117Aa394c07c820F1968D8";
+const MigrationCA = "0xab7182E145A217B30b535C7A6639e5219adDF45C";
+const SymbloxTokenCA = "0x79cBa2C5730F472A3fF56A8E8C0bc86967fE6B4D";
+const SYXCA = "0x2a9D38E9643f969029F73c4E5f91d8C54Ec04a18";
+const xUSDCA = "0x27eA20EB02D37f6b87A11d0729E8F5d2e541128B";
 const StakingCA = "0xBeAafa95D3a9EEd3DcDa18ddA6aB1c8f77D6C752";
+const PriceOracleCA = "0x8712F48E54e31afAA677D82A0DE91C7BeEf5c8e3";
 
-export { SymbloxTokenCA, PriceOracleCA, MigrationCA, StakingCA };
+export {
+  SymbloxTokenCA,
+  PriceOracleCA,
+  MigrationCA,
+  StakingCA,
+  xUSDCA,
+  GovernanceNFTCA,
+  SYXCA,
+};

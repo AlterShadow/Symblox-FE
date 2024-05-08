@@ -3,14 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import { useTranslation } from "react-i18next";
-
 import PrivacyModal from "../modal/privacy";
 
 const StakingBoard = () => {
   const { t } = useTranslation();
   const { isConnected } = useAccount();
-
-  console.log("Connect State:", isConnected);
 
   const navigate = useNavigate();
   const stakingHandler = () => {
