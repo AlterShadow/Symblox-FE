@@ -1,23 +1,56 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import { useAccount, useReadContracts, useWalletClient } from "wagmi";
-import { formatEther, parseEther } from "viem";
-import { SymbloxTokenCA } from "../../../config/params/contractAddresses";
-import SBXContractABI from "../../../config/abis/SymbloxABI.json";
-import PriceOracleABI from "../../../config/abis/PriceOracleABI.json";
-import StakingABI from "../../../config/abis/IStaking.json";
-import LightTooltip from "../../widgets/LightTooltip";
-import { onlyNumberRegex } from "../../../utils/formatter";
 
-const StakingMint = () => {
+import LightTooltip from "../../widgets/LightTooltip";
+
+import {
+  useAccount,
+  usePublicClient,
+  useReadContracts,
+  useWalletClient,
+  useWriteContract,
+} from "wagmi";
+import { formatEther, formatGwei, parseEther } from "viem";
+import {
+  MigrationCA,
+  SymbloxTokenCA,
+  SYXCA,
+} from "../../../config/params/contractAddresses";
+import {
+  SBXContractABI,
+  PriceOracleABI,
+  ERC20ABI,
+  MigrationABI,
+} from "../../../config/abis";
+
+import { onlyNumberRegex } from "../../../utils/formatter";
+import LoadingButton from "../../widgets/LoadingButton";
+
+const Migration = () => {
   const { address } = useAccount();
-  const [sbxAmount, setSBXAmount] = useState<number>(0);
-  const [sUSDAmount, setSUSDAmount] = useState<number>(0);
+  const [sbxAmount, setSBXAmount] = useState<string>("");
+  const [syxAmount, setSYXAmount] = useState<string>("");
+  const [migrateLoading, setMigrateLoading] = useState<boolean>(false);
+  const [releaseLoading, setReleaseLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const { writeContract } = useWriteContract();
+  const publicClient = usePublicClient();
   const { data: walletClient } = useWalletClient();
-  const StakingContract = {
-    address: "0xcd576F95E7a52662e1bD81A7B25923A172C23186",
-    abi: StakingABI,
+
+  // const StakingContract = {
+  //   address: "0xcd576F95E7a52662e1bD81A7B25923A172C23186",
+  //   abi: StakingABI,
+  // } as const;
+
+  const SYXContract = {
+    address: SYXCA,
+    abi: ERC20ABI,
+  } as const;
+
+  const MigrationContract = {
+    address: MigrationCA,
+    abi: MigrationABI,
   } as const;
 
   const SBXContract = {
@@ -33,8 +66,23 @@ const StakingMint = () => {
   const { data } = useReadContracts({
     contracts: [
       {
+        ...SYXContract,
+        functionName: "balanceOf",
+        args: [address],
+      },
+      {
         ...SBXContract,
         functionName: "balanceOf",
+        args: [address],
+      },
+      {
+        ...MigrationContract,
+        functionName: "owner",
+      },
+      { ...MigrationContract, functionName: "lockedBalances", args: [address] },
+      {
+        ...MigrationContract,
+        functionName: "getDaysLeftUntilRelease",
         args: [address],
       },
       {
@@ -44,49 +92,90 @@ const StakingMint = () => {
       },
     ],
   });
-  const formattedSBXAmount = data
+  const formattedSYXAmount = data
     ? parseFloat(formatEther(data?.[0].result as bigint))
     : 0;
+  const migrationOwner = data ? data?.[2].result : "";
+  const lockedBalance = data
+    ? parseFloat(formatEther(data?.[3].result as bigint))
+    : 0;
+  const RemaingLockindDays = data ? data?.[4].result : "";
 
-  const setSBXAmountHandler = (percent: number) => {
-    const newAmount = (formattedSBXAmount * percent) / 100;
-    setSBXAmount(newAmount);
+  const setSYXAmountHandler = (percent: number) => {
+    const newSYXAmount = (formattedSYXAmount * percent) / 100;
+    setSYXAmount(newSYXAmount.toString());
+
+    const newSBXAmount =
+      address === migrationOwner ? newSYXAmount : (newSYXAmount * 20) / 100;
+    setSBXAmount(newSBXAmount.toString());
   };
 
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    setState: React.Dispatch<React.SetStateAction<number>>
+  const handleSYXAmountChange = (
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (onlyNumberRegex.test(event.target.value)) {
-      setState(parseFloat(event.target.value));
+    const value = event.target.value;
+    if (onlyNumberRegex.test(value)) {
+      setSYXAmount(value);
+      if (address === migrationOwner) setSBXAmount(value);
+      else {
+        setSBXAmount(((Number(value) * 20) / 100).toString());
+      }
     }
   };
 
-  const MintHandler = () => {
-    console.log("SBX Amount:", parseEther(sbxAmount.toString()));
-    walletClient?.writeContract({
-      ...StakingContract,
-      functionName: "stake",
-      args: [parseEther(sbxAmount.toString())],
-    });
+  const MigrateHandler = async () => {
+    try {
+      if (!walletClient) return;
+      console.log("SYX Amount**********", syxAmount);
+      setMigrateLoading(true);
+      let hash;
+      hash = await walletClient.writeContract({
+        ...SYXContract,
+        functionName: "approve",
+        args: [MigrationCA, parseEther(syxAmount.toString())],
+      });
+      await publicClient?.waitForTransactionReceipt({ hash: hash! });
+      const allowance = (await publicClient?.readContract({
+        ...SYXContract,
+        functionName: "allowance",
+        args: [address, MigrationCA],
+      })) as bigint;
+
+      if (allowance >= parseEther(syxAmount.toString())) {
+        hash = await walletClient.writeContract({
+          ...MigrationContract,
+          functionName: "migrateToken",
+          args: [parseEther(syxAmount.toString())],
+        });
+
+        await publicClient?.waitForTransactionReceipt({ hash: hash! });
+      } else {
+        setError("Insufficient allowance");
+      }
+    } catch (error) {
+      setError("An error occurred during the migration process");
+      console.error(error);
+    } finally {
+      setMigrateLoading(false);
+    }
   };
 
-  const isDisabled = sbxAmount || sUSDAmount;
-
+  const isDisabled = syxAmount === "" || Number(syxAmount) === 0;
   return (
     <>
       <div className="relative pt-12 lg:pb-[112px] pb-8 sm: w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
           <div className="flex flex-col gap-4 items-center">
             <p className="lg:text-[24px] md:text-[22px] text-[20px] leading-[1em] font-medium text-white">
-              Stake SBX By Minting sUSD
+              Migrate SYX into SBX
             </p>
             <span className="max-w-[695px] text-center lg:text-[16px] text-[14px] font-normal leading-[1.1em] inline-block text-secondaryText">
-              Mint sUSD by staking your SBX. SBX stakers earn weekly staking
-              rewards in exchange for managing their Collateralization Ratio and
-              debt.&nbsp;
+              Migrate Your SYX token into SBX token. You will get 20% of new SBX
+              tokens right away. The remaining 80% of SBX tokens will be locked
+              for 6 months.&nbsp;
               <span className="text-white">
-                Your staked SBX will be locked for 7 days.
+                You'll be able to access 13.33% of the locked tokens each month
+                after 6 month lock-up period.
               </span>
             </span>
           </div>
@@ -102,7 +191,7 @@ const StakingMint = () => {
                       EPOCH
                     </span>
                     <LightTooltip
-                      title="Time to next EPOCH"
+                      title="The Days Left Until Locked Up"
                       arrow
                       placement="right"
                     >
@@ -115,7 +204,7 @@ const StakingMint = () => {
                     </LightTooltip>
                   </span>
                   <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-white">
-                    02D 20H 42M
+                    0
                   </span>
                 </div>
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-end">
@@ -136,7 +225,7 @@ const StakingMint = () => {
                 <div className="gap-3 flex flex-col w-full">
                   <div className="flex flex-row gap-1 items-center">
                     <span className="text-white lg:text-[16px] text-[14px] font-normal leading-[1em]">
-                      How much SBX do you want to stake?
+                      How much SYX do you want to swap?
                     </span>
                     <LightTooltip
                       title="How much SBX you stake will determine how much sUSD you can borrow"
@@ -153,17 +242,17 @@ const StakingMint = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="number"
-                      value={sbxAmount || ""}
-                      onChange={(e) => handleInputChange(e, setSBXAmount)}
+                      value={syxAmount}
+                      onChange={handleSYXAmountChange}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar"
-                      placeholder="Enter Amount"
+                      placeholder={sbxAmount ? "" : "Enter Amount"}
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
                       <div className="text-white text-[14px] leading-[1em] font-bold text-right">
-                        SBX
+                        SYX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        Unstaked SBX : {formattedSBXAmount}
+                        Available SYX : {formattedSYXAmount}
                       </div>
                     </div>
                   </div>
@@ -171,7 +260,7 @@ const StakingMint = () => {
                     {[25, 50, 75, 100].map((percentage) => (
                       <button
                         key={percentage}
-                        onClick={() => setSBXAmountHandler(percentage)}
+                        onClick={() => setSYXAmountHandler(percentage)}
                         className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
                       >
                         {percentage}%
@@ -182,10 +271,10 @@ const StakingMint = () => {
                 <div className="flex flex-col gap-3">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-white sm:text-[16px] text-[14px] font-normal leading-[1em]">
-                      Borrowing
+                      Amount of SBX You can get
                     </span>
                     <LightTooltip
-                      title="How much SBX you stake will determine how much sUSD you can borrow"
+                      title="How much SBX will you get from migration"
                       arrow
                       placement="bottom-start"
                     >
@@ -200,18 +289,18 @@ const StakingMint = () => {
                   </span>
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
+                      readOnly
                       type="number"
-                      value={sUSDAmount || ""}
-                      onChange={(e) => handleInputChange(e, setSUSDAmount)}
+                      value={sbxAmount}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary"
-                      placeholder="Enter Amount"
+                      placeholder={sbxAmount ? "" : "Enter Amount"}
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
                       <div className="text-white text-[14px] leading-[1em] font-bold text-right">
-                        sUSD
+                        SBX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        sUSD Balance : 0.00
+                        Locked SBX : {lockedBalance}
                       </div>
                     </div>
                   </div>
@@ -229,18 +318,38 @@ const StakingMint = () => {
                     </span>
                   </div>
                 </div>
-                <div className="flex justify-center">
-                  <button
-                    disabled={!isDisabled}
-                    onClick={MintHandler}
-                    className={`rounded-[60px] bg-primaryButtonColor w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
-                      !isDisabled
-                        ? "opacity-50 hover:opacity-100 active:scale-[0.95]"
-                        : "opacity-100 hover:scale-[1.02] active:scale-[0.95]"
-                    }`}
-                  >
-                    Mint
-                  </button>
+                <div className="flex flex-col sm:flex-row justify-evenly items-center gap-5">
+                  {migrateLoading ? (
+                    <LoadingButton />
+                  ) : (
+                    <button
+                      disabled={isDisabled}
+                      onClick={MigrateHandler}
+                      className={`rounded-[60px] bg-primaryButtonColor w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
+                        isDisabled
+                          ? "opacity-50 hover:cursor-not-allowed"
+                          : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
+                      }`}
+                    >
+                      Migrate
+                    </button>
+                  )}
+
+                  {releaseLoading ? (
+                    <LoadingButton />
+                  ) : (
+                    <button
+                      disabled={isDisabled}
+                      onClick={MigrateHandler}
+                      className={`rounded-[60px] bg-[#4C80C2] w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
+                        isDisabled
+                          ? "opacity-50 hover:cursor-not-allowed"
+                          : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
+                      }`}
+                    >
+                      Release
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -284,4 +393,4 @@ const StakingMint = () => {
   );
 };
 
-export default StakingMint;
+export default Migration;

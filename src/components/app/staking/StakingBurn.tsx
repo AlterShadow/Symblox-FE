@@ -1,36 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { styled } from "@mui/material/styles";
 import { Icon } from "@iconify/react";
+import LightTooltip from "../../widgets/LightTooltip";
 import { useAccount, useReadContracts, useWalletClient } from "wagmi";
 import { formatEther, parseEther } from "viem";
-import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import SBXContractABI from "../../../config/abis/SymbloxABI.json";
 import PriceOracleABI from "../../../config/abis/PriceOracleABI.json";
 import StakingABI from "../../../config/abis/IStaking.json";
 import { SymbloxTokenCA } from "../../../config/params/contractAddresses";
-
-const regex = /^$|^[0-9]+(\.[0-9]*)?$/;
-
-const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    maxWidth: 274,
-    backgroundColor: "#283C50",
-    color: "#fff",
-    boxShadow: theme.shadows[1],
-    fontSize: 14,
-    fontWeight: "400",
-    fontFamily: "Barlow ,sans-serif",
-    padding: "10px",
-    borderRadius: "8px",
-    lineHeight: "1em",
-  },
-  [`& .${tooltipClasses.arrow}::before`]: {
-    backgroundColor: "#283C50",
-  },
-}));
+import { onlyNumberRegex } from "../../../utils/formatter";
 
 const StakingBurn = () => {
   const { address } = useAccount();
@@ -75,7 +53,7 @@ const StakingBurn = () => {
     event: React.ChangeEvent<HTMLInputElement>,
     setState: React.Dispatch<React.SetStateAction<number>>
   ) => {
-    if (regex.test(event.target.value)) {
+    if (onlyNumberRegex.test(event.target.value)) {
       setState(parseFloat(event.target.value));
     }
   };

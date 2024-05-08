@@ -2,13 +2,10 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
-
 import PrivacyModal from "../modal/privacy";
 
 const StakingBoard = () => {
   const { isConnected } = useAccount();
-
-  console.log("Connect State:", isConnected);
 
   const navigate = useNavigate();
   const stakingHandler = () => {
