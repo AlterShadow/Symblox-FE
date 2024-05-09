@@ -233,7 +233,7 @@ const StakingMint = () => {
                   <button
                     disabled={!isDisabled}
                     onClick={MintHandler}
-                    className={`rounded-[60px] bg-primaryButtonColor w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
+                    className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
                       !isDisabled
                         ? "opacity-50 hover:opacity-100 active:scale-[0.95]"
                         : "opacity-100 hover:scale-[1.02] active:scale-[0.95]"
@@ -272,7 +272,7 @@ const StakingMint = () => {
         </div>
         <Link
           to="/staking"
-          className="absolute top-0 left-5 lg:hidden flex flex-row gap-2 items-center"
+          className="absolute top-0 left-5 lg:hidden flex flex-row gap-2 items-center mt-5 sm:mt-0"
         >
           <Icon icon="iconamoon:arrow-left-1" className="text-white w-4 h-4" />
           <span className="text-[14px] leading-[1em] font-medium text-white">

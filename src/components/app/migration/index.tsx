@@ -7,10 +7,9 @@ import {
   useAccount,
   usePublicClient,
   useReadContracts,
-  useWalletClient,
   useWriteContract,
 } from "wagmi";
-import { formatEther, formatGwei, parseEther } from "viem";
+import { formatEther, parseEther } from "viem";
 import {
   MigrationCA,
   SymbloxTokenCA,
@@ -25,7 +24,6 @@ import {
 
 import { onlyNumberRegex } from "../../../utils/formatter";
 import LoadingButton from "../../widgets/LoadingButton";
-import { useControlled } from "@mui/material";
 
 const Migration = () => {
   const { address } = useAccount();
@@ -37,7 +35,6 @@ const Migration = () => {
   const [error, setError] = useState<string | null>(null);
   const { writeContractAsync } = useWriteContract();
   const publicClient = usePublicClient();
-  const { data: walletClient } = useWalletClient();
 
   // const StakingContract = {
   //   address: "0xcd576F95E7a52662e1bD81A7B25923A172C23186",
@@ -188,7 +185,6 @@ const Migration = () => {
   };
   useEffect(() => {
     const futureDate = new Date(Date.now() + Number(remainingTime) * 1000);
-    console.log("TIMEDATE:", futureDate);
     setEpochDate(futureDate);
   }, []);
 
@@ -198,7 +194,7 @@ const Migration = () => {
   return (
     <>
       <div className="relative pt-12 lg:pb-[112px] pb-8 sm: w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
-        <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
+        <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[48px] items-center">
           <div className="flex flex-col gap-4 items-center">
             <p className="lg:text-[24px] md:text-[22px] text-[20px] leading-[1em] font-medium text-white">
               Migrate SYX into SBX
@@ -361,7 +357,7 @@ const Migration = () => {
                     <button
                       disabled={isDisabled}
                       onClick={MigrateHandler}
-                      className={`rounded-[60px] bg-primaryButtonColor w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
+                      className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
                         isDisabled
                           ? "opacity-50 hover:cursor-not-allowed"
                           : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
@@ -377,7 +373,7 @@ const Migration = () => {
                     <button
                       disabled={releaseButtonState}
                       onClick={ReleaseHandler}
-                      className={`rounded-[60px] bg-[#4C80C2] w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
+                      className={`rounded-[60px] bg-[#4C80C2] w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
                         releaseButtonState
                           ? "opacity-50 hover:cursor-not-allowed"
                           : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
@@ -389,35 +385,11 @@ const Migration = () => {
                 </div>
               </div>
             </div>
-            <div className="w-full flex lg:flex-row flex-col">
-              <Link
-                to="/guide/staking"
-                className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full lg:border-r-0 border-r lg:rounded-l-xl rounded-l-none rounded-tr-xl lg:rounded-tr-none rounded-tl-xl bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
-              >
-                <span className="text-white text-[16px] sm:font-bold font-semibold leading-[1em]">
-                  Staking Guide
-                </span>
-                <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                  Guide your through the processes
-                </span>
-              </Link>
-              <Link
-                to="/guide/debt"
-                className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full rounded-r-xl lg:rounded-tr-xl rounded-tr-none border-t-0 lg:border-t rounded-bl-xl lg:rounded-bl-none bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
-              >
-                <span className="text-white text-[16px] sm:font-bold font-semibold leading-[1em]">
-                  Hedge Debt
-                </span>
-                <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                  Buy dSBX to hedge
-                </span>
-              </Link>
-            </div>
           </div>
         </div>
         <Link
           to="/staking"
-          className="absolute top-0 left-5 lg:hidden flex flex-row gap-2 items-center"
+          className="absolute top-0 left-5 lg:hidden flex flex-row gap-2 items-center mt-5 sm:mt-0"
         >
           <Icon icon="iconamoon:arrow-left-1" className="text-white w-4 h-4" />
           <span className="text-[14px] leading-[1em] font-medium text-white">
