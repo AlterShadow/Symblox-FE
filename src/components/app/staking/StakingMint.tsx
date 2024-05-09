@@ -11,8 +11,6 @@ import LightTooltip from "../../widgets/LightTooltip";
 import { onlyNumberRegex } from "../../../utils/formatter";
 import { useTranslation } from "react-i18next";
 
-const regex = /^$|^[0-9]+(\.[0-9]*)?$/;
-
 const StakingMint = () => {
   const { t } = useTranslation();
   const { address } = useAccount();
