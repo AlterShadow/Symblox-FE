@@ -7,7 +7,7 @@ const LoadingButton: React.FC<LoadingButtonProps> = ({ bgColor }) => {
     <>
       <button
         style={{ backgroundColor: bgColor }}
-        className={`rounded-[60px] w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] items-center flex flex-row ${"opacity-100 hover:scale-[1.02] active:scale-[0.95]"}`}
+        className={`rounded-[60px] w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] items-center flex flex-row ${"opacity-100 hover:scale-[1.02] active:scale-[0.95]"}`}
       >
         <div role="status">
           <svg

@@ -17,7 +17,37 @@ const StakingBoard = () => {
     <>
       <div className="pt-[55px] pb-8 w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-11">
-          <div className="flex lg:flex-row justify-between items-center flex-col lg:gap-6 gap-4">
+          <div className="w-full flex">
+            <div className="w-full flex flex-row">
+              <div className="w-full h-full flex flex-col flex-[1_0_0] items-start justify-between gap-4 bg-primaryBoxColor py-[34px] pl-6 pr-10 rounded-xl">
+                <div className="relative flex flex-col gap-3 pr-12 items-start self-stretch">
+                  <div className="absolute right-0 top-0 lg:right-3">
+                    <img
+                      src="/assets/Image/Perpetual/Perpetual1.svg"
+                      alt="migrationImg"
+                      className="w-full h-full lg:w-[160px]"
+                    />
+                  </div>
+                  <p className="text-white lg:text-[14px] text-[12px] font-normal leading-[1em]">
+                    Core Step
+                  </p>
+                  <p className="text-white lg:text-[22px] text-[20px] font-bold leading-[1em]">
+                    Migrate SYX into SBX
+                  </p>
+                  <p className="text-white lg:text-[16px] text-[14px] font-normal leading-[1em]">
+                    Migrate SYX into SBX to get SBX more for staking.
+                  </p>
+                </div>
+                <Link
+                  to="/staking/migration"
+                  className="h-10 py-[18px] px-8 lg:px-6 flex items-center mt-8 gap-[10px] rounded-[60px] bg-[#4C80C2] text-white text-[16px] font-bold leading-[16px] min-w-[190px] text-center justify-center hover:scale-[1.02]"
+                >
+                  Migration
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className="w-full flex flex-col lg:flex-row justify-between items-center lg:gap-6 gap-4">
             <div className="flex flex-col lg:h-[268px] h-full gap-4 flex-[1_0_0] bg-primaryBoxColor py-[34px] px-6 rounded-2xl items-start justify-between w-full">
               <div className="flex flex-col gap-3 pr-12 items-start self-stretch relative">
                 <div className="absolute right-0 top-0">
