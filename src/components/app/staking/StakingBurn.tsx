@@ -11,8 +11,6 @@ import { SymbloxTokenCA } from "../../../config/params/contractAddresses";
 import { onlyNumberRegex } from "../../../utils/formatter";
 import { useTranslation } from "react-i18next";
 
-const regex = /^$|^[0-9]+(\.[0-9]*)?$/;
-
 const StakingBurn = () => {
   const { t } = useTranslation();
   const { address } = useAccount();

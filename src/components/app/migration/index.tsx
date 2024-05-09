@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Countdown from "react-countdown";
 import { Icon } from "@iconify/react";
-
 import LightTooltip from "../../widgets/LightTooltip";
-
 import {
   useAccount,
   usePublicClient,
@@ -26,15 +25,17 @@ import {
 
 import { onlyNumberRegex } from "../../../utils/formatter";
 import LoadingButton from "../../widgets/LoadingButton";
+import { useControlled } from "@mui/material";
 
 const Migration = () => {
   const { address } = useAccount();
   const [sbxAmount, setSBXAmount] = useState<string>("");
   const [syxAmount, setSYXAmount] = useState<string>("");
+  const [epochDate, setEpochDate] = useState<Date | null>(null);
   const [migrateLoading, setMigrateLoading] = useState<boolean>(false);
   const [releaseLoading, setReleaseLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const { writeContract } = useWriteContract();
+  const { writeContractAsync } = useWriteContract();
   const publicClient = usePublicClient();
   const { data: walletClient } = useWalletClient();
 
@@ -99,7 +100,10 @@ const Migration = () => {
   const lockedBalance = data
     ? parseFloat(formatEther(data?.[3].result as bigint))
     : 0;
-  const RemaingLockindDays = data ? data?.[4].result : "";
+
+  const remainingTime = data ? (data?.[4].result as bigint) : 0n;
+
+  console.log("Remaining Time:", data?.[4].result as bigint);
 
   const setSYXAmountHandler = (percent: number) => {
     const newSYXAmount = (formattedSYXAmount * percent) / 100;
@@ -125,24 +129,33 @@ const Migration = () => {
 
   const MigrateHandler = async () => {
     try {
-      if (!walletClient) return;
-      console.log("SYX Amount**********", syxAmount);
       setMigrateLoading(true);
+
       let hash;
-      hash = await walletClient.writeContract({
+
+      let allowance = (await publicClient?.readContract({
         ...SYXContract,
-        functionName: "approve",
-        args: [MigrationCA, parseEther(syxAmount.toString())],
-      });
-      await publicClient?.waitForTransactionReceipt({ hash: hash! });
-      const allowance = (await publicClient?.readContract({
+        functionName: "allowance",
+        args: [address, MigrationCA],
+      })) as bigint;
+
+      if (allowance < parseEther(syxAmount.toString())) {
+        hash = await writeContractAsync({
+          ...SYXContract,
+          functionName: "approve",
+          args: [MigrationCA, parseEther(syxAmount.toString())],
+        });
+        await publicClient?.waitForTransactionReceipt({ hash: hash! });
+      }
+
+      allowance = (await publicClient?.readContract({
         ...SYXContract,
         functionName: "allowance",
         args: [address, MigrationCA],
       })) as bigint;
 
       if (allowance >= parseEther(syxAmount.toString())) {
-        hash = await walletClient.writeContract({
+        hash = await writeContractAsync({
           ...MigrationContract,
           functionName: "migrateToken",
           args: [parseEther(syxAmount.toString())],
@@ -159,8 +172,29 @@ const Migration = () => {
       setMigrateLoading(false);
     }
   };
+  const ReleaseHandler = async () => {
+    try {
+      setReleaseLoading(true);
+      await writeContractAsync({
+        ...MigrationContract,
+        functionName: "releaseLockedTokens",
+      });
+    } catch (error) {
+      setError("An error occured during the release process");
+      console.error(error);
+    } finally {
+      setReleaseLoading(false);
+    }
+  };
+  useEffect(() => {
+    const futureDate = new Date(Date.now() + Number(remainingTime) * 1000);
+    console.log("TIMEDATE:", futureDate);
+    setEpochDate(futureDate);
+  }, []);
 
   const isDisabled = syxAmount === "" || Number(syxAmount) === 0;
+  const releaseButtonState: boolean = lockedBalance === 0;
+
   return (
     <>
       <div className="relative pt-12 lg:pb-[112px] pb-8 sm: w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
@@ -204,17 +238,19 @@ const Migration = () => {
                     </LightTooltip>
                   </span>
                   <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-white">
-                    0
-                  </span>
-                </div>
-                <div className="flex flex-col gap-2 flex-[1_0_0] items-end">
-                  <span className="flex flex-row gap-1 items-center">
-                    <span className="text-secondaryText lg:text-[14px] text-[12px] font-semibold leading-[1em]">
-                      SBX PRICE
-                    </span>
-                  </span>
-                  <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
-                    $4.16
+                    {remainingTime > 0n && (
+                      <Countdown
+                        autoStart
+                        date={
+                          new Date(Date.now() + Number(remainingTime) * 1000)
+                        }
+                        renderer={({ hours, minutes, seconds }) => (
+                          <span>
+                            {hours}:{minutes}:{seconds}
+                          </span>
+                        )}
+                      />
+                    )}
                   </span>
                 </div>
               </div>
@@ -320,7 +356,7 @@ const Migration = () => {
                 </div>
                 <div className="flex flex-col sm:flex-row justify-evenly items-center gap-5">
                   {migrateLoading ? (
-                    <LoadingButton />
+                    <LoadingButton bgColor="#EE2D82" />
                   ) : (
                     <button
                       disabled={isDisabled}
@@ -336,13 +372,13 @@ const Migration = () => {
                   )}
 
                   {releaseLoading ? (
-                    <LoadingButton />
+                    <LoadingButton bgColor="#4C80C2" />
                   ) : (
                     <button
-                      disabled={isDisabled}
-                      onClick={MigrateHandler}
+                      disabled={releaseButtonState}
+                      onClick={ReleaseHandler}
                       className={`rounded-[60px] bg-[#4C80C2] w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
-                        isDisabled
+                        releaseButtonState
                           ? "opacity-50 hover:cursor-not-allowed"
                           : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
                       }`}
