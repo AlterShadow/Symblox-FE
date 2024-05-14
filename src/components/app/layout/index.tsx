@@ -5,8 +5,7 @@ import StakingMint from "../staking/StakingMint";
 import StakingBurn from "../staking/StakingBurn";
 import AppHeader from "../header";
 import Footer from "../../footer";
-import PrivacyModal from "../modal/privacy";
-import Migration from "../migration";
+import StakingEarn from "../staking/StakingEarn";
 
 const AppLayout = () => {
   return (
@@ -17,8 +16,7 @@ const AppLayout = () => {
           <Route path="/*" element={<StakingBoard />} />
           <Route path="/mint" element={<StakingMint />} />
           <Route path="/burn" element={<StakingBurn />} />
-          <Route path="/modal" element={<PrivacyModal />} />
-          <Route path="/migration" element={<Migration />} />
+          <Route path="/earn" element={<StakingEarn />} />
         </Routes>
       </div>
       <Footer />

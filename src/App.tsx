@@ -18,6 +18,8 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "./App.css";
 import Perpetual from "./components/perpetual";
 import Governance from "./components/governance";
+import AppHeader from "./components/app/header";
+import Migration from "./components/app/migration";
 
 const config = getDefaultConfig({
   appName: "Symblox",
@@ -75,6 +77,16 @@ function App() {
                 }
               />
               <Route path="/staking/*" element={<AppLayout />} />
+              <Route
+                path="/migration"
+                element={
+                  <>
+                    <AppHeader />
+                    <Migration />
+                    <Footer />
+                  </>
+                }
+              />
             </Routes>
           </Router>
         </RainbowKitProvider>
