@@ -10,9 +10,19 @@ const StakingBoard = () => {
   const { isConnected } = useAccount();
 
   const navigate = useNavigate();
+
   const stakingHandler = () => {
     navigate("/staking/mint");
   };
+
+  const ratiohandler = () => {
+    navigate("/staking/burn");
+  };
+
+  const rewardButtonHandler = () => {
+    navigate("/staking/earn");
+  };
+
   return (
     <>
       <div className="pt-[55px] pb-8 w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
@@ -39,7 +49,7 @@ const StakingBoard = () => {
                   </p>
                 </div>
                 <Link
-                  to="/staking/migration"
+                  to="/migration"
                   className="h-10 py-[18px] px-8 lg:px-6 flex items-center mt-8 gap-[10px] rounded-[60px] bg-[#4C80C2] text-white text-[16px] font-bold leading-[16px] min-w-[190px] text-center justify-center hover:scale-[1.02]"
                 >
                   Migration
@@ -105,6 +115,7 @@ const StakingBoard = () => {
               </div>
               <button
                 disabled={!isConnected}
+                onClick={ratiohandler}
                 className="h-10 py-[18px] flex justify-center items-center gap-[10px] rounded-[60px] text-white text-[16px] font-bold leading-[16px] border border-white min-w-[190px] hover:scale-[1.02]"
               >
                 {t("stakingBoard.cRatioExplained")}
@@ -134,6 +145,7 @@ const StakingBoard = () => {
                 </p>
               </div>
               <button
+                onClick={rewardButtonHandler}
                 disabled={!isConnected}
                 className="h-10 py-[18px] flex justify-center items-center gap-[10px] rounded-[60px] text-white text-[16px] font-bold leading-[16px] border border-white min-w-[190px] hover:scale-[1.02]"
               >

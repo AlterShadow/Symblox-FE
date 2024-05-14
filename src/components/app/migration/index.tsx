@@ -77,11 +77,14 @@ const Migration = () => {
         ...MigrationContract,
         functionName: "owner",
       },
-      { ...MigrationContract, functionName: "lockedBalances", args: [address] },
       {
         ...MigrationContract,
-        functionName: "getDaysLeftUntilRelease",
+        functionName: "lockedAmount",
         args: [address],
+      },
+      {
+        ...MigrationContract,
+        functionName: "getClaimableAmount",
       },
       {
         ...PriceOracleContract,
@@ -98,9 +101,9 @@ const Migration = () => {
     ? parseFloat(formatEther(data?.[3].result as bigint))
     : 0;
 
-  const remainingTime = data ? (data?.[4].result as bigint) : 0n;
-
-  console.log("Remaining Time:", data?.[4].result as bigint);
+  const claimableAmount = data
+    ? parseFloat(formatEther(data?.[4].result as bigint))
+    : 0;
 
   const setSYXAmountHandler = (percent: number) => {
     const newSYXAmount = (formattedSYXAmount * percent) / 100;
@@ -154,7 +157,7 @@ const Migration = () => {
       if (allowance >= parseEther(syxAmount.toString())) {
         hash = await writeContractAsync({
           ...MigrationContract,
-          functionName: "migrateToken",
+          functionName: "migrate",
           args: [parseEther(syxAmount.toString())],
         });
 
@@ -174,7 +177,7 @@ const Migration = () => {
       setReleaseLoading(true);
       await writeContractAsync({
         ...MigrationContract,
-        functionName: "releaseLockedTokens",
+        functionName: "claim",
       });
     } catch (error) {
       setError("An error occured during the release process");
@@ -183,17 +186,13 @@ const Migration = () => {
       setReleaseLoading(false);
     }
   };
-  useEffect(() => {
-    const futureDate = new Date(Date.now() + Number(remainingTime) * 1000);
-    setEpochDate(futureDate);
-  }, []);
 
   const isDisabled = syxAmount === "" || Number(syxAmount) === 0;
   const releaseButtonState: boolean = lockedBalance === 0;
 
   return (
     <>
-      <div className="relative pt-12 lg:pb-[112px] pb-8 sm: w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
+      <div className="relative pt-[138px] lg:pb-[112px] pb-8 sm: w-full font-Barlow px-5 md:px-10 lg:px-5">
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[48px] items-center">
           <div className="flex flex-col gap-4 items-center">
             <p className="lg:text-[24px] md:text-[22px] text-[20px] leading-[1em] font-medium text-white">
@@ -218,10 +217,10 @@ const Migration = () => {
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-start">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-secondaryText lg:text-[14px] text-[12px] font-semibold leading-[1em]">
-                      EPOCH
+                      Claimable Amount
                     </span>
                     <LightTooltip
-                      title="The Days Left Until Locked Up"
+                      title="Amount You can get at Next Claim"
                       arrow
                       placement="right"
                     >
@@ -234,19 +233,7 @@ const Migration = () => {
                     </LightTooltip>
                   </span>
                   <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-white">
-                    {remainingTime > 0n && (
-                      <Countdown
-                        autoStart
-                        date={
-                          new Date(Date.now() + Number(remainingTime) * 1000)
-                        }
-                        renderer={({ hours, minutes, seconds }) => (
-                          <span>
-                            {hours}:{minutes}:{seconds}
-                          </span>
-                        )}
-                      />
-                    )}
+                    {claimableAmount}
                   </span>
                 </div>
               </div>
@@ -379,7 +366,7 @@ const Migration = () => {
                           : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
                       }`}
                     >
-                      Release
+                      Claim
                     </button>
                   )}
                 </div>
