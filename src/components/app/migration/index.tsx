@@ -96,6 +96,9 @@ const Migration = () => {
   const formattedSYXAmount = data
     ? parseFloat(formatEther(data?.[0].result as bigint))
     : 0;
+  const formattedSBXAmount = data
+    ? parseFloat(formatEther(data?.[1].result as bigint))
+    : 0;
   const migrationOwner = data ? data?.[2].result : "";
   const lockedBalance = data
     ? parseFloat(formatEther(data?.[3].result as bigint))
@@ -188,7 +191,7 @@ const Migration = () => {
   };
 
   const isDisabled = syxAmount === "" || Number(syxAmount) === 0;
-  const releaseButtonState: boolean = lockedBalance === 0;
+  const releaseButtonState: boolean = claimableAmount === 0;
 
   return (
     <>
@@ -316,7 +319,7 @@ const Migration = () => {
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
                       <div className="text-white text-[14px] leading-[1em] font-bold text-right">
-                        SBX
+                        {formattedSBXAmount}&nbsp; SBX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
                         Locked SBX : {lockedBalance}
