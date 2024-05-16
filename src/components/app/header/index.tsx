@@ -7,8 +7,6 @@ const AppHeader = () => {
   const { t } = useTranslation();
   const { address } = useAccount();
 
-  console.log("ADDDDDDDRESSSSSSS:", address);
-
   return (
     <>
       <div className="fixed z-50 w-full font-Barlow border-b border-[rgba(255,255,255,0.2)] px-5 sm:px-5 md:px-10">

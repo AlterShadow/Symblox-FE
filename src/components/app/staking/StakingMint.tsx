@@ -3,10 +3,14 @@ import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { useAccount, useReadContracts, useWalletClient } from "wagmi";
 import { formatEther, parseEther } from "viem";
-import { SymbloxTokenCA } from "../../../config/params/contractAddresses";
+import {
+  PriceOracleCA,
+  StakingCA,
+  SymbloxTokenCA,
+} from "../../../config/params/contractAddresses";
 import SBXContractABI from "../../../config/abis/SymbloxABI.json";
 import PriceOracleABI from "../../../config/abis/PriceOracleABI.json";
-import StakingABI from "../../../config/abis/IStaking.json";
+import StakingABI from "../../../config/abis/StakingABI.json";
 import LightTooltip from "../../widgets/LightTooltip";
 import { onlyNumberRegex } from "../../../utils/formatter";
 import { useTranslation } from "react-i18next";
@@ -18,7 +22,7 @@ const StakingMint = () => {
   const [sUSDAmount, setSUSDAmount] = useState<number>(0);
   const { data: walletClient } = useWalletClient();
   const StakingContract = {
-    address: "0xcd576F95E7a52662e1bD81A7B25923A172C23186",
+    address: StakingCA,
     abi: StakingABI,
   } as const;
 
@@ -28,7 +32,7 @@ const StakingMint = () => {
   } as const;
 
   const PriceOracleContract = {
-    address: "0xd8BEFC60fd1F1b799357791f5ff7814679f264F1",
+    address: PriceOracleCA,
     abi: PriceOracleABI,
   } as const;
 
@@ -65,7 +69,6 @@ const StakingMint = () => {
   };
 
   const MintHandler = () => {
-    console.log("SBX Amount:", parseEther(sbxAmount.toString()));
     walletClient?.writeContract({
       ...StakingContract,
       functionName: "stake",

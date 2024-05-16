@@ -20,6 +20,7 @@ import Perpetual from "./components/perpetual";
 import Governance from "./components/governance";
 import AppHeader from "./components/app/header";
 import Migration from "./components/app/migration";
+import Escrow from "./components/app/escrow";
 
 const config = getDefaultConfig({
   appName: "Symblox",
@@ -83,6 +84,16 @@ function App() {
                   <>
                     <AppHeader />
                     <Migration />
+                    <Footer />
+                  </>
+                }
+              />
+              <Route
+                path="/escrow"
+                element={
+                  <>
+                    <AppHeader />
+                    <Escrow />
                     <Footer />
                   </>
                 }

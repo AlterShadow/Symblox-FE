@@ -6,8 +6,12 @@ import { useAccount, useReadContracts, useWalletClient } from "wagmi";
 import { formatEther, parseEther } from "viem";
 import SBXContractABI from "../../../config/abis/SymbloxABI.json";
 import PriceOracleABI from "../../../config/abis/PriceOracleABI.json";
-import StakingABI from "../../../config/abis/IStaking.json";
-import { SymbloxTokenCA } from "../../../config/params/contractAddresses";
+import StakingABI from "../../../config/abis/StakingABI.json";
+import {
+  PriceOracleCA,
+  StakingCA,
+  SymbloxTokenCA,
+} from "../../../config/params/contractAddresses";
 import { onlyNumberRegex } from "../../../utils/formatter";
 import { useTranslation } from "react-i18next";
 
@@ -18,7 +22,7 @@ const StakingBurn = () => {
   const [sUSDAmount, setSUSDAmount] = useState<number>(0);
   const { data: walletClient } = useWalletClient();
   const StakingContract = {
-    address: "0x2CC278b0137A8E0de188D2839Be3c47082136EFc",
+    address: StakingCA,
     abi: StakingABI,
   } as const;
 
@@ -28,7 +32,7 @@ const StakingBurn = () => {
   } as const;
 
   const PriceOracleContract = {
-    address: "0xd8BEFC60fd1F1b799357791f5ff7814679f264F1",
+    address: PriceOracleCA,
     abi: PriceOracleABI,
   } as const;
 

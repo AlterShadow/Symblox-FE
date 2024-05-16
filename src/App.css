@@ -124,3 +124,47 @@ input::-webkit-inner-spin-button {
   border: none !important;
   padding: 0 12px;
 }
+
+.text-shadow {
+  text-shadow: rgb(65, 199, 157) 0px 0px 4px, rgb(65, 199, 157) 0px 0px 4px,
+    rgb(65, 199, 157) 0px 0px 4px, rgb(65, 199, 157) 0px 0px 4px,
+    rgb(65, 199, 157) 0px 0px 4px, rgb(65, 199, 157) 0px 0px 4px;
+  color: rgb(7, 49, 36);
+}
+
+/* index.css */
+
+/* Tab styles */
+.tab-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Adjust as needed */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add slight black shadow */
+}
+
+.tab-button {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  height: 60px;
+  color: white;
+  font-weight: bold;
+  outline: none;
+}
+
+.tab-button:first-child {
+  border-top: 2px solid #00d1ff; /* Set border color for first tab */
+}
+
+.tab-button:last-child {
+  border-top: 2px solid orange; /* Set border color for second tab */
+}
+
+.tab-button:hover {
+  cursor: pointer;
+}
+
+/* Adjustments for active state */
+.tab-button.active {
+  border-bottom: 3px solid #00d1ff; /* Set border color for active tab */
+}
