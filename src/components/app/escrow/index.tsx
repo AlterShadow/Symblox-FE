@@ -67,7 +67,11 @@ const Escrow = () => {
                 <div className="mt-4 text-white">
                   <div className="flex flex-col pt-10 items-center justify-center gap-2">
                     <div>
-                      {/* <img src={Image} className="rounded-full" alt="" /> */}
+                      <img
+                        src="/favicon.svg"
+                        className="rounded-full w-10 h-10"
+                        alt=""
+                      />
                     </div>
                     <h2 className="text-[24px] text-white font-bold">
                       0.00 SBX
