@@ -1,6 +1,6 @@
 import SBXContractABI from "./SymbloxABI.json";
 import PriceOracleABI from "./PriceOracleABI.json";
-import StakingABI from "./IStaking.json";
+import StakingABI from "./StakingABI.json";
 import GovernaceNFTABI from "./GovernanceNFTABI.json";
 import sUSDABI from "./sUSDABI.json";
 import MigrationABI from "./MigrationABI.json";

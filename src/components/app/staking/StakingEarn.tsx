@@ -2,15 +2,17 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { useAccount, useReadContracts, useWalletClient } from "wagmi";
-import { formatEther, parseEther } from "viem";
-import { SymbloxTokenCA } from "../../../config/params/contractAddresses";
+import { formatEther } from "viem";
 import SBXContractABI from "../../../config/abis/SymbloxABI.json";
 import PriceOracleABI from "../../../config/abis/PriceOracleABI.json";
-import StakingABI from "../../../config/abis/IStaking.json";
-import LightTooltip from "../../widgets/LightTooltip";
+import StakingABI from "../../../config/abis/StakingABI.json";
 import { LinearProgress, LinearProgressProps } from "@mui/material";
-import { onlyNumberRegex } from "../../../utils/formatter";
 import { useTranslation } from "react-i18next";
+import {
+  StakingCA,
+  SymbloxTokenCA,
+} from "../../../config/params/contractAddresses";
+import { timeFormatter } from "../../../utils/timeFormatter";
 
 interface ProgressBarProps extends LinearProgressProps {
   totalTimeStamp: number;
@@ -32,7 +34,7 @@ const RewardProgressBar: React.FC<ProgressBarProps> = ({
   );
 };
 
-const RewardItem = () => {
+const RewardItem = (remainingTime: any) => {
   return (
     <>
       <div className="w-full flex flex-row">
@@ -68,7 +70,7 @@ const RewardItem = () => {
               Time Remaining
             </span>
             <span className="text-[#47FAC2] font-bold leading-[1.2em] text-[0.75rem]">
-              02D 04H 52M
+              {timeFormatter(remainingTime)}
             </span>
           </div>
         </div>
@@ -89,6 +91,43 @@ const StakingEarn = () => {
   const [sbxAmount, setSBXAmount] = useState<number>(0);
   const [sUSDAmount, setSUSDAmount] = useState<number>(0);
   const { data: walletClient } = useWalletClient();
+
+  const StakingContract = {
+    address: StakingCA,
+    abi: StakingABI,
+  } as const;
+
+  const SBXContract = {
+    address: SymbloxTokenCA,
+    abi: SBXContractABI,
+  } as const;
+
+  const { data } = useReadContracts({
+    contracts: [
+      {
+        ...StakingContract,
+        functionName: "getRewardAmount",
+        args: [address],
+      },
+      {
+        ...StakingContract,
+        functionName: "stakes",
+        args: [address],
+      },
+    ],
+  });
+
+  const claimableAmount = data
+    ? parseFloat(formatEther(data?.[0].result as bigint))
+    : 0;
+
+  const remainingTime = data
+    ? parseFloat(
+        formatEther(((data?.[1].result as any)?.lastStakedTime as bigint) || 0n)
+      )
+    : 0;
+
+  console.log("Get Claimable Amount: ", remainingTime);
 
   const isDisabled = sbxAmount || sUSDAmount;
 
@@ -115,7 +154,7 @@ const StakingEarn = () => {
                   Claimable Rewards
                 </span>
                 <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
-                  $0.0
+                  ${claimableAmount}
                 </span>
               </div>
               <div className="sm:p-5 p-4 border border-[#293745] rounded-[4px] lg:w-1/3 w-full bg-[#0a1a2a] flex flex-col md:items-center items-start gap-2 hover:bg-[rgba(255,255,255,0.08)]">
@@ -138,7 +177,7 @@ const StakingEarn = () => {
           </div>
           <div className="w-full flex flex-col gap-4">
             <hr className="border-[#293745]" />
-            <RewardItem />
+            <RewardItem remainingTime={remainingTime} />
             <hr className="border-[#293745]" />
             <RewardItem />
             <hr className="border-[#293745]" />
