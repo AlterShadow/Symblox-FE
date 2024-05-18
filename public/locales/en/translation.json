@@ -156,6 +156,33 @@
     "hedgeDebt": "Hedge Debt",
     "buydSBX": "Buy dSBX to hedge"
   },
+  "StakingReward": {
+    "rewardSNX": "Earn Reward",
+    "earnSBX": "Earn Rewards Staking SNX tokens offers weekly rewards in both inflationary SNX and sUSD from trading fees.",
+    "yourRewardSBX": "Learn more",
+    "claimReward": "Claimable Rewards",
+    "earning": "Earning",
+    "lifetimeReward": "Lifetime Rewards",
+    "symblox": "Symblox",
+    "stakingRewards": "Staking Rewards",
+    "estimateAPR": "Est.APR",
+    "timeRemaining": "Time Remaining",
+    "claim": "Claim",
+    "lastEpochFeeBurned": "Last Epoch Fees Burned",
+    "lifetimeFeesBurned": "Lifetime Fees Burned"
+  },
+  "Escrow": {
+    "totalAvailableSBX": "TOTAL AVAILABLE SBX",
+    "totalSBXEscrowed": "TOTAL ESCROWED SBX",
+    "totalSBXVested": "TOTAL SBX VESTED",
+    "stakingRewards": "STAKING REWARDS",
+    "tokenSale": "TOKEN SALE",
+    "vestYourSBX": "Vest your SBX staking rewards in escrow",
+    "vestSBXExlain": "If you have staked your SBX and minted sUSD, you are eligible to receive SBX staking rewards, which will be escrowed here which you can vest in 12 months from the claim date.",
+    "vestingDate": "VESTING DATE",
+    "gasPrice": "GAS PRICE(GWEI)",
+    "page": "Page"
+  },
   "governance": {
     "aDecentralized": "A Decentralized",
     "governance": "Governance",
