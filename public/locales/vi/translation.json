@@ -1,28 +1,28 @@
 {
-  "productTitle": "Symblox",
-  "common": {
+    "productTitle": "Symblox",
+    "common": {
     "staking": "đặt cọc",
     "back": "Trở lại"
-  },
-  "navigation": {
+    },
+    "navigation": {
     "home": "Trang chủ",
     "perpetual": "Vĩnh cửu",
     "governance": "Quản trị",
     "stakingApp": "Ứng dụng Đặt cọc"
-  },
-  "intro": {
+    },
+    "intro": {
     "globalAssets": "Truy cập tài sản toàn cầu đơn giản hóa",
     "symbloxTrade": "Symblox - Giao dịch",
     "syntheticAssets": "Tài sản Tổng hợp",
     "easily": "Dễ dàng",
     "mintAndTrade": "Tạo và giao dịch tài sản tổng hợp như tiền điện tử, hàng hóa và cổ phiếu một cách dễ dàng.",
     "discoverMore": "Khám phá Thêm"
-  },
-  "about": {
+    },
+    "about": {
     "aboutSymblox": "Về Symblox",
     "aboutDesc": "Symblox kết nối tài chính truyền thống và DeFi với tính minh bạch và sức mạnh cộng đồng. Đơn giản, phi tập trung và hướng tới tương lai."
-  },
-  "keyFeature": {
+    },
+    "keyFeature": {
     "key": "Chính yếu",
     "features": "Tính năng",
     "experienceTheCore": "Trải nghiệm cốt lõi của các Tính năng Chính yếu trên nền tảng của chúng tôi, cung cấp một loạt công cụ và cơ hội đa dạng.",
@@ -31,21 +31,21 @@
     "liquidityOptions": "Tùy chọn Thanh khoản",
     "decentralizedOracle": "Oracle Phi tập trung",
     "governanceAndStaking": "Quản trị & Đặt cọc"
-  },
-  "howItWorks": {
+    },
+    "howItWorks": {
     "howItWorks": "Cách Thức Hoạt Động",
     "smartContracts": "Hợp đồng Thông minh",
     "and": "và",
     "SYXRewards": "Phần thưởng SYX",
     "fuelOurTech": "cung cấp năng lượng cho công nghệ của chúng tôi, cho phép canh tác, tạo và giao dịch."
-  },
-  "reward": {
+    },
+    "reward": {
     "differentiation": "Khác biệt",
     "uniqueCollateral": "Phương pháp thế chấp độc đáo, do cộng đồng dẫn dắt và được hỗ trợ bởi VELAS cho hiệu quả và bảo mật tối ưu.",
     "security": "Bảo mật",
     "topNotchSecurity": "Bảo mật hàng đầu với kiểm toán, hoạt động minh bạch và các biện pháp kiểm soát rủi ro vững chắc."
-  },
-  "roadmap": {
+    },
+    "roadmap": {
     "roadmap": "Lộ trình",
     "expandingAssets": "Mở rộng tài sản, phát triển nền tảng và xây dựng quan hệ đối tác toàn cầu.",
     "1stQuarter": "Quý 1 năm 2024",
@@ -54,13 +54,13 @@
     "2ndQuarter.desc": "Donec et mauris ullamcorper, condimentum arcu non, imperdiet turpis. Donec at ultrices nisi. Fusce nec lectus sapien. Donec nec tortor velit. Vestibulum gravida pharetra enim, at vulputate orci mollis vitae.",
     "3rdQuarter": "Quý 3 năm 2024",
     "3rdQuarter.desc": "Donec et mauris ullamcorper, condimentum arcu non, imperdiet turpis. Donec at ultrices nisi. Fusce nec lectus sapien. Donec nec tortor velit. Vestibulum gravida pharetra enim, at vulputate orci mollis vitae."
-  },
-  "getStarted": {
+    },
+    "getStarted": {
     "getStarted": "Bắt Đầu",
     "startTrading": "Bắt đầu giao dịch tài sản tổng hợp ngày hôm nay và nắm bắt vô vàn khả năng trên thị trường tài chính.",
     "learnMore": "Tìm Hiểu Thêm"
-  },
-  "footer": {
+    },
+    "footer": {
     "symbloxLinks": "Symblox kết nối tài chính truyền thống và DeFi với tính minh bạch và sức mạnh cộng đồng. Đơn giản, phi tập trung và hướng tới tương lai.",
     "copyright": "Bản quyền",
     "allRightsReserved": "Đã đăng ký bản quyền",
@@ -87,8 +87,8 @@
     "youAgree": "Bạn đồng ý bồi thường và miễn trách nhiệm cho SBX DAO và các công ty liên kết đối với bất kỳ chi phí nào phát sinh từ hoặc liên quan đến việc sử dụng giao thức Symblox của bạn.",
     "youAreNot": "Bạn không truy cập giao thức từ Miến Điện (Myanmar), Cuba, Iran, Sudan, Syria, Tây Balkan, Belarus, Côte d'Ivoire, Cộng hòa Dân chủ Congo, Iraq, Liban, Liberia, Libya, Triều Tiên, Nga, một số khu vực bị trừng phạt của Ukraine, Somalia, Venezuela, Yemen hoặc Zimbabwe (gọi chung là Lãnh thổ Bị Cấm), hoặc bất kỳ lãnh thổ nào khác được liệt kê là Quốc gia Bị Chỉ định Đặc biệt của Văn phòng Kiểm soát Tài sản Nước ngoài Hoa Kỳ (OFAC).",
     "iAgree": "Tôi Đồng ý"
-  },
-  "stakingBoard": {
+    },
+    "stakingBoard": {
     "step1": "Bước 1",
     "stakeAndBorrow": "Đặt cọc & Vay",
     "borrowSUSD": "Vay sUSD bằng cách đặt cọc SBX của bạn.",
@@ -136,8 +136,8 @@
     "hedgeDebtDescription": "Mua dSBX để phòng ngừa",
     "selfLiquidate": "Tự thanh lý",
     "selfLiquidateDescription": "Tự thanh lý Tài sản Thế chấp SBX"
-  },
-  "stakingMint": {
+    },
+    "stakingMint": {
     "stakeSNX": "Đặt cọc SBX Bằng cách Tạo sUSD",
     "mintSUSD": "Tạo sUSD bằng cách đặt cọc SBX của bạn. Những người đặt cọc SBX kiếm được phần thưởng đặt cọc hàng tuần đổi lấy việc quản lý Tỷ lệ Đảm bảo và Nợ của họ.",
     "yourStakedSBX": "SBX đặt cọc của bạn sẽ bị khóa trong 7 ngày.",
@@ -155,8 +155,8 @@
     "guideYour": "Hướng dẫn bạn qua các quy trình",
     "hedgeDebt": "Phòng ngừa Nợ",
     "buydSBX": "Mua dSBX để phòng ngừa"
-  },
-  "StakingReward": {
+    },
+    "StakingReward": {
     "rewardSNX": "Nhận Phần thưởng",
     "earnSBX": "Nhận Phần thưởng Khi Đặt cọc token SNX cung cấp phần thưởng hàng tuần gồm cả SNX lạm phát và sUSD từ phí giao dịch.",
     "yourRewardSBX": "Tìm hiểu thêm",
@@ -170,8 +170,8 @@
     "claim": "Nhận",
     "lastEpochFeeBurned": "Phí Bị Đốt trong Epoch Cuối",
     "lifetimeFeesBurned": "Tổng Phí Bị Đốt"
-  },
-  "Escrow": {
+    },
+    "Escrow": {
     "totalAvailableSBX": "TỔNG SBX CÓ SẴN",
     "totalSBXEscrowed": "TỔNG SBX ĐÃ ĐẶT MẸ ĐỆ",
     "totalSBXVested": "TỔNG SBX ĐÃ CẤP QUYỀN",
