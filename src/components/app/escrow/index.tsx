@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import Loader from "./Loader";
 import NextBack from "./NextBack";
+import { useTranslation } from "react-i18next";
 
 const Escrow = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("staking");
   const [clickedTab, setClickedTab] = useState("");
 
@@ -21,19 +23,19 @@ const Escrow = () => {
           <div className="flex md:flex-row flex-col md:gap-0 gap-5 items-center lg:w-[60%] md:w-[70%] w-[90%] justify-around">
             <div className="flex flex-col items-center justify-center">
               <h2 className="text-[#31D8A4] pb-[5px] text-[14px] font-bold">
-                TOTAL AVAILABLE SBX
+                {t("escrow.totalAvailableSBX")}
               </h2>
               <p className="text-[24px] font-semibold text-white">0.00</p>
             </div>
             <div className="flex flex-col items-center justify-center">
               <h2 className="text-[#31D8A4] pb-[5px] text-[14px] font-bold">
-                TOTAL SBX ESCROWED
+                {t("escrow.totalSBXEscrowed")}
               </h2>
               <p className="text-[32px] font-semibold text-shadow">0.00</p>
             </div>
             <div className="flex flex-col items-center justify-center">
               <h2 className="text-[#31D8A4] pb-[5px] text-[14px] font-bold">
-                TOTAL SBX VESTED
+                {t("escrow.totalSBXVested")}
               </h2>
               <p className="text-[24px] font-semibold text-white">0.00</p>
             </div>
@@ -51,7 +53,7 @@ const Escrow = () => {
                   }`}
                   onClick={() => handleTabClick("staking")}
                 >
-                  STAKING REWARDS
+                  {t("escrow.stakingRewards")}
                 </button>
                 <button
                   type="button"
@@ -62,7 +64,7 @@ const Escrow = () => {
                   }`}
                   onClick={() => handleTabClick("tokenSale")}
                 >
-                  TOKEN SALE
+                  {t("escrow.tokenSale")}
                 </button>
               </div>
               {clickedTab && (
@@ -81,7 +83,7 @@ const Escrow = () => {
                   </div>
                   <div className="flex items-center border-b border-white border-opacity-20 px-4 pb-2 pt-10 justify-between">
                     <p className="text-white font-bold text-opacity-40">
-                      GAS PRICE (GWEI)
+                      {t("escrow.gasPrice")}
                     </p>
                     <div className="font-bold">
                       -{" "}
@@ -89,7 +91,7 @@ const Escrow = () => {
                         type="button"
                         className="text-[14px] font-semibold text-[#00d1ff]"
                       >
-                        EDIT
+                        {t("escrow.edit")}
                       </button>
                     </div>
                   </div>
@@ -97,7 +99,7 @@ const Escrow = () => {
                     type="button"
                     className="bg-[#00d1ff80] h-[40px] w-full rounded-[4px] cursor-not-allowed mt-10"
                   >
-                    NO SBX TO VEST
+                    {t("escrow.validateSBX")}
                   </button>
                 </div>
               )}
@@ -105,17 +107,15 @@ const Escrow = () => {
             <div className="md:w-[50%] w-full mt-4">
               <div>
                 <h2 className="font-bold text-[14px] pb-3 text-white">
-                  Vest your SBX staking rewards in escrow
+                  {t("escrow.vestYourSBX")}
                 </h2>
                 <p className="text-[14px] text-white text-opacity-40">
-                  If you have staked your SBX and minted sUSD, you are eligible
-                  to receive SBX staking rewards, which will be escrowed here
-                  which you can vest in 12 months from the claim date.
+                  {t("escrow.vestSBXExlain")}
                 </p>
               </div>
               <div className="flex items-center border-b border-t border-white border-opacity-20 pb-5 mt-10 pt-8 justify-between">
                 <p className="text-white font-bold text-opacity-40">
-                  VESTING DATE
+                  {t("escrow.vestingDate")}
                 </p>
                 <p className="text-white font-bold text-opacity-40">SBX</p>
               </div>

@@ -184,8 +184,10 @@
     "vestYourSBX": "Vest your SBX staking rewards in escrow",
     "vestSBXExlain": "If you have staked your SBX and minted sUSD, you are eligible to receive SBX staking rewards, which will be escrowed here which you can vest in 12 months from the claim date.",
     "vestingDate": "VESTING DATE",
-    "gasPrice": "GAS PRICE(GWEI)",
-    "page": "Page"
+    "gasPrice": "GAS PRICE (GWEI)",
+    "page": "Page",
+    "edit": "EDIT",
+    "validateSBX": "NO SBX TO VEST"
   },
   "migration": {
     "migrateSYX": "Migrate SYX into SBX",
@@ -193,6 +195,8 @@
     "migrateGuide": "You'll be able to access 13.33% of the locked tokens each month after 6 month lock-up period.",
     "claimableAmount": "ClaimableAmount",
     "claimableAmountTooltip": "Amount You can get at Next Claim",
+    "migrationHeader": "How much SYX do you want to swap?",
+    "migrationHeaderTooltip": "How much SBX you stake will determine how much sUSD you can borrow",
     "placeholder": "Enter Amount",
     "availableSYX": "Available SYX",
     "sbxAmountGet": "Amount of SBX You can get",
@@ -200,7 +204,8 @@
     "lockedSBX": "Locked SBX",
     "gasPrice": "Gas Price",
     "migrate": "Migrate",
-    "claim": "Claim"
+    "claim": "Claim",
+    "backwards": "Back"
   },
   "governance": {
     "aDecentralized": "A Decentralized",
