@@ -43,6 +43,7 @@ const Escrow = () => {
             <div className="flex flex-col shadow-lg shadow-black md:w-[50%] w-full mt-4">
               <div className="flex">
                 <button
+                  type="button"
                   className={`focus:outline-none font-bold text-[14px] h-[60px] w-full ${
                     activeTab === "staking"
                       ? "border-t-2 border-[#00d1ff] text-white"
@@ -53,6 +54,7 @@ const Escrow = () => {
                   STAKING REWARDS
                 </button>
                 <button
+                  type="button"
                   className={`focus:outline-none font-bold text-[14px] h-[60px w-full ${
                     activeTab === "tokenSale"
                       ? "border-t-2 border-[#FC8738] text-white"
@@ -83,12 +85,18 @@ const Escrow = () => {
                     </p>
                     <div className="font-bold">
                       -{" "}
-                      <button className="text-[14px] font-semibold text-[#00d1ff]">
+                      <button
+                        type="button"
+                        className="text-[14px] font-semibold text-[#00d1ff]"
+                      >
                         EDIT
                       </button>
                     </div>
                   </div>
-                  <button className="bg-[#00d1ff80] h-[40px] w-full rounded-[4px] cursor-not-allowed mt-10">
+                  <button
+                    type="button"
+                    className="bg-[#00d1ff80] h-[40px] w-full rounded-[4px] cursor-not-allowed mt-10"
+                  >
                     NO SBX TO VEST
                   </button>
                 </div>

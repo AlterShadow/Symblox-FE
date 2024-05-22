@@ -1,11 +1,9 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useAccount } from "wagmi";
 
 const AppHeader = () => {
   const { t } = useTranslation();
-  const { address } = useAccount();
 
   return (
     <>

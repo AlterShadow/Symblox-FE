@@ -51,7 +51,7 @@ const StakingMint = () => {
     ],
   });
   const formattedSBXAmount = data
-    ? parseFloat(formatEther(data?.[0].result as bigint))
+    ? Number.parseFloat(formatEther(data?.[0].result as bigint))
     : 0;
 
   const setSBXAmountHandler = (percent: number) => {
@@ -64,7 +64,7 @@ const StakingMint = () => {
     setState: React.Dispatch<React.SetStateAction<number>>
   ) => {
     if (onlyNumberRegex.test(event.target.value)) {
-      setState(parseFloat(event.target.value));
+      setState(Number.parseFloat(event.target.value));
     }
   };
 
@@ -173,6 +173,7 @@ const StakingMint = () => {
                   <div className="flex flex-row lg:gap-3 sm:gap-2 gap-1 items-center w-full">
                     {[25, 50, 75, 100].map((percentage) => (
                       <button
+                        type="button"
                         key={percentage}
                         onClick={() => setSBXAmountHandler(percentage)}
                         className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
@@ -225,15 +226,20 @@ const StakingMint = () => {
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
-                      {parseFloat((Math.random() * 1).toString()).toFixed(2)}
+                      {Number.parseFloat(
+                        (Math.random() * 1).toString()
+                      ).toFixed(2)}
                       &nbsp;BNB :&nbsp;
-                      {parseFloat((Math.random() * 5).toString()).toFixed(2)}
+                      {Number.parseFloat(
+                        (Math.random() * 5).toString()
+                      ).toFixed(2)}
                       &nbsp;$
                     </span>
                   </div>
                 </div>
                 <div className="flex justify-center">
                   <button
+                    type="button"
                     disabled={!isDisabled}
                     onClick={MintHandler}
                     className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${

@@ -4,9 +4,8 @@ import { Icon } from "@iconify/react";
 import { useAccount, useReadContracts, useWalletClient } from "wagmi";
 import { formatEther } from "viem";
 import SBXContractABI from "../../../config/abis/SymbloxABI.json";
-import PriceOracleABI from "../../../config/abis/PriceOracleABI.json";
 import StakingABI from "../../../config/abis/StakingABI.json";
-import { LinearProgress, LinearProgressProps } from "@mui/material";
+import { LinearProgress, type LinearProgressProps } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import {
   StakingCA,
@@ -35,6 +34,7 @@ const RewardProgressBar: React.FC<ProgressBarProps> = ({
 };
 
 const RewardItem = (remainingTime: any) => {
+  const { t } = useTranslation();
   return (
     <>
       <div className="w-full flex flex-row">
@@ -51,7 +51,7 @@ const RewardItem = (remainingTime: any) => {
               Symblox
             </span>
             <span className="mt-1 text-secondaryText leading-[1em] text-[13px] font-medium">
-              Staking Rewards
+              {t("stakingReward.stakingRewards")}
             </span>
           </div>
           <div className="w-[210px] min-w-20 flex flex-col justify-center">
@@ -59,7 +59,7 @@ const RewardItem = (remainingTime: any) => {
               0.08%
             </span>
             <span className="mt-1 text-secondaryText leading-[1em] text-[13px] font-medium">
-              Est.APR
+              {t("stakingReward.estimateAPR")}
             </span>
           </div>
         </div>
@@ -67,7 +67,7 @@ const RewardItem = (remainingTime: any) => {
           <RewardProgressBar currentTimeStamp={100} totalTimeStamp={1000} />
           <div className="flex flex-row justify-between items-center mt-[10px]">
             <span className="text-secondaryText leading-[1em] text-[14px] font-bold">
-              Time Remaining
+              {t("stakingReward.timeRemaining")}
             </span>
             <span className="text-[#47FAC2] font-bold leading-[1.2em] text-[0.75rem]">
               {timeFormatter(remainingTime)}
@@ -75,9 +75,12 @@ const RewardItem = (remainingTime: any) => {
           </div>
         </div>
         <div className="flex flex-grow justify-between items-center">
-          <div className="min-w-[182px] flex flex-col ml-7"></div>
-          <button className="min-w-20 h-10 ml-4 text-[#7a7a85] bg-[#303037] rounded-[4px] font-bold">
-            Claim
+          <div className="min-w-[182px] flex flex-col ml-7" />
+          <button
+            type="button"
+            className="min-w-20 h-10 ml-4 text-[#7a7a85] bg-[#303037] rounded-[4px] font-bold"
+          >
+            {t("stakingReward.claim")}
           </button>
         </div>
       </div>
@@ -118,11 +121,11 @@ const StakingEarn = () => {
   });
 
   const claimableAmount = data
-    ? parseFloat(formatEther(data?.[0].result as bigint))
+    ? Number.parseFloat(formatEther(data?.[0].result as bigint))
     : 0;
 
   const remainingTime = data
-    ? parseFloat(
+    ? Number.parseFloat(
         formatEther(((data?.[1].result as any)?.lastStakedTime as bigint) || 0n)
       )
     : 0;
@@ -137,13 +140,12 @@ const StakingEarn = () => {
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
           <div className="flex flex-col gap-4 items-center">
             <p className="lg:text-[24px] md:text-[22px] text-[20px] leading-[1em] font-medium text-white">
-              Earn Reward
+              {t("stakingReward.rewardSNX")}
             </p>
             <span className="max-w-[695px] text-center lg:text-[16px] text-[14px] font-normal leading-[1.1em] inline-block text-secondaryText">
-              Earn Rewards Staking SNX tokens offers weekly rewards in both
-              inflationary SNX and sUSD from trading fees. &nbsp;
+              {t("stakingReward.earnSBX")} &nbsp;
               <Link to="/" className="text-white hover:underline">
-                Learn more
+                {t("stakingReward.yourRewardSBX")}
               </Link>
             </span>
           </div>
@@ -151,7 +153,7 @@ const StakingEarn = () => {
             <div className="w-full flex md:flex-row flex-col gap-3 justify-between">
               <div className="sm:p-5 p-4 border border-[#293745] rounded-[4px] lg:w-1/3 w-full bg-[#0a1a2a] flex flex-col items-start gap-2 hover:bg-[rgba(255,255,255,0.08)]">
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                  Claimable Rewards
+                  {t("stakingReward.claimReward")}
                 </span>
                 <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
                   ${claimableAmount}
@@ -159,7 +161,7 @@ const StakingEarn = () => {
               </div>
               <div className="sm:p-5 p-4 border border-[#293745] rounded-[4px] lg:w-1/3 w-full bg-[#0a1a2a] flex flex-col md:items-center items-start gap-2 hover:bg-[rgba(255,255,255,0.08)]">
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                  Earning
+                  {t("stakingReward.earning")}
                 </span>
                 <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
                   0.08%
@@ -167,7 +169,7 @@ const StakingEarn = () => {
               </div>
               <div className="sm:p-5 p-4 border border-[#293745] rounded-[4px] lg:w-1/3 w-full bg-[#0a1a2a] flex flex-col md:items-end items-start gap-2 hover:bg-[rgba(255,255,255,0.08)]">
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                  Lifetime Rewards
+                  {t("stakingReward.lifetimeReward")}
                 </span>
                 <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
                   $0.00
@@ -185,7 +187,7 @@ const StakingEarn = () => {
           <div className="w-full flex md:flex-row flex-col mt-8 gap-3 justify-between">
             <div className="sm:p-5 p-4 border border-[#293745] rounded-[4px] lg:w-1/3 w-full bg-[#0a1a2a] flex flex-col items-start gap-2 hover:bg-[rgba(255,255,255,0.08)]">
               <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                Last Epoch Fees Burned
+                {t("stakingReward.lastEpochFeeBurned")}
               </span>
               <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
                 $0.0
@@ -193,7 +195,7 @@ const StakingEarn = () => {
             </div>
             <div className="sm:p-5 p-4 border border-[#293745] rounded-[4px] lg:w-1/3 w-full bg-[#0a1a2a] flex flex-col md:items-center items-start gap-2 hover:bg-[rgba(255,255,255,0.08)]">
               <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                Earning
+                {t("stakingReward.earning")}
               </span>
               <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
                 0.08%
@@ -201,7 +203,7 @@ const StakingEarn = () => {
             </div>
             <div className="sm:p-5 p-4 border border-[#293745] rounded-[4px] lg:w-1/3 w-full bg-[#0a1a2a] flex flex-col md:items-end items-start gap-2 hover:bg-[rgba(255,255,255,0.08)]">
               <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
-                Lifetime Fees Burned
+                {t("stakingReward.lifetimeFeesBurned")}
               </span>
               <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
                 $0.00

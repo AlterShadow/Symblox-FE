@@ -1,5 +1,3 @@
-import React from "react";
-
 function NextBack() {
   return (
     <div className="flex items-center justify-between w-full pt-10 md:pb-0 pb-10">

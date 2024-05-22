@@ -7,19 +7,19 @@ import RewardFragment from "./rewardFragment";
 import RoadmapFragment from "./roadmapFragment";
 
 const Dashboard = () => {
-  return (
-    <>
-      <div className="min-h-screen overflow-x-hidden h-full w-full">
-        <IntroFragment />
-        <AboutFragment />
-        <KeyFeatureFragment />
-        <HowItWorksFragment />
-        <RewardFragment />
-        <RoadmapFragment />
-        <GetStartedFragment />
-      </div>
-    </>
-  );
+	return (
+		<>
+			<div className="min-h-screen overflow-x-hidden h-full w-full">
+				<IntroFragment />
+				<AboutFragment />
+				<KeyFeatureFragment />
+				<HowItWorksFragment />
+				<RewardFragment />
+				<RoadmapFragment />
+				<GetStartedFragment />
+			</div>
+		</>
+	);
 };
 
 export default Dashboard;

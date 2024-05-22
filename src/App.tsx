@@ -1,10 +1,10 @@
-import React from "react";
+import type React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
-  darkTheme,
-  getDefaultConfig,
-  RainbowKitProvider,
+	darkTheme,
+	getDefaultConfig,
+	RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
 import { bsc, bscTestnet, sepolia } from "wagmi/chains";
@@ -23,87 +23,87 @@ import Migration from "./components/app/migration";
 import Escrow from "./components/app/escrow";
 
 const config = getDefaultConfig({
-  appName: "Symblox",
-  projectId: process.env.REACT_APP_PROJECT_ID || "",
-  chains: [bsc, bscTestnet, sepolia],
+	appName: "Symblox",
+	projectId: process.env.REACT_APP_PROJECT_ID || "",
+	chains: [bsc, bscTestnet, sepolia],
 });
 
 interface LayoutWithNavbarAndFooterProps {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }
 
 function LayoutWithNavbarAndFooter({
-  children,
+	children,
 }: LayoutWithNavbarAndFooterProps) {
-  return (
-    <>
-      <Header />
-      {children}
-      <Footer />
-    </>
-  );
+	return (
+		<>
+			<Header />
+			{children}
+			<Footer />
+		</>
+	);
 }
 
 const queryClient = new QueryClient();
 
 function App() {
-  return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider coolMode theme={darkTheme({})}>
-          <Router>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <LayoutWithNavbarAndFooter>
-                    <Dashboard />
-                  </LayoutWithNavbarAndFooter>
-                }
-              />
-              <Route
-                path="/perpetual"
-                element={
-                  <LayoutWithNavbarAndFooter>
-                    <Perpetual />
-                  </LayoutWithNavbarAndFooter>
-                }
-              />
-              <Route
-                path="/governance"
-                element={
-                  <LayoutWithNavbarAndFooter>
-                    <Governance />
-                  </LayoutWithNavbarAndFooter>
-                }
-              />
-              <Route path="/staking/*" element={<AppLayout />} />
-              <Route
-                path="/migration"
-                element={
-                  <>
-                    <AppHeader />
-                    <Migration />
-                    <Footer />
-                  </>
-                }
-              />
-              <Route
-                path="/escrow"
-                element={
-                  <>
-                    <AppHeader />
-                    <Escrow />
-                    <Footer />
-                  </>
-                }
-              />
-            </Routes>
-          </Router>
-        </RainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
-  );
+	return (
+		<WagmiProvider config={config}>
+			<QueryClientProvider client={queryClient}>
+				<RainbowKitProvider coolMode theme={darkTheme({})}>
+					<Router>
+						<Routes>
+							<Route
+								path="/"
+								element={
+									<LayoutWithNavbarAndFooter>
+										<Dashboard />
+									</LayoutWithNavbarAndFooter>
+								}
+							/>
+							<Route
+								path="/perpetual"
+								element={
+									<LayoutWithNavbarAndFooter>
+										<Perpetual />
+									</LayoutWithNavbarAndFooter>
+								}
+							/>
+							<Route
+								path="/governance"
+								element={
+									<LayoutWithNavbarAndFooter>
+										<Governance />
+									</LayoutWithNavbarAndFooter>
+								}
+							/>
+							<Route path="/staking/*" element={<AppLayout />} />
+							<Route
+								path="/migration"
+								element={
+									<>
+										<AppHeader />
+										<Migration />
+										<Footer />
+									</>
+								}
+							/>
+							<Route
+								path="/escrow"
+								element={
+									<>
+										<AppHeader />
+										<Escrow />
+										<Footer />
+									</>
+								}
+							/>
+						</Routes>
+					</Router>
+				</RainbowKitProvider>
+			</QueryClientProvider>
+		</WagmiProvider>
+	);
 }
 
 export default App;
