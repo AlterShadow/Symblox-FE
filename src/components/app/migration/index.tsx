@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import Countdown from "react-countdown";
 import { Icon } from "@iconify/react";
 import LightTooltip from "../../widgets/LightTooltip";
 import {
@@ -24,22 +23,18 @@ import {
 
 import { onlyNumberRegex } from "../../../utils/formatter";
 import LoadingButton from "../../widgets/LoadingButton";
+import { useTranslation } from "react-i18next";
 
 const Migration = () => {
+  const { t } = useTranslation();
   const { address } = useAccount();
   const [sbxAmount, setSBXAmount] = useState<string>("");
   const [syxAmount, setSYXAmount] = useState<string>("");
-  const [epochDate, setEpochDate] = useState<Date | null>(null);
   const [migrateLoading, setMigrateLoading] = useState<boolean>(false);
   const [releaseLoading, setReleaseLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { writeContractAsync } = useWriteContract();
   const publicClient = usePublicClient();
-
-  // const StakingContract = {
-  //   address: "0xcd576F95E7a52662e1bD81A7B25923A172C23186",
-  //   abi: StakingABI,
-  // } as const;
 
   const SYXContract = {
     address: SYXCA,
@@ -94,18 +89,18 @@ const Migration = () => {
     ],
   });
   const formattedSYXAmount = data
-    ? parseFloat(formatEther(data?.[0].result as bigint))
+    ? Number.parseFloat(formatEther(data?.[0].result as bigint))
     : 0;
   const formattedSBXAmount = data
-    ? parseFloat(formatEther(data?.[1].result as bigint))
+    ? Number.parseFloat(formatEther(data?.[1].result as bigint))
     : 0;
   const migrationOwner = data ? data?.[2].result : "";
   const lockedBalance = data
-    ? parseFloat(formatEther(data?.[3].result as bigint))
+    ? Number.parseFloat(formatEther(data?.[3].result as bigint))
     : 0;
 
   const claimableAmount = data
-    ? parseFloat(formatEther(data?.[4].result as bigint))
+    ? Number.parseFloat(formatEther(data?.[4].result as bigint))
     : 0;
 
   const setSYXAmountHandler = (percent: number) => {
@@ -199,16 +194,11 @@ const Migration = () => {
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[48px] items-center">
           <div className="flex flex-col gap-4 items-center">
             <p className="lg:text-[24px] md:text-[22px] text-[20px] leading-[1em] font-medium text-white">
-              Migrate SYX into SBX
+              {t("migration.migrateSYX")}
             </p>
             <span className="max-w-[695px] text-center lg:text-[16px] text-[14px] font-normal leading-[1.1em] inline-block text-secondaryText">
-              Migrate Your SYX token into SBX token. You will get 20% of new SBX
-              tokens right away. The remaining 80% of SBX tokens will be locked
-              for 6 months.&nbsp;
-              <span className="text-white">
-                You'll be able to access 13.33% of the locked tokens each month
-                after 6 month lock-up period.
-              </span>
+              {t("migration.migrateContent")}&nbsp;
+              <span className="text-white">{t("migration.migrateGuide")}</span>
             </span>
           </div>
           <div className="flex flex-col lg:gap-6 gap-4 max-w-[1024px] w-full items-center">
@@ -220,10 +210,10 @@ const Migration = () => {
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-start">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-secondaryText lg:text-[14px] text-[12px] font-semibold leading-[1em]">
-                      Claimable Amount
+                      {t("migration.claimableAmount")}
                     </span>
                     <LightTooltip
-                      title="Amount You can get at Next Claim"
+                      title={t("migration.claimableAmountTooltip")}
                       arrow
                       placement="right"
                     >
@@ -247,10 +237,10 @@ const Migration = () => {
                 <div className="gap-3 flex flex-col w-full">
                   <div className="flex flex-row gap-1 items-center">
                     <span className="text-white lg:text-[16px] text-[14px] font-normal leading-[1em]">
-                      How much SYX do you want to swap?
+                      {t("migration.migrationHeader")}
                     </span>
                     <LightTooltip
-                      title="How much SBX you stake will determine how much sUSD you can borrow"
+                      title={t("migration.migrationHeaderTooltip")}
                       arrow
                       placement="bottom-start"
                     >
@@ -267,20 +257,21 @@ const Migration = () => {
                       value={syxAmount}
                       onChange={handleSYXAmountChange}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar"
-                      placeholder={sbxAmount ? "" : "Enter Amount"}
+                      placeholder={sbxAmount ? "" : t("migration.placeholder")}
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
                       <div className="text-white text-[14px] leading-[1em] font-bold text-right">
                         SYX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        Available SYX : {formattedSYXAmount}
+                        {t("migration.availableSYX")} : {formattedSYXAmount}
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-row lg:gap-3 sm:gap-2 gap-1 items-center w-full">
                     {[25, 50, 75, 100].map((percentage) => (
                       <button
+                        type="button"
                         key={percentage}
                         onClick={() => setSYXAmountHandler(percentage)}
                         className="w-1/4 rounded-[60px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
@@ -293,10 +284,10 @@ const Migration = () => {
                 <div className="flex flex-col gap-3">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-white sm:text-[16px] text-[14px] font-normal leading-[1em]">
-                      Amount of SBX You can get
+                      {t("migration.sbxAmountGet")}
                     </span>
                     <LightTooltip
-                      title="How much SBX will you get from migration"
+                      title={t("migration.sbxAmountTooltip")}
                       arrow
                       placement="bottom-start"
                     >
@@ -315,27 +306,31 @@ const Migration = () => {
                       type="number"
                       value={sbxAmount}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary"
-                      placeholder={sbxAmount ? "" : "Enter Amount"}
+                      placeholder={sbxAmount ? "" : t("migration.placeholder")}
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
                       <div className="text-white text-[14px] leading-[1em] font-bold text-right">
                         {formattedSBXAmount}&nbsp; SBX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        Locked SBX : {lockedBalance}
+                        {t("migration.lockedSBX")} : {lockedBalance}
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="flex flex-row w-full justify-between items-center">
                   <span className="text-white text-[16px] font-normal leading-[1em]">
-                    Gas Price
+                    {t("migration.gasPrice")}
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
-                      {parseFloat((Math.random() * 1).toString()).toFixed(2)}
+                      {Number.parseFloat(
+                        (Math.random() * 1).toString()
+                      ).toFixed(2)}
                       &nbsp;BNB :&nbsp;
-                      {parseFloat((Math.random() * 5).toString()).toFixed(2)}
+                      {Number.parseFloat(
+                        (Math.random() * 5).toString()
+                      ).toFixed(2)}
                       &nbsp;$
                     </span>
                   </div>
@@ -345,6 +340,7 @@ const Migration = () => {
                     <LoadingButton bgColor="#EE2D82" />
                   ) : (
                     <button
+                      type="button"
                       disabled={isDisabled}
                       onClick={MigrateHandler}
                       className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
@@ -353,7 +349,7 @@ const Migration = () => {
                           : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
                       }`}
                     >
-                      Migrate
+                      {t("migration.migrate")}
                     </button>
                   )}
 
@@ -361,6 +357,7 @@ const Migration = () => {
                     <LoadingButton bgColor="#4C80C2" />
                   ) : (
                     <button
+                      type="button"
                       disabled={releaseButtonState}
                       onClick={ReleaseHandler}
                       className={`rounded-[60px] bg-[#4C80C2] w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
@@ -369,7 +366,7 @@ const Migration = () => {
                           : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
                       }`}
                     >
-                      Claim
+                      {t("migration.claim")}
                     </button>
                   )}
                 </div>
@@ -383,7 +380,7 @@ const Migration = () => {
         >
           <Icon icon="iconamoon:arrow-left-1" className="text-white w-4 h-4" />
           <span className="text-[14px] leading-[1em] font-medium text-white">
-            Back
+            {t("migration.backwards")}
           </span>
         </Link>
       </div>

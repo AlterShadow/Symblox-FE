@@ -39,20 +39,20 @@ const StakingBoard = () => {
                     />
                   </div>
                   <p className="text-white lg:text-[14px] text-[12px] font-normal leading-[1em]">
-                    Core Step
+                    {t("stakingBoard.coreStep")}
                   </p>
                   <p className="text-white lg:text-[22px] text-[20px] font-bold leading-[1em]">
-                    Migrate SYX into SBX
+                    {t("stakingBoard.migrateSYX")}
                   </p>
                   <p className="text-white lg:text-[16px] text-[14px] font-normal leading-[1em]">
-                    Migrate SYX into SBX to get SBX more for staking.
+                    {t("stakingBoard.migrateContent")}
                   </p>
                 </div>
                 <Link
                   to="/migration"
                   className="h-10 py-[18px] px-8 lg:px-6 flex items-center mt-8 gap-[10px] rounded-[60px] bg-[#4C80C2] text-white text-[16px] font-bold leading-[16px] min-w-[190px] text-center justify-center hover:scale-[1.02]"
                 >
-                  Migration
+                  {t("stakingBoard.migration")}
                 </Link>
               </div>
             </div>
@@ -79,13 +79,14 @@ const StakingBoard = () => {
               </div>
               {isConnected ? (
                 <button
+                  type="button"
                   className="h-10 py-[18px] px-8 lg:px-6 flex items-center gap-[10px] rounded-[60px] bg-primaryButtonColor text-white text-[16px] font-bold leading-[16px] min-w-[190px] text-center justify-center hover:scale-[1.02]"
                   onClick={stakingHandler}
                 >
                   {t("stakingBoard.startStaking")}
                 </button>
               ) : (
-                <button id="wallet-button">
+                <button id="wallet-button" type="button">
                   <ConnectButton label="Connect Wallet" />
                 </button>
               )}
@@ -114,6 +115,7 @@ const StakingBoard = () => {
                 </p>
               </div>
               <button
+                type="button"
                 disabled={!isConnected}
                 onClick={ratiohandler}
                 className="h-10 py-[18px] flex justify-center items-center gap-[10px] rounded-[60px] text-white text-[16px] font-bold leading-[16px] border border-white min-w-[190px] hover:scale-[1.02]"
@@ -145,6 +147,7 @@ const StakingBoard = () => {
                 </p>
               </div>
               <button
+                type="button"
                 onClick={rewardButtonHandler}
                 disabled={!isConnected}
                 className="h-10 py-[18px] flex justify-center items-center gap-[10px] rounded-[60px] text-white text-[16px] font-bold leading-[16px] border border-white min-w-[190px] hover:scale-[1.02]"

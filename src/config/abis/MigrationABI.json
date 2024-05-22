@@ -1,6 +1,21 @@
 [
+  {
+    "inputs": [
+      { "internalType": "address", "name": "target", "type": "address" }
+    ],
+    "name": "AddressEmptyCode",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "AddressInsufficientBalance",
+    "type": "error"
+  },
   { "inputs": [], "name": "EnforcedPause", "type": "error" },
   { "inputs": [], "name": "ExpectedPause", "type": "error" },
+  { "inputs": [], "name": "FailedInnerCall", "type": "error" },
   { "inputs": [], "name": "InvalidInitialization", "type": "error" },
   { "inputs": [], "name": "NotInitializing", "type": "error" },
   {
@@ -18,6 +33,13 @@
     "type": "error"
   },
   { "inputs": [], "name": "ReentrancyGuardReentrantCall", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "token", "type": "address" }
+    ],
+    "name": "SafeERC20FailedOperation",
+    "type": "error"
+  },
   {
     "anonymous": false,
     "inputs": [
@@ -216,7 +238,7 @@
       },
       {
         "internalType": "contract ISymbloxToken",
-        "name": "_sbxToken",
+        "name": "_targetToken",
         "type": "address"
       }
     ],
@@ -279,8 +301,34 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "_originalToken",
+        "type": "address"
+      }
+    ],
+    "name": "setOriginalToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract ISymbloxToken",
+        "name": "_targetToken",
+        "type": "address"
+      }
+    ],
+    "name": "setTargetToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
-    "name": "sbxToken",
+    "name": "targetToken",
     "outputs": [
       {
         "internalType": "contract ISymbloxToken",

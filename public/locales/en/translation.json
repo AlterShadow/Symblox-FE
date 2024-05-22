@@ -89,6 +89,10 @@
     "iAgree": "I Agree"
   },
   "stakingBoard": {
+    "coreStep": "Core Step",
+    "migration": "Migration",
+    "migrateSYX": "Migrate SYX into SBX",
+    "migrateContent": "Migrate SYX into SBX to get SBX more for staking.",
     "step1": "Step 1",
     "stakeAndBorrow": "Stake & Borrow",
     "borrowSUSD": "Borrow sUSD by staking your SBX.",
@@ -156,7 +160,7 @@
     "hedgeDebt": "Hedge Debt",
     "buydSBX": "Buy dSBX to hedge"
   },
-  "StakingReward": {
+  "stakingReward": {
     "rewardSNX": "Earn Reward",
     "earnSBX": "Earn Rewards Staking SNX tokens offers weekly rewards in both inflationary SNX and sUSD from trading fees.",
     "yourRewardSBX": "Learn more",
@@ -171,7 +175,7 @@
     "lastEpochFeeBurned": "Last Epoch Fees Burned",
     "lifetimeFeesBurned": "Lifetime Fees Burned"
   },
-  "Escrow": {
+  "escrow": {
     "totalAvailableSBX": "TOTAL AVAILABLE SBX",
     "totalSBXEscrowed": "TOTAL ESCROWED SBX",
     "totalSBXVested": "TOTAL SBX VESTED",
@@ -180,8 +184,28 @@
     "vestYourSBX": "Vest your SBX staking rewards in escrow",
     "vestSBXExlain": "If you have staked your SBX and minted sUSD, you are eligible to receive SBX staking rewards, which will be escrowed here which you can vest in 12 months from the claim date.",
     "vestingDate": "VESTING DATE",
-    "gasPrice": "GAS PRICE(GWEI)",
-    "page": "Page"
+    "gasPrice": "GAS PRICE (GWEI)",
+    "page": "Page",
+    "edit": "EDIT",
+    "validateSBX": "NO SBX TO VEST"
+  },
+  "migration": {
+    "migrateSYX": "Migrate SYX into SBX",
+    "migrateContent": "Migrate Your SYX token into SBX token. You will get 20% of new SBX tokens right away. The remaining 80% of SBX tokens will be locked for 6 months.",
+    "migrateGuide": "You'll be able to access 13.33% of the locked tokens each month after 6 month lock-up period.",
+    "claimableAmount": "ClaimableAmount",
+    "claimableAmountTooltip": "Amount You can get at Next Claim",
+    "migrationHeader": "How much SYX do you want to swap?",
+    "migrationHeaderTooltip": "How much SBX you stake will determine how much sUSD you can borrow",
+    "placeholder": "Enter Amount",
+    "availableSYX": "Available SYX",
+    "sbxAmountGet": "Amount of SBX You can get",
+    "sbxAmountTooltip": "How much SBX will you get from migration",
+    "lockedSBX": "Locked SBX",
+    "gasPrice": "Gas Price",
+    "migrate": "Migrate",
+    "claim": "Claim",
+    "backwards": "Back"
   },
   "governance": {
     "aDecentralized": "A Decentralized",
