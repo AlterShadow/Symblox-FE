@@ -1,109 +1,105 @@
 import type React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import {
-	darkTheme,
-	getDefaultConfig,
-	RainbowKitProvider,
+  darkTheme,
+  getDefaultConfig,
+  RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
-import { WagmiProvider } from "wagmi";
-import { bsc, bscTestnet, sepolia } from "wagmi/chains";
+import { useSwitchChain, useChainId, useAccount } from "wagmi";
+import { getAccount } from "@wagmi/core";
+import { getChainId } from "@wagmi/core";
 
 import Dashboard from "./components/dashboard";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import AppLayout from "./components/app/layout";
-
-import "@rainbow-me/rainbowkit/styles.css";
-import "./App.css";
 import Perpetual from "./components/perpetual";
 import Governance from "./components/governance";
 import AppHeader from "./components/app/header";
 import Migration from "./components/app/migration";
 import Escrow from "./components/app/escrow";
 
-const config = getDefaultConfig({
-	appName: "Symblox",
-	projectId: process.env.REACT_APP_PROJECT_ID || "",
-	chains: [bsc, bscTestnet, sepolia],
-});
+import "@rainbow-me/rainbowkit/styles.css";
+import "./App.css";
+import { useEffect } from "react";
 
 interface LayoutWithNavbarAndFooterProps {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 function LayoutWithNavbarAndFooter({
-	children,
+  children,
 }: LayoutWithNavbarAndFooterProps) {
-	return (
-		<>
-			<Header />
-			{children}
-			<Footer />
-		</>
-	);
+  return (
+    <>
+      <Header />
+      {children}
+      <Footer />
+    </>
+  );
 }
 
-const queryClient = new QueryClient();
-
 function App() {
-	return (
-		<WagmiProvider config={config}>
-			<QueryClientProvider client={queryClient}>
-				<RainbowKitProvider coolMode theme={darkTheme({})}>
-					<Router>
-						<Routes>
-							<Route
-								path="/"
-								element={
-									<LayoutWithNavbarAndFooter>
-										<Dashboard />
-									</LayoutWithNavbarAndFooter>
-								}
-							/>
-							<Route
-								path="/perpetual"
-								element={
-									<LayoutWithNavbarAndFooter>
-										<Perpetual />
-									</LayoutWithNavbarAndFooter>
-								}
-							/>
-							<Route
-								path="/governance"
-								element={
-									<LayoutWithNavbarAndFooter>
-										<Governance />
-									</LayoutWithNavbarAndFooter>
-								}
-							/>
-							<Route path="/staking/*" element={<AppLayout />} />
-							<Route
-								path="/migration"
-								element={
-									<>
-										<AppHeader />
-										<Migration />
-										<Footer />
-									</>
-								}
-							/>
-							<Route
-								path="/escrow"
-								element={
-									<>
-										<AppHeader />
-										<Escrow />
-										<Footer />
-									</>
-								}
-							/>
-						</Routes>
-					</Router>
-				</RainbowKitProvider>
-			</QueryClientProvider>
-		</WagmiProvider>
-	);
+  const { chains, switchChainAsync } = useSwitchChain();
+  const account = useAccount();
+  useEffect(() => {
+    const switchNetwork = async () => {
+      await switchChainAsync({ chainId: 11155111 });
+    };
+    switchNetwork();
+  }, [account]);
+  return (
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <LayoutWithNavbarAndFooter>
+              <Dashboard />
+            </LayoutWithNavbarAndFooter>
+          }
+        />
+        <Route
+          path="/perpetual"
+          element={
+            <LayoutWithNavbarAndFooter>
+              <Perpetual />
+            </LayoutWithNavbarAndFooter>
+          }
+        />
+        <Route
+          path="/governance"
+          element={
+            <LayoutWithNavbarAndFooter>
+              <Governance />
+            </LayoutWithNavbarAndFooter>
+          }
+        />
+        <Route path="/staking/*" element={<AppLayout />} />
+        <Route
+          path="/migration"
+          element={
+            <>
+              <AppHeader />
+              <Migration />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/escrow"
+          element={
+            <>
+              <AppHeader />
+              <Escrow />
+              <Footer />
+            </>
+          }
+        />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

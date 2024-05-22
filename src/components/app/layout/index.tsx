@@ -8,20 +8,20 @@ import Footer from "../../footer";
 import StakingEarn from "../staking/StakingEarn";
 
 const AppLayout = () => {
-	return (
-		<div className="w-full">
-			<AppHeader />
-			<div className="pt-[93px]">
-				<Routes>
-					<Route path="/*" element={<StakingBoard />} />
-					<Route path="/mint" element={<StakingMint />} />
-					<Route path="/burn" element={<StakingBurn />} />
-					<Route path="/earn" element={<StakingEarn />} />
-				</Routes>
-			</div>
-			<Footer />
-		</div>
-	);
+  return (
+    <div className="w-full">
+      <AppHeader />
+      <div className="pt-[93px]">
+        <Routes>
+          <Route path="/*" element={<StakingBoard />} />
+          <Route path="/mint" element={<StakingMint />} />
+          <Route path="/burn" element={<StakingBurn />} />
+          <Route path="/earn" element={<StakingEarn />} />
+        </Routes>
+      </div>
+      <Footer />
+    </div>
+  );
 };
 
 export default AppLayout;
