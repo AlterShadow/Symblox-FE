@@ -11,7 +11,7 @@ import {
   StakingCA,
   SymbloxTokenCA,
 } from "../../../config/params/contractAddresses";
-import { timeFormatter } from "../../../utils/timeFormatter";
+import { timeFormatter } from "../../../utils/formatters/timeFormatter";
 
 interface ProgressBarProps extends LinearProgressProps {
   totalTimeStamp: number;

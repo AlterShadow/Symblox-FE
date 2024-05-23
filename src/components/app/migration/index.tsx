@@ -21,7 +21,7 @@ import {
   MigrationABI,
 } from "../../../config/abis";
 
-import { onlyNumberRegex } from "../../../utils/formatter";
+import { onlyNumberRegex } from "../../../utils/formatters/inputNumFormatter";
 import LoadingButton from "../../widgets/LoadingButton";
 import { useTranslation } from "react-i18next";
 

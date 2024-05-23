@@ -1,14 +1,7 @@
 import type React from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
-import {
-  darkTheme,
-  getDefaultConfig,
-  RainbowKitProvider,
-} from "@rainbow-me/rainbowkit";
-import { useSwitchChain, useChainId, useAccount } from "wagmi";
-import { getAccount } from "@wagmi/core";
-import { getChainId } from "@wagmi/core";
+import { useAccount, useChainId, useSwitchChain } from "wagmi";
 
 import Dashboard from "./components/dashboard";
 import Header from "./components/header";
@@ -22,7 +15,7 @@ import Escrow from "./components/app/escrow";
 
 import "@rainbow-me/rainbowkit/styles.css";
 import "./App.css";
-import { useEffect } from "react";
+import { sepolia } from "viem/chains";
 
 interface LayoutWithNavbarAndFooterProps {
   children: React.ReactNode;
@@ -41,14 +34,16 @@ function LayoutWithNavbarAndFooter({
 }
 
 function App() {
-  const { chains, switchChainAsync } = useSwitchChain();
-  const account = useAccount();
+  const chainId = useChainId();
+  const { switchChain } = useSwitchChain();
   useEffect(() => {
-    const switchNetwork = async () => {
-      await switchChainAsync({ chainId: 11155111 });
-    };
-    switchNetwork();
-  }, [account]);
+    console.log(chainId);
+    while (chainId !== sepolia.id) {
+      switchChain({
+        chainId: sepolia.id,
+      });
+    }
+  }, [chainId]);
   return (
     <Router>
       <Routes>
