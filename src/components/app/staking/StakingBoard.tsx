@@ -23,6 +23,11 @@ const StakingBoard = () => {
     navigate("/staking/earn");
   };
 
+  const migrationHandler = () => {
+    if (isConnected) navigate("/migration");
+    else alert("Try Wallet Connect First!");
+  };
+
   return (
     <>
       <div className="pt-[55px] pb-8 w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
@@ -48,12 +53,13 @@ const StakingBoard = () => {
                     {t("stakingBoard.migrateContent")}
                   </p>
                 </div>
-                <Link
-                  to="/migration"
+                <button
+                  onClick={migrationHandler}
+                  type="button"
                   className="h-10 py-[18px] px-8 lg:px-6 flex items-center mt-8 gap-[10px] rounded-[60px] bg-[#4C80C2] text-white text-[16px] font-bold leading-[16px] min-w-[190px] text-center justify-center hover:scale-[1.02]"
                 >
                   {t("stakingBoard.migration")}
-                </Link>
+                </button>
               </div>
             </div>
           </div>

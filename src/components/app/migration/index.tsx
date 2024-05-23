@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import LightTooltip from "../../widgets/LightTooltip";
 import {
@@ -27,7 +27,13 @@ import { useTranslation } from "react-i18next";
 
 const Migration = () => {
   const { t } = useTranslation();
-  const { address } = useAccount();
+  const navigate = useNavigate();
+  const { address, isConnected } = useAccount();
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    if (!isConnected) navigate("/staking");
+  }, [isConnected]);
+
   const [sbxAmount, setSBXAmount] = useState<string>("");
   const [syxAmount, setSYXAmount] = useState<string>("");
   const [migrateLoading, setMigrateLoading] = useState<boolean>(false);
@@ -129,6 +135,7 @@ const Migration = () => {
     try {
       setMigrateLoading(true);
 
+      // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
       let hash;
 
       let allowance = (await publicClient?.readContract({
@@ -143,6 +150,7 @@ const Migration = () => {
           functionName: "approve",
           args: [MigrationCA, parseEther(syxAmount.toString())],
         });
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
         await publicClient?.waitForTransactionReceipt({ hash: hash! });
       }
 
@@ -159,6 +167,7 @@ const Migration = () => {
           args: [parseEther(syxAmount.toString())],
         });
 
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
         await publicClient?.waitForTransactionReceipt({ hash: hash! });
       } else {
         setError("Insufficient allowance");
