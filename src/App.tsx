@@ -1,6 +1,11 @@
 import type React from "react";
 import { useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { useAccount, useChainId, useSwitchChain } from "wagmi";
 
 import Dashboard from "./components/dashboard";
@@ -17,13 +22,17 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "./App.css";
 import { sepolia } from "viem/chains";
 
-interface LayoutWithNavbarAndFooterProps {
+type LayoutWithNavbarAndFooterProps = {
   children: React.ReactNode;
-}
+};
 
-function LayoutWithNavbarAndFooter({
+type ProtectedRouteProps = {
+  children: React.ReactNode;
+};
+
+const LayoutWithNavbarAndFooter: React.FC<LayoutWithNavbarAndFooterProps> = ({
   children,
-}: LayoutWithNavbarAndFooterProps) {
+}) => {
   return (
     <>
       <Header />
@@ -31,11 +40,21 @@ function LayoutWithNavbarAndFooter({
       <Footer />
     </>
   );
-}
+};
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const { isConnected } = useAccount();
+
+  if (!isConnected) {
+    return <Navigate to="/staking" replace />;
+  }
+  return <>{children}</>;
+};
 
 function App() {
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
+
   useEffect(() => {
     console.log(chainId);
     while (chainId !== sepolia.id) {
@@ -43,7 +62,8 @@ function App() {
         chainId: sepolia.id,
       });
     }
-  }, [chainId]);
+  }, [chainId, switchChain]);
+
   return (
     <Router>
       <Routes>
@@ -77,7 +97,9 @@ function App() {
           element={
             <>
               <AppHeader />
-              <Migration />
+              <ProtectedRoute>
+                <Migration />
+              </ProtectedRoute>
               <Footer />
             </>
           }
@@ -87,7 +109,9 @@ function App() {
           element={
             <>
               <AppHeader />
-              <Escrow />
+              <ProtectedRoute>
+                <Escrow />
+              </ProtectedRoute>
               <Footer />
             </>
           }
