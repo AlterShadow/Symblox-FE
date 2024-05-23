@@ -12,7 +12,7 @@ import SBXContractABI from "../../../config/abis/SymbloxABI.json";
 import PriceOracleABI from "../../../config/abis/PriceOracleABI.json";
 import StakingABI from "../../../config/abis/StakingABI.json";
 import LightTooltip from "../../widgets/LightTooltip";
-import { onlyNumberRegex } from "../../../utils/formatter";
+import { onlyNumberRegex } from "../../../utils/formatters/inputNumFormatter";
 import { useTranslation } from "react-i18next";
 
 const StakingMint = () => {

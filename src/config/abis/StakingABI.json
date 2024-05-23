@@ -1,6 +1,22 @@
 [
+  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "target", "type": "address" }
+    ],
+    "name": "AddressEmptyCode",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "AddressInsufficientBalance",
+    "type": "error"
+  },
   { "inputs": [], "name": "EnforcedPause", "type": "error" },
   { "inputs": [], "name": "ExpectedPause", "type": "error" },
+  { "inputs": [], "name": "FailedInnerCall", "type": "error" },
   { "inputs": [], "name": "InvalidInitialization", "type": "error" },
   { "inputs": [], "name": "NotInitializing", "type": "error" },
   {
@@ -18,6 +34,13 @@
     "type": "error"
   },
   { "inputs": [], "name": "ReentrancyGuardReentrantCall", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "token", "type": "address" }
+    ],
+    "name": "SafeERC20FailedOperation",
+    "type": "error"
+  },
   {
     "anonymous": false,
     "inputs": [
@@ -67,6 +90,89 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Recovered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "reward",
+        "type": "uint256"
+      }
+    ],
+    "name": "RewardAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "reward",
+        "type": "uint256"
+      }
+    ],
+    "name": "RewardClaimed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "reward",
+        "type": "uint256"
+      }
+    ],
+    "name": "RewardPaid",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newDuration",
+        "type": "uint256"
+      }
+    ],
+    "name": "RewardsDurationUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
         "internalType": "address",
         "name": "user",
@@ -80,44 +186,6 @@
       }
     ],
     "name": "Staked",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "user",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "SusdBurned",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "user",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "SusdMinted",
     "type": "event"
   },
   {
@@ -149,46 +217,16 @@
         "type": "uint256"
       }
     ],
-    "name": "Unstaked",
+    "name": "Withdrawn",
     "type": "event"
   },
   {
-    "inputs": [],
-    "name": "ESCROW_LOCK_DURATION",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "STAKING_LOCK_DURATION",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "TARGET_CRATIO",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
-      { "internalType": "uint256", "name": "rewardAmount", "type": "uint256" }
+      { "internalType": "address", "name": "account", "type": "address" }
     ],
-    "name": "addRewards",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
-    ],
-    "name": "burnXUSD",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "balanceOf",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -202,6 +240,39 @@
     "inputs": [],
     "name": "currentCRatio",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "earned",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "gSYMNFT",
+    "outputs": [
+      {
+        "internalType": "contract IGovernanceNFT",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "issuedDebt", "type": "uint256" }
+    ],
+    "name": "getActiveDebt",
+    "outputs": [
+      { "internalType": "uint256", "name": "_activeDebt", "type": "uint256" }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -221,10 +292,14 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "getEstimateCRatio",
+    "inputs": [
+      { "internalType": "uint256", "name": "issuedDebt", "type": "uint256" },
+      { "internalType": "uint256", "name": "activeDebt", "type": "uint256" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" }
+    ],
+    "name": "getBurningAmount",
     "outputs": [
-      { "internalType": "uint256", "name": "_currentCRatio", "type": "uint256" }
+      { "internalType": "uint256", "name": "_burningAmount", "type": "uint256" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -239,18 +314,27 @@
     "type": "function"
   },
   {
-    "inputs": [
-      { "internalType": "address", "name": "user", "type": "address" }
-    ],
-    "name": "getRewardAmount",
+    "inputs": [],
+    "name": "getRewardForDuration",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "getStakerCRatio",
+    "outputs": [
+      { "internalType": "uint256", "name": "_stakerCRatio", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
       {
-        "internalType": "contract ISymbloxToken",
+        "internalType": "contract IERC20",
         "name": "_sbxToken",
         "type": "address"
       },
@@ -271,6 +355,36 @@
     "type": "function"
   },
   {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "lastClaimedIndex",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "lastTimeRewardApplicable",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "lastUpdateTime",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "reward", "type": "uint256" }
+    ],
+    "name": "notifyRewardAmount",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "owner",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
@@ -286,11 +400,28 @@
   },
   {
     "inputs": [],
+    "name": "periodFinish",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "priceOracle",
     "outputs": [
       { "internalType": "contract IPriceOracle", "name": "", "type": "address" }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "tokenAddress", "type": "address" },
+      { "internalType": "uint256", "name": "tokenAmount", "type": "uint256" }
+    ],
+    "name": "recoverERC20",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -302,15 +433,43 @@
   },
   {
     "inputs": [],
-    "name": "sbxToken",
-    "outputs": [
+    "name": "rewardPerToken",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rewardPerTokenStored",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rewardRate",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "rewardsDuration",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
       {
-        "internalType": "contract ISymbloxToken",
-        "name": "",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "_rewardsDuration",
+        "type": "uint256"
       }
     ],
-    "stateMutability": "view",
+    "name": "setRewardsDuration",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -324,18 +483,60 @@
   },
   {
     "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "stakes",
+    "name": "stakeInfos",
     "outputs": [
-      { "internalType": "uint256", "name": "stakedAmount", "type": "uint256" },
-      { "internalType": "uint256", "name": "borrowedXUSD", "type": "uint256" },
-      { "internalType": "uint256", "name": "lastStakedTime", "type": "uint256" }
+      { "internalType": "uint256", "name": "balance", "type": "uint256" },
+      { "internalType": "uint256", "name": "reward", "type": "uint256" },
+      { "internalType": "uint256", "name": "issuedDebt", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "rewardPerTokenPaid",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "lastTimestamp", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "name": "stakingRewards",
+    "outputs": [
+      { "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "internalType": "uint256", "name": "timestamp", "type": "uint256" }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "totalStakedSBXAmount",
+    "name": "stakingToken",
+    "outputs": [
+      { "internalType": "contract IERC20", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "targetCRatio",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalActiveDebt",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalSupply",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
@@ -353,14 +554,21 @@
     "inputs": [
       { "internalType": "uint256", "name": "amount", "type": "uint256" }
     ],
-    "name": "unstakeSYM",
+    "name": "unstake",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "xusdToken",
+    "name": "vestReward",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "xUSD",
     "outputs": [
       { "internalType": "contract IXUSD", "name": "", "type": "address" }
     ],

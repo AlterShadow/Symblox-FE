@@ -86,9 +86,9 @@ const StakingBoard = () => {
                   {t("stakingBoard.startStaking")}
                 </button>
               ) : (
-                <button id="wallet-button" type="button">
+                <div id="wallet-button">
                   <ConnectButton label="Connect Wallet" />
-                </button>
+                </div>
               )}
             </div>
             <div
