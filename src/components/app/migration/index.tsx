@@ -179,6 +179,7 @@ const Migration = () => {
       setMigrateLoading(false);
     }
   };
+
   const ReleaseHandler = async () => {
     try {
       setReleaseLoading(true);

@@ -2,17 +2,28 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import LightTooltip from "../../widgets/LightTooltip";
-import { useAccount, useReadContracts, useWalletClient } from "wagmi";
+import {
+  useAccount,
+  usePublicClient,
+  useReadContracts,
+  useWalletClient,
+  useWriteContract,
+} from "wagmi";
 import { formatEther, parseEther } from "viem";
-import SBXContractABI from "../../../config/abis/SymbloxABI.json";
-import PriceOracleABI from "../../../config/abis/PriceOracleABI.json";
-import StakingABI from "../../../config/abis/StakingABI.json";
 import {
   PriceOracleCA,
   StakingCA,
   SymbloxTokenCA,
+  xUSDCA,
 } from "../../../config/params/contractAddresses";
+import {
+  sUSDABI,
+  StakingABI,
+  PriceOracleABI,
+  SBXContractABI,
+} from "../../../config/abis";
 import { onlyNumberRegex } from "../../../utils/formatters/inputNumFormatter";
+import LoadingButton from "../../widgets/LoadingButton";
 import { useTranslation } from "react-i18next";
 
 const StakingBurn = () => {
@@ -20,7 +31,12 @@ const StakingBurn = () => {
   const { address } = useAccount();
   const [sbxAmount, setSBXAmount] = useState<number>(0);
   const [sUSDAmount, setSUSDAmount] = useState<number>(0);
+  const [burnLoading, setBurnLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const { data: walletClient } = useWalletClient();
+  const { writeContractAsync } = useWriteContract();
+  const publicClient = usePublicClient();
+
   const StakingContract = {
     address: StakingCA,
     abi: StakingABI,
@@ -36,6 +52,11 @@ const StakingBurn = () => {
     abi: PriceOracleABI,
   } as const;
 
+  const sUSDContract = {
+    address: xUSDCA,
+    abi: sUSDABI,
+  } as const;
+
   const { data } = useReadContracts({
     contracts: [
       {
@@ -46,14 +67,51 @@ const StakingBurn = () => {
       {
         ...PriceOracleContract,
         functionName: "getTokenPrice",
-        args: [0x91a14891bc882561aabefc1e2b1626c13b38f37c],
+        args: [SymbloxTokenCA],
+      },
+      {
+        ...StakingContract,
+        functionName: "getBorrowableAmount",
+        args: [sbxAmount],
+      },
+      {
+        ...sUSDContract,
+        functionName: "balanceOf",
+        args: [address],
+      },
+      {
+        ...StakingContract,
+        functionName: "balanceOf",
+        args: [address],
       },
     ],
   });
 
-  const susdAmountofAccount = data
+  const formattedSBXAmount = data
     ? Number.parseFloat(formatEther(data?.[0].result as bigint))
     : 0;
+
+  const sbxPrice = data
+    ? Number.parseFloat(formatEther(data?.[1].result as bigint))
+    : 0;
+
+  console.log("sbx Price:", sbxPrice);
+
+  const formattedBorrowableXUSDAmount = data
+    ? Number.parseFloat(data?.[2].result as string)
+    : 0;
+
+  console.log("Borrowable Amount:", formattedBorrowableXUSDAmount);
+
+  const formattedSUSDAmount = data
+    ? Number.parseFloat(formatEther(data?.[3].result as bigint))
+    : 0;
+
+  const stakedSBXAmount = data
+    ? Number.parseFloat(formatEther(data?.[4].result as bigint))
+    : 0;
+
+  console.log("SUSD Amount:", formattedSUSDAmount);
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -64,12 +122,53 @@ const StakingBurn = () => {
     }
   };
 
-  const BurnHandler = () => {
-    walletClient?.writeContract({
-      ...StakingContract,
-      functionName: "burnXUSD",
-      args: [parseEther(sbxAmount.toString())],
-    });
+  const BurnHandler = async () => {
+    try {
+      setBurnLoading(true);
+
+      // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
+      let hash;
+
+      let allowance = (await publicClient?.readContract({
+        ...sUSDContract,
+        functionName: "allowance",
+        args: [address, StakingCA],
+      })) as bigint;
+
+      if (allowance < parseEther(sUSDAmount.toString())) {
+        hash = await writeContractAsync({
+          ...sUSDContract,
+          functionName: "approve",
+          args: [StakingCA, parseEther(sUSDAmount.toString())],
+        });
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        await publicClient?.waitForTransactionReceipt({ hash: hash! });
+      }
+
+      allowance = (await publicClient?.readContract({
+        ...sUSDContract,
+        functionName: "allowance",
+        args: [address, StakingCA],
+      })) as bigint;
+
+      if (allowance >= parseEther(sbxAmount.toString())) {
+        hash = await writeContractAsync({
+          ...StakingContract,
+          functionName: "unstake",
+          args: [parseEther(sUSDAmount.toString())],
+        });
+
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        await publicClient?.waitForTransactionReceipt({ hash: hash! });
+      } else {
+        setError("Insufficient allowance");
+      }
+    } catch (error) {
+      setError("An error occurred during the migration process");
+      console.error(error);
+    } finally {
+      setBurnLoading(false);
+    }
   };
 
   const isDisabled = sbxAmount || sUSDAmount;
@@ -122,7 +221,7 @@ const StakingBurn = () => {
                       </span>
                     </span>
                     <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
-                      $4.16
+                      ${sbxPrice}
                     </span>
                   </div>
                   <div className="flex flex-row gap-2 flex-[1_0_0] items-center">
@@ -132,7 +231,7 @@ const StakingBurn = () => {
                       </span>
                     </span>
                     <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
-                      $1.12
+                      ${1.000112}
                     </span>
                   </div>
                 </div>
@@ -260,22 +359,23 @@ const StakingBurn = () => {
                         sUSD
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        {t("stakingBurn.activeDebt")} : {susdAmountofAccount}
-                        &nbsp; sUSD {t("stakingBurn.balance")}: 0.00
+                        {t("stakingBurn.activeDebt")} : {formattedSUSDAmount}
+                        &nbsp; sUSD {t("stakingBurn.balance")}:&nbsp;
+                        {formattedSUSDAmount}
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-row lg:gap-3 sm:gap-2 gap-1 items-center w-full">
                     <button
                       type="button"
-                      onClick={() => setSUSDAmount(susdAmountofAccount)}
+                      onClick={() => setSUSDAmount(formattedSUSDAmount)}
                       className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
                     >
                       {t("stakingBurn.burnMax")}
                     </button>
                     <button
                       type="button"
-                      onClick={() => setSUSDAmount(susdAmountofAccount * 0.5)}
+                      onClick={() => setSUSDAmount(formattedSUSDAmount * 0.5)}
                       className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
                     >
                       {t("stakingBurn.burnToTarget")}
@@ -314,7 +414,7 @@ const StakingBurn = () => {
                         SBX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        {t("stakingBurn.staked")} SBX : 0.00
+                        {t("stakingBurn.staked")} SBX : {stakedSBXAmount}
                       </div>
                     </div>
                   </div>

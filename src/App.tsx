@@ -20,7 +20,7 @@ import Escrow from "./components/app/escrow";
 
 import "@rainbow-me/rainbowkit/styles.css";
 import "./App.css";
-import { sepolia } from "viem/chains";
+import { bscTestnet, sepolia } from "viem/chains";
 
 type LayoutWithNavbarAndFooterProps = {
   children: React.ReactNode;
@@ -52,17 +52,17 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 };
 
 function App() {
-  const chainId = useChainId();
-  const { switchChain } = useSwitchChain();
+  // const chainId = useChainId();
+  // const { switchChain } = useSwitchChain();
 
-  useEffect(() => {
-    console.log(chainId);
-    while (chainId !== sepolia.id) {
-      switchChain({
-        chainId: sepolia.id,
-      });
-    }
-  }, [chainId, switchChain]);
+  // useEffect(() => {
+  //   console.log(chainId);
+  //   while (chainId !== bscTestnet.id) {
+  //     switchChain({
+  //       chainId: bscTestnet.id,
+  //     });
+  //   }
+  // }, [chainId, switchChain]);
 
   return (
     <Router>

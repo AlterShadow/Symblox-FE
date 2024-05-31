@@ -1,26 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import { useAccount, useReadContracts, useWalletClient } from "wagmi";
+import {
+  useAccount,
+  usePublicClient,
+  useReadContracts,
+  useWalletClient,
+  useWriteContract,
+} from "wagmi";
 import { formatEther, parseEther } from "viem";
 import {
   PriceOracleCA,
   StakingCA,
   SymbloxTokenCA,
+  xUSDCA,
 } from "../../../config/params/contractAddresses";
-import SBXContractABI from "../../../config/abis/SymbloxABI.json";
-import PriceOracleABI from "../../../config/abis/PriceOracleABI.json";
-import StakingABI from "../../../config/abis/StakingABI.json";
+import {
+  sUSDABI,
+  StakingABI,
+  PriceOracleABI,
+  SBXContractABI,
+} from "../../../config/abis";
 import LightTooltip from "../../widgets/LightTooltip";
 import { onlyNumberRegex } from "../../../utils/formatters/inputNumFormatter";
 import { useTranslation } from "react-i18next";
+import LoadingButton from "../../widgets/LoadingButton";
 
 const StakingMint = () => {
   const { t } = useTranslation();
   const { address } = useAccount();
-  const [sbxAmount, setSBXAmount] = useState<number>(0);
-  const [sUSDAmount, setSUSDAmount] = useState<number>(0);
+  const [sbxAmount, setSBXAmount] = useState<string>("");
+  const [sUSDAmount, setSUSDAmount] = useState<string>("");
+  const [stakingLoading, setStakingLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const { data: walletClient } = useWalletClient();
+  const { writeContractAsync } = useWriteContract();
+  const publicClient = usePublicClient();
+
   const StakingContract = {
     address: StakingCA,
     abi: StakingABI,
@@ -36,6 +52,11 @@ const StakingMint = () => {
     abi: PriceOracleABI,
   } as const;
 
+  const sUSDContract = {
+    address: xUSDCA,
+    abi: sUSDABI,
+  } as const;
+
   const { data } = useReadContracts({
     contracts: [
       {
@@ -46,37 +67,113 @@ const StakingMint = () => {
       {
         ...PriceOracleContract,
         functionName: "getTokenPrice",
-        args: [0x91a14891bc882561aabefc1e2b1626c13b38f37c],
+        args: [SymbloxTokenCA],
+      },
+      {
+        ...StakingContract,
+        functionName: "getBorrowableAmount",
+        args: [sbxAmount],
+      },
+      {
+        ...sUSDContract,
+        functionName: "balanceOf",
+        args: [address],
       },
     ],
   });
+
   const formattedSBXAmount = data
     ? Number.parseFloat(formatEther(data?.[0].result as bigint))
     : 0;
 
+  const sbxPrice = data
+    ? Number.parseFloat(formatEther(data?.[1].result as bigint))
+    : 0;
+
+  console.log("sbx Price:", sbxPrice);
+
+  const formattedBorrowableXUSDAmount = data
+    ? Number.parseFloat(data?.[2].result as string)
+    : 0;
+
+  console.log("Borrowable Amount:", formattedBorrowableXUSDAmount);
+
+  const formattedSUSDAmount = data
+    ? Number.parseFloat(formatEther(data?.[3].result as bigint))
+    : 0;
+
+  console.log("SUSD Amount:", formattedSUSDAmount);
+
   const setSBXAmountHandler = (percent: number) => {
     const newAmount = (formattedSBXAmount * percent) / 100;
-    setSBXAmount(newAmount);
+    setSBXAmount(newAmount.toString());
   };
 
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    setState: React.Dispatch<React.SetStateAction<number>>
-  ) => {
-    if (onlyNumberRegex.test(event.target.value)) {
-      setState(Number.parseFloat(event.target.value));
+  const sbxAmountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setSBXAmount(e.target.value); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
+  };
+
+  const sUSDAmountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setSUSDAmount(e.target.value); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
+  };
+
+  const MintHandler = async () => {
+    try {
+      setStakingLoading(true);
+
+      // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
+      let hash;
+
+      let allowance = (await publicClient?.readContract({
+        ...SBXContract,
+        functionName: "allowance",
+        args: [address, StakingCA],
+      })) as bigint;
+
+      if (allowance < parseEther(sbxAmount.toString())) {
+        hash = await writeContractAsync({
+          ...SBXContract,
+          functionName: "approve",
+          args: [StakingCA, parseEther(sbxAmount.toString())],
+        });
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        await publicClient?.waitForTransactionReceipt({ hash: hash! });
+      }
+
+      allowance = (await publicClient?.readContract({
+        ...SBXContract,
+        functionName: "allowance",
+        args: [address, StakingCA],
+      })) as bigint;
+
+      if (allowance >= parseEther(sbxAmount.toString())) {
+        hash = await writeContractAsync({
+          ...StakingContract,
+          functionName: "stake",
+          args: [parseEther(sbxAmount.toString())],
+        });
+
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        await publicClient?.waitForTransactionReceipt({ hash: hash! });
+      } else {
+        setError("Insufficient allowance");
+      }
+    } catch (error) {
+      setError("An error occurred during the migration process");
+      console.error(error);
+    } finally {
+      setStakingLoading(false);
     }
   };
 
-  const MintHandler = () => {
-    walletClient?.writeContract({
-      ...StakingContract,
-      functionName: "stake",
-      args: [parseEther(sbxAmount.toString())],
-    });
-  };
+  useEffect(() => {
+    console.log("SBX Amount:", sbxAmount);
+    setSUSDAmount(formattedBorrowableXUSDAmount.toString());
+  }, [sbxAmount]);
 
-  const isDisabled = sbxAmount || sUSDAmount;
+  const isDisabled = sbxAmount === "" || Number(sbxAmount) === 0;
 
   return (
     <>
@@ -128,7 +225,7 @@ const StakingMint = () => {
                     </span>
                   </span>
                   <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
-                    $4.16
+                    ${sbxPrice}
                   </span>
                 </div>
               </div>
@@ -156,8 +253,8 @@ const StakingMint = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="number"
-                      value={sbxAmount || ""}
-                      onChange={(e) => handleInputChange(e, setSBXAmount)}
+                      value={sbxAmount}
+                      onChange={sbxAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar"
                       placeholder="Enter Amount"
                     />
@@ -206,7 +303,7 @@ const StakingMint = () => {
                     <input
                       type="number"
                       value={sUSDAmount || ""}
-                      onChange={(e) => handleInputChange(e, setSUSDAmount)}
+                      onChange={sUSDAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary"
                       placeholder="Enter Amount"
                     />
@@ -215,7 +312,7 @@ const StakingMint = () => {
                         sUSD
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        sUSD {t("stakingMint.balance")} : 0.00
+                        sUSD {t("stakingMint.balance")} : {formattedSUSDAmount}
                       </div>
                     </div>
                   </div>
@@ -238,18 +335,22 @@ const StakingMint = () => {
                   </div>
                 </div>
                 <div className="flex justify-center">
-                  <button
-                    type="button"
-                    disabled={!isDisabled}
-                    onClick={MintHandler}
-                    className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
-                      !isDisabled
-                        ? "opacity-50 hover:opacity-100 active:scale-[0.95]"
-                        : "opacity-100 hover:scale-[1.02] active:scale-[0.95]"
-                    }`}
-                  >
-                    {t("stakingMint.mint")}
-                  </button>
+                  {stakingLoading ? (
+                    <LoadingButton bgColor="#EE2D82" />
+                  ) : (
+                    <button
+                      type="button"
+                      disabled={isDisabled}
+                      onClick={MintHandler}
+                      className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
+                        isDisabled
+                          ? "opacity-50 hover:cursor-not-allowed"
+                          : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
+                      }`}
+                    >
+                      {t("stakingMint.mint")}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
