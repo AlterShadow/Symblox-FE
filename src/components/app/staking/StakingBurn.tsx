@@ -171,7 +171,7 @@ const StakingBurn = () => {
     }
   };
 
-  const isDisabled = sbxAmount || sUSDAmount;
+  const isDisabled = !(sbxAmount && sUSDAmount);
 
   return (
     <>
@@ -437,16 +437,22 @@ const StakingBurn = () => {
                   </div>
                 </div>
                 <div className="flex justify-center">
-                  <button
-                    type="button"
-                    disabled={!isDisabled}
-                    onClick={BurnHandler}
-                    className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
-                      !isDisabled ? "opacity-50" : "opacity-100"
-                    }`}
-                  >
-                    {t("stakingBurn.burn")}
-                  </button>
+                  {burnLoading ? (
+                    <LoadingButton bgColor="#EE2D82" />
+                  ) : (
+                    <button
+                      type="button"
+                      disabled={isDisabled}
+                      onClick={BurnHandler}
+                      className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
+                        isDisabled
+                          ? "opacity-50 hover:cursor-not-allowed"
+                          : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
+                      }`}
+                    >
+                      {t("stakingBurn.burn")}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

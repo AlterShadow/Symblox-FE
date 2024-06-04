@@ -1,16 +1,28 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import { useAccount, useReadContracts, useWalletClient } from "wagmi";
-import { formatEther } from "viem";
-import SBXContractABI from "../../../config/abis/SymbloxABI.json";
-import StakingABI from "../../../config/abis/StakingABI.json";
-import { LinearProgress, type LinearProgressProps } from "@mui/material";
-import { useTranslation } from "react-i18next";
 import {
+  useAccount,
+  usePublicClient,
+  useReadContracts,
+  useWalletClient,
+  useWriteContract,
+} from "wagmi";
+import { formatEther } from "viem";
+import {
+  PriceOracleCA,
   StakingCA,
   SymbloxTokenCA,
+  xUSDCA,
 } from "../../../config/params/contractAddresses";
+import {
+  sUSDABI,
+  StakingABI,
+  PriceOracleABI,
+  SBXContractABI,
+} from "../../../config/abis";
+import { LinearProgress, type LinearProgressProps } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { timeFormatter } from "../../../utils/formatters/timeFormatter";
 
 interface ProgressBarProps extends LinearProgressProps {
@@ -92,8 +104,12 @@ const StakingEarn = () => {
   const { t } = useTranslation();
   const { address } = useAccount();
   const [sbxAmount, setSBXAmount] = useState<number>(0);
-  const [sUSDAmount, setSUSDAmount] = useState<number>(0);
+  const [sUSDAmount, setSUSDAmount] = useState<string>("");
+  const [claimLoading, setClaimLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const { data: walletClient } = useWalletClient();
+  const { writeContractAsync } = useWriteContract();
+  const publicClient = usePublicClient();
 
   const StakingContract = {
     address: StakingCA,
@@ -105,32 +121,32 @@ const StakingEarn = () => {
     abi: SBXContractABI,
   } as const;
 
-  const { data } = useReadContracts({
-    contracts: [
-      {
-        ...StakingContract,
-        functionName: "getRewardAmount",
-        args: [address],
-      },
-      {
-        ...StakingContract,
-        functionName: "stakes",
-        args: [address],
-      },
-    ],
-  });
+  // const { data } = useReadContracts({
+  //   contracts: [
+  //     {
+  //       ...StakingContract,
+  //       functionName: "getRewardAmount",
+  //       args: [address],
+  //     },
+  //     {
+  //       ...StakingContract,
+  //       functionName: "stakes",
+  //       args: [address],
+  //     },
+  //   ],
+  // });
 
-  const claimableAmount = data
-    ? Number.parseFloat(formatEther(data?.[0].result as bigint))
-    : 0;
+  // const claimableAmount = data
+  //   ? Number.parseFloat(formatEther(data?.[0].result as bigint))
+  //   : 0;
 
-  const remainingTime = data
-    ? Number.parseFloat(
-        formatEther(((data?.[1].result as any)?.lastStakedTime as bigint) || 0n)
-      )
-    : 0;
+  // const remainingTime = data
+  //   ? Number.parseFloat(
+  //       formatEther(((data?.[1].result as any)?.lastStakedTime as bigint) || 0n)
+  //     )
+  //   : 0;
 
-  console.log("Get Claimable Amount: ", remainingTime);
+  // console.log("Get Claimable Amount: ", remainingTime);
 
   const isDisabled = sbxAmount || sUSDAmount;
 
@@ -156,7 +172,7 @@ const StakingEarn = () => {
                   {t("stakingReward.claimReward")}
                 </span>
                 <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
-                  ${claimableAmount}
+                  ${0}
                 </span>
               </div>
               <div className="sm:p-5 p-4 border border-[#293745] rounded-[4px] lg:w-1/3 w-full bg-[#0a1a2a] flex flex-col md:items-center items-start gap-2 hover:bg-[rgba(255,255,255,0.08)]">
@@ -179,7 +195,7 @@ const StakingEarn = () => {
           </div>
           <div className="w-full flex flex-col gap-4">
             <hr className="border-[#293745]" />
-            <RewardItem remainingTime={remainingTime} />
+            <RewardItem remainingTime={0} />
             <hr className="border-[#293745]" />
             <RewardItem />
             <hr className="border-[#293745]" />
