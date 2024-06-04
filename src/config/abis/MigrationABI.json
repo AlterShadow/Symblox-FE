@@ -143,7 +143,9 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      { "internalType": "address", "name": "_owner", "type": "address" }
+    ],
     "name": "getClaimableAmount",
     "outputs": [
       {

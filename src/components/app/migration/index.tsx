@@ -86,6 +86,7 @@ const Migration = () => {
       {
         ...MigrationContract,
         functionName: "getClaimableAmount",
+        args: [address],
       },
       {
         ...PriceOracleContract,
@@ -106,7 +107,7 @@ const Migration = () => {
     : 0;
 
   const claimableAmount = data
-    ? Number.parseFloat(formatEther(data?.[4].result as bigint))
+    ? Number.parseFloat(formatEther((data?.[4].result as bigint) ?? 0n))
     : 0;
 
   const setSYXAmountHandler = (percent: number) => {
