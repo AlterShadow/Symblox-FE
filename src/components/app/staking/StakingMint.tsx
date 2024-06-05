@@ -169,9 +169,8 @@ const StakingMint = () => {
   };
 
   useEffect(() => {
-    console.log("SBX Amount:", sbxAmount);
     setSUSDAmount(formattedBorrowableXUSDAmount.toString());
-  }, [sbxAmount]);
+  }, [formattedBorrowableXUSDAmount]);
 
   const isDisabled = sbxAmount === "" || Number(sbxAmount) === 0;
 
