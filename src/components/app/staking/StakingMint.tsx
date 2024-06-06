@@ -22,7 +22,6 @@ import {
   SBXContractABI,
 } from "../../../config/abis";
 import LightTooltip from "../../widgets/LightTooltip";
-import { onlyNumberRegex } from "../../../utils/formatters/inputNumFormatter";
 import { useTranslation } from "react-i18next";
 import LoadingButton from "../../widgets/LoadingButton";
 

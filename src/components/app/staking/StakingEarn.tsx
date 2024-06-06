@@ -24,6 +24,8 @@ import {
 import { LinearProgress, type LinearProgressProps } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { timeFormatter } from "../../../utils/formatters/timeFormatter";
+import { isDisabled } from "@testing-library/user-event/dist/utils";
+import LoadingButton from "../../widgets/LoadingButton";
 
 interface ProgressBarProps extends LinearProgressProps {
   totalTimeStamp: number;
@@ -47,6 +49,53 @@ const RewardProgressBar: React.FC<ProgressBarProps> = ({
 
 const RewardItem = (remainingTime: any) => {
   const { t } = useTranslation();
+  const { address } = useAccount();
+  const { writeContractAsync } = useWriteContract();
+  const [claimLoading, setClaimLoading] = useState<boolean>(false);
+  const publicClient = usePublicClient();
+
+  const StakingContract = {
+    address: StakingCA,
+    abi: StakingABI,
+  } as const;
+
+  const { data } = useReadContracts({
+    contracts: [
+      {
+        ...StakingContract,
+        functionName: "getRewardDuration",
+      },
+    ],
+  });
+
+  const rewardForDuration = data
+    ? Number.parseFloat(formatEther((data?.[0].result as bigint) ?? 0n))
+    : 0;
+
+  console.log(rewardForDuration);
+
+  const ClaimHandler = async () => {
+    try {
+      setClaimLoading(true);
+
+      let hash;
+
+      hash = await writeContractAsync({
+        ...StakingContract,
+        functionName: "claimReward",
+      });
+
+      // biome-ignore lint/style/noNonNullAssertion: <explanation>
+      await publicClient?.waitForTransactionReceipt({ hash: hash! });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setClaimLoading(false);
+    }
+  };
+
+  const isDisabled = true;
+
   return (
     <>
       <div className="w-full flex flex-row">
@@ -88,12 +137,22 @@ const RewardItem = (remainingTime: any) => {
         </div>
         <div className="flex flex-grow justify-between items-center">
           <div className="min-w-[182px] flex flex-col ml-7" />
-          <button
-            type="button"
-            className="min-w-20 h-10 ml-4 text-[#7a7a85] bg-[#303037] rounded-[4px] font-bold"
-          >
-            {t("stakingReward.claim")}
-          </button>
+          {claimLoading ? (
+            <LoadingButton bgColor="#EE2D82" />
+          ) : (
+            <button
+              type="button"
+              disabled={isDisabled}
+              onClick={ClaimHandler}
+              className={`min-w-20 h-10 ml-4 text-white bg-primaryButtonColor rounded-[4px] font-bold ${
+                isDisabled
+                  ? "opacity-50 hover:cursor-not-allowed"
+                  : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
+              }`}
+            >
+              {t("stakingReward.claim")}
+            </button>
+          )}
         </div>
       </div>
     </>
@@ -148,7 +207,7 @@ const StakingEarn = () => {
 
   // console.log("Get Claimable Amount: ", remainingTime);
 
-  const isDisabled = sbxAmount || sUSDAmount;
+  // const isDisabled = sbxAmount || sUSDAmount;
 
   return (
     <>

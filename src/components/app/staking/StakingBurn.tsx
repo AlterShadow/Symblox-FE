@@ -33,7 +33,6 @@ const StakingBurn = () => {
   const [sUSDAmount, setSUSDAmount] = useState<number>(0);
   const [burnLoading, setBurnLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const { data: walletClient } = useWalletClient();
   const { writeContractAsync } = useWriteContract();
   const publicClient = usePublicClient();
 
@@ -71,7 +70,7 @@ const StakingBurn = () => {
       },
       {
         ...StakingContract,
-        functionName: "getBorrowableAmount",
+        functionName: "getBurningAmount",
         args: [sbxAmount],
       },
       {
