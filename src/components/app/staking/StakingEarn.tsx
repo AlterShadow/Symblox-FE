@@ -26,6 +26,7 @@ import { useTranslation } from "react-i18next";
 import { timeFormatter } from "../../../utils/formatters/timeFormatter";
 import { isDisabled } from "@testing-library/user-event/dist/utils";
 import LoadingButton from "../../widgets/LoadingButton";
+import ClaimLoadingButton from "../../widgets/ClaimLoadingButton";
 
 interface ProgressBarProps extends LinearProgressProps {
   totalTimeStamp: number;
@@ -94,7 +95,7 @@ const RewardItem = (remainingTime: any) => {
     }
   };
 
-  const isDisabled = true;
+  const isDisabled = false;
 
   return (
     <>
@@ -138,7 +139,7 @@ const RewardItem = (remainingTime: any) => {
         <div className="flex flex-grow justify-between items-center">
           <div className="min-w-[182px] flex flex-col ml-7" />
           {claimLoading ? (
-            <LoadingButton bgColor="#EE2D82" />
+            <ClaimLoadingButton bgColor="#EE2D82" />
           ) : (
             <button
               type="button"
