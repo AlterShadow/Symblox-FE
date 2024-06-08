@@ -201,9 +201,21 @@ const Migration = () => {
 
   return (
     <>
-      <div className="relative pt-[138px] lg:pb-[112px] pb-8 sm: w-full font-Barlow px-5 md:px-10 lg:px-5">
-        <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[48px] items-center">
-          <div className="flex flex-col gap-4 items-center">
+      <div className="pt-[88px] lg:pb-[112px] pb-8 sm:w-full font-Barlow px-5 md:px-10 lg:px-5">
+        <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[48px] items-center relative">
+          <Link
+            to="/staking"
+            className="absolute top-2 left-5 flex flex-row gap-2 items-center mt-5 sm:mt-0"
+          >
+            <Icon
+              icon="iconamoon:arrow-left-1"
+              className="text-white w-4 h-4"
+            />
+            <span className="text-[14px] leading-[1em] font-medium text-white">
+              {t("migration.backwards")}
+            </span>
+          </Link>
+          <div className="flex flex-col gap-4 items-center pt-[50px]">
             <p className="lg:text-[24px] md:text-[22px] text-[20px] leading-[1em] font-medium text-white">
               {t("migration.migrateSYX")}
             </p>
@@ -385,15 +397,6 @@ const Migration = () => {
             </div>
           </div>
         </div>
-        <Link
-          to="/staking"
-          className="absolute top-0 left-5 lg:hidden flex flex-row gap-2 items-center mt-5 sm:mt-0"
-        >
-          <Icon icon="iconamoon:arrow-left-1" className="text-white w-4 h-4" />
-          <span className="text-[14px] leading-[1em] font-medium text-white">
-            {t("migration.backwards")}
-          </span>
-        </Link>
       </div>
     </>
   );

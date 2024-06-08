@@ -494,7 +494,7 @@ const StakingBurn = () => {
         </div>
         <Link
           to="/staking"
-          className="absolute top-0 left-5 lg:hidden flex flex-row gap-2 items-center mt-5 sm:mt-0"
+          className="absolute top-0 left-5 lg:left-8 flex flex-row gap-2 items-center mt-5 sm:mt-0"
         >
           <Icon icon="iconamoon:arrow-left-1" className="text-white w-4 h-4" />
           <span className="text-[14px] leading-[1em] font-medium text-white">

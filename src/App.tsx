@@ -1,12 +1,11 @@
 import type React from "react";
-import { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   Navigate,
 } from "react-router-dom";
-import { useAccount, useChainId, useSwitchChain } from "wagmi";
+import { useAccount } from "wagmi";
 
 import Dashboard from "./components/dashboard";
 import Header from "./components/header";
@@ -20,7 +19,6 @@ import Escrow from "./components/app/escrow";
 
 import "@rainbow-me/rainbowkit/styles.css";
 import "./App.css";
-import { bscTestnet, sepolia } from "viem/chains";
 
 type LayoutWithNavbarAndFooterProps = {
   children: React.ReactNode;
@@ -52,18 +50,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 };
 
 function App() {
-  // const chainId = useChainId();
-  // const { switchChain } = useSwitchChain();
-
-  // useEffect(() => {
-  //   console.log(chainId);
-  //   while (chainId !== bscTestnet.id) {
-  //     switchChain({
-  //       chainId: bscTestnet.id,
-  //     });
-  //   }
-  // }, [chainId, switchChain]);
-
   return (
     <Router>
       <Routes>
