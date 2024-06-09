@@ -65,7 +65,7 @@ const StakingBurn = () => {
       },
       {
         ...PriceOracleContract,
-        functionName: "getTokenPrice",
+        functionName: "getUnderlyingPrice",
         args: [SymbloxTokenCA],
       },
       {

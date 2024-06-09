@@ -8,7 +8,12 @@ import {
   useWalletClient,
   useWriteContract,
 } from "wagmi";
-import { formatEther, parseEther } from "viem";
+import {
+  encodeAbiParameters,
+  encodeFunctionData,
+  formatEther,
+  parseEther,
+} from "viem";
 import {
   PriceOracleCA,
   StakingCA,
@@ -31,6 +36,7 @@ const StakingMint = () => {
   const [sbxAmount, setSBXAmount] = useState<string>("");
   const [sUSDAmount, setSUSDAmount] = useState<string>("");
   const [stakingLoading, setStakingLoading] = useState<boolean>(false);
+  const [gasPrice, setGasPrice] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const { data: walletClient } = useWalletClient();
   const { writeContractAsync } = useWriteContract();
@@ -71,7 +77,7 @@ const StakingMint = () => {
       {
         ...StakingContract,
         functionName: "getBorrowableAmount",
-        args: [sbxAmount],
+        args: [parseEther(sbxAmount)],
       },
       {
         ...sUSDContract,
@@ -89,19 +95,19 @@ const StakingMint = () => {
     ? Number.parseFloat(formatEther(data?.[1].result as bigint))
     : 0;
 
-  console.log("sbx Price:", sbxPrice);
-
   const formattedBorrowableXUSDAmount = data
-    ? Number.parseFloat(data?.[2].result as string)
+    ? Number.parseFloat(formatEther((data?.[2].result as bigint) ?? 0n))
     : 0;
 
-  console.log("Borrowable Amount:", formattedBorrowableXUSDAmount);
+  console.log(
+    "********************Borrowable Amount:",
+    data,
+    parseEther(sbxAmount)
+  );
 
   const formattedSUSDAmount = data
     ? Number.parseFloat(formatEther(data?.[3].result as bigint))
     : 0;
-
-  console.log("SUSD Amount:", formattedSUSDAmount);
 
   const setSBXAmountHandler = (percent: number) => {
     const newAmount = (formattedSBXAmount * percent) / 100;
@@ -132,6 +138,7 @@ const StakingMint = () => {
       })) as bigint;
 
       if (allowance < parseEther(sbxAmount.toString())) {
+        // console.log(formatEther(estimatedGas * gasPrice));
         hash = await writeContractAsync({
           ...SBXContract,
           functionName: "approve",
@@ -167,9 +174,58 @@ const StakingMint = () => {
     }
   };
 
+  const getEstimateGas = async () => {
+    const data = encodeFunctionData({
+      ...SBXContract,
+      functionName: "approve",
+      args: [StakingCA, parseEther(sbxAmount.toString())],
+    });
+    const estimatedGas = await publicClient!.estimateGas({
+      data,
+      account: address,
+      to: SBXContract.address,
+    });
+    const gasPrice = await publicClient!.getGasPrice();
+    setGasPrice(formatEther(estimatedGas * gasPrice));
+  };
+
+  const getBorrowableAmount = async (amount: string) => {
+    if (amount) {
+      let data = await publicClient?.readContract({
+        ...StakingContract,
+        functionName: "getBorrowableAmount",
+        args: [parseEther(amount)],
+      });
+
+      return data;
+    }
+  };
+
   useEffect(() => {
-    setSUSDAmount(formattedBorrowableXUSDAmount.toString());
-  }, [formattedBorrowableXUSDAmount]);
+    if (address) {
+      getEstimateGas();
+    }
+  }, [address]);
+
+  useEffect(() => {
+    if (
+      sbxAmount === "0" ||
+      sbxAmount === undefined ||
+      sbxAmount === null ||
+      sbxAmount === ""
+    ) {
+      setSUSDAmount("");
+    } else {
+      getBorrowableAmount(sbxAmount).then((data) => {
+        if (data) {
+          const borrowableAmount = Number.parseFloat(
+            formatEther((data as bigint) ?? 0n)
+          );
+          setSUSDAmount(borrowableAmount.toString());
+        }
+      });
+    }
+  }, [sbxAmount]);
 
   const isDisabled = sbxAmount === "" || Number(sbxAmount) === 0;
 
@@ -321,9 +377,7 @@ const StakingMint = () => {
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
-                      {Number.parseFloat(
-                        (Math.random() * 1).toString()
-                      ).toFixed(2)}
+                      {gasPrice}
                       &nbsp;BNB :&nbsp;
                       {Number.parseFloat(
                         (Math.random() * 5).toString()

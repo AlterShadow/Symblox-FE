@@ -50,7 +50,6 @@ const RewardProgressBar: React.FC<ProgressBarProps> = ({
 
 const RewardItem = (remainingTime: any) => {
   const { t } = useTranslation();
-  const { address } = useAccount();
   const { writeContractAsync } = useWriteContract();
   const [claimLoading, setClaimLoading] = useState<boolean>(false);
   const publicClient = usePublicClient();
