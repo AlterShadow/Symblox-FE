@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import { useTranslation } from "react-i18next";
 import PrivacyModal from "../modal/privacy";
+import { bscTestnet } from "viem/chains";
+import { injected } from "wagmi/connectors";
 
 const StakingBoard = () => {
   const { t } = useTranslation();
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
+  const { connectAsync } = useConnect();
 
   const navigate = useNavigate();
 
@@ -23,9 +26,10 @@ const StakingBoard = () => {
     navigate("/staking/earn");
   };
 
-  const migrationHandler = () => {
-    if (isConnected) navigate("/migration");
-    else alert("Try Wallet Connect First!");
+  const migrationHandler = async () => {
+    if (!address)
+      await connectAsync({ chainId: bscTestnet.id, connector: injected() });
+    else navigate("/migration");
   };
 
   return (

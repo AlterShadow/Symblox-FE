@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import LightTooltip from "../../widgets/LightTooltip";
 import {
   useAccount,
+  useConnect,
   usePublicClient,
   useReadContracts,
   useWriteContract,
 } from "wagmi";
-import { formatEther, parseEther } from "viem";
+import { encodeFunctionData, formatEther, parseEther } from "viem";
 import {
   MigrationCA,
+  StakingCA,
   SymbloxTokenCA,
   SYXCA,
 } from "../../../config/params/contractAddresses";
@@ -20,27 +21,33 @@ import {
   ERC20ABI,
   MigrationABI,
 } from "../../../config/abis";
-
 import { onlyNumberRegex } from "../../../utils/formatters/inputNumFormatter";
-import LoadingButton from "../../widgets/LoadingButton";
 import { useTranslation } from "react-i18next";
+import { BNBToUSDTPrice } from "../../../hooks/BNBToUSDTPrice";
+
+import LightTooltip from "../../widgets/LightTooltip";
+import LoadingButton from "../../widgets/LoadingButton";
+import { bscTestnet } from "viem/chains";
+import { injected } from "wagmi/connectors";
 
 const Migration = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { address, isConnected } = useAccount();
+  const { address } = useAccount();
+  const { connectAsync } = useConnect();
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-  useEffect(() => {
-    if (!isConnected) navigate("/staking");
-  }, [isConnected]);
 
   const [sbxAmount, setSBXAmount] = useState<string>("");
   const [syxAmount, setSYXAmount] = useState<string>("");
+  const [gasPrice, setGasPrice] = useState<string>("");
   const [migrateLoading, setMigrateLoading] = useState<boolean>(false);
   const [releaseLoading, setReleaseLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { writeContractAsync } = useWriteContract();
+  const BNBPrice = BNBToUSDTPrice();
   const publicClient = usePublicClient();
+
+  console.log("BNB price: ", BNBPrice);
 
   const SYXContract = {
     address: SYXCA,
@@ -181,6 +188,21 @@ const Migration = () => {
     }
   };
 
+  const getEstimateGas = async () => {
+    const data = encodeFunctionData({
+      ...SBXContract,
+      functionName: "approve",
+      args: [StakingCA, parseEther(sbxAmount.toString())],
+    });
+    const estimatedGas = await publicClient!.estimateGas({
+      data,
+      account: address,
+      to: SBXContract.address,
+    });
+    const gasPrice = await publicClient!.getGasPrice();
+    setGasPrice(formatEther(estimatedGas * gasPrice));
+  };
+
   const ReleaseHandler = async () => {
     try {
       setReleaseLoading(true);
@@ -198,6 +220,18 @@ const Migration = () => {
 
   const isDisabled = syxAmount === "" || Number(syxAmount) === 0;
   const releaseButtonState: boolean = claimableAmount === 0;
+
+  const ConnectHandler = async () => {
+    await connectAsync({ chainId: bscTestnet.id, connector: injected() });
+  };
+
+  useEffect(() => {
+    if (address) {
+      getEstimateGas();
+    } else {
+      ConnectHandler();
+    }
+  }, [address]);
 
   return (
     <>
@@ -347,13 +381,12 @@ const Migration = () => {
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
-                      {Number.parseFloat(
-                        (Math.random() * 1).toString()
-                      ).toFixed(2)}
+                      {gasPrice}
                       &nbsp;BNB :&nbsp;
-                      {Number.parseFloat(
-                        (Math.random() * 5).toString()
-                      ).toFixed(2)}
+                      {BNBPrice !== null &&
+                        Number.parseFloat(
+                          (Number(gasPrice) * BNBPrice).toString()
+                        ).toFixed(4)}
                       &nbsp;$
                     </span>
                   </div>
@@ -362,35 +395,45 @@ const Migration = () => {
                   {migrateLoading ? (
                     <LoadingButton bgColor="#EE2D82" />
                   ) : (
-                    <button
-                      type="button"
-                      disabled={isDisabled}
-                      onClick={MigrateHandler}
-                      className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
-                        isDisabled
-                          ? "opacity-50 hover:cursor-not-allowed"
-                          : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
-                      }`}
-                    >
-                      {t("migration.migrate")}
-                    </button>
+                    <>
+                      <button
+                        type="button"
+                        disabled={isDisabled}
+                        onClick={MigrateHandler}
+                        className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
+                          isDisabled
+                            ? "opacity-50 hover:cursor-not-allowed"
+                            : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
+                        }`}
+                      >
+                        {t("migration.migrate")}
+                      </button>
+                      {error && (
+                        <div className="text-primaryButtonColor">{error}</div>
+                      )}
+                    </>
                   )}
 
                   {releaseLoading ? (
                     <LoadingButton bgColor="#4C80C2" />
                   ) : (
-                    <button
-                      type="button"
-                      disabled={releaseButtonState}
-                      onClick={ReleaseHandler}
-                      className={`rounded-[60px] bg-[#4C80C2] w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
-                        releaseButtonState
-                          ? "opacity-50 hover:cursor-not-allowed"
-                          : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
-                      }`}
-                    >
-                      {t("migration.claim")}
-                    </button>
+                    <>
+                      <button
+                        type="button"
+                        disabled={releaseButtonState}
+                        onClick={ReleaseHandler}
+                        className={`rounded-[60px] bg-[#4C80C2] w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
+                          releaseButtonState
+                            ? "opacity-50 hover:cursor-not-allowed"
+                            : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
+                        }`}
+                      >
+                        {t("migration.claim")}
+                      </button>
+                      {error && (
+                        <div className="text-primaryButtonColor">{error}</div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

@@ -1,15 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import LightTooltip from "../../widgets/LightTooltip";
 import {
   useAccount,
   usePublicClient,
   useReadContracts,
-  useWalletClient,
   useWriteContract,
 } from "wagmi";
-import { formatEther, parseEther } from "viem";
+import { encodeFunctionData, formatEther, parseEther } from "viem";
 import {
   PriceOracleCA,
   StakingCA,
@@ -22,19 +20,23 @@ import {
   PriceOracleABI,
   SBXContractABI,
 } from "../../../config/abis";
-import { onlyNumberRegex } from "../../../utils/formatters/inputNumFormatter";
-import LoadingButton from "../../widgets/LoadingButton";
 import { useTranslation } from "react-i18next";
+import { BNBToUSDTPrice } from "../../../hooks/BNBToUSDTPrice";
+
+import LoadingButton from "../../widgets/LoadingButton";
+import LightTooltip from "../../widgets/LightTooltip";
 
 const StakingBurn = () => {
   const { t } = useTranslation();
   const { address } = useAccount();
-  const [sbxAmount, setSBXAmount] = useState<number>(0);
-  const [sUSDAmount, setSUSDAmount] = useState<number>(0);
+  const [sbxAmount, setSBXAmount] = useState<string>("");
+  const [sUSDAmount, setSUSDAmount] = useState<string>("");
+  const [gasPrice, setGasPrice] = useState<string>("");
   const [burnLoading, setBurnLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { writeContractAsync } = useWriteContract();
   const publicClient = usePublicClient();
+  const BNBPrice = BNBToUSDTPrice();
 
   const StakingContract = {
     address: StakingCA,
@@ -69,11 +71,6 @@ const StakingBurn = () => {
         args: [SymbloxTokenCA],
       },
       {
-        ...StakingContract,
-        functionName: "getBurningAmount",
-        args: [sbxAmount],
-      },
-      {
         ...sUSDContract,
         functionName: "balanceOf",
         args: [address],
@@ -86,40 +83,17 @@ const StakingBurn = () => {
     ],
   });
 
-  const formattedSBXAmount = data
-    ? Number.parseFloat(formatEther(data?.[0].result as bigint))
-    : 0;
-
   const sbxPrice = data
-    ? Number.parseFloat(formatEther(data?.[1].result as bigint))
+    ? Number.parseFloat(formatEther(data?.[1].result as bigint) ?? 0n)
     : 0;
-
-  console.log("sbx Price:", sbxPrice);
-
-  const formattedBorrowableXUSDAmount = data
-    ? Number.parseFloat(data?.[2].result as string)
-    : 0;
-
-  console.log("Borrowable Amount:", formattedBorrowableXUSDAmount);
 
   const formattedSUSDAmount = data
-    ? Number.parseFloat(formatEther(data?.[3].result as bigint))
+    ? Number.parseFloat(formatEther(data?.[2].result as bigint) ?? 0n)
     : 0;
 
   const stakedSBXAmount = data
-    ? Number.parseFloat(formatEther(data?.[4].result as bigint))
+    ? Number.parseFloat(formatEther(data?.[3].result as bigint) ?? 0n)
     : 0;
-
-  console.log("SUSD Amount:", formattedSUSDAmount);
-
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    setState: React.Dispatch<React.SetStateAction<number>>
-  ) => {
-    if (onlyNumberRegex.test(event.target.value)) {
-      setState(Number.parseFloat(event.target.value));
-    }
-  };
 
   const BurnHandler = async () => {
     try {
@@ -169,6 +143,79 @@ const StakingBurn = () => {
       setBurnLoading(false);
     }
   };
+
+  const sbxAmountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setSBXAmount(e.target.value); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
+  };
+
+  const sUSDAmountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setSUSDAmount(e.target.value); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
+  };
+
+  const setBurnMaxHandler = () => {
+    setSBXAmount(stakedSBXAmount.toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
+  };
+
+  const setBurnTargetHandler = () => {
+    setSBXAmount(stakedSBXAmount.toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole numberSBXAmount(sta.toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
+  };
+
+  const getEstimateGas = async () => {
+    const data = encodeFunctionData({
+      ...SBXContract,
+      functionName: "approve",
+      args: [StakingCA, parseEther(sbxAmount.toString())],
+    });
+    const estimatedApproveGas = await publicClient!.estimateGas({
+      data,
+      account: address,
+      to: SBXContract.address,
+    });
+
+    const gasPrice = await publicClient!.getGasPrice();
+
+    setGasPrice(formatEther(estimatedApproveGas * gasPrice));
+  };
+
+  const getBurnableAmount = async (amount: string) => {
+    if (amount) {
+      let data = await publicClient?.readContract({
+        ...StakingContract,
+        functionName: "getBurningAmount",
+        args: [parseEther(amount), address],
+      });
+
+      return data;
+    }
+  };
+
+  useEffect(() => {
+    if (
+      sbxAmount === "0" ||
+      sbxAmount === undefined ||
+      sbxAmount === null ||
+      sbxAmount === ""
+    ) {
+      setSUSDAmount("");
+    } else {
+      getBurnableAmount(sbxAmount).then((data) => {
+        if (data) {
+          const burnableAmount = Number.parseFloat(
+            formatEther((data as bigint) ?? 0n)
+          );
+          setSUSDAmount(burnableAmount.toString());
+        }
+      });
+    }
+  }, [sbxAmount]);
+
+  useEffect(() => {
+    if (address) {
+      getEstimateGas();
+    }
+  }, [address]);
 
   const isDisabled = !(sbxAmount && sUSDAmount);
 
@@ -349,7 +396,7 @@ const StakingBurn = () => {
                     <input
                       type="number"
                       value={sUSDAmount || ""}
-                      onChange={(e) => handleInputChange(e, setSUSDAmount)}
+                      onChange={sUSDAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar"
                       placeholder="Enter Amount"
                     />
@@ -367,14 +414,14 @@ const StakingBurn = () => {
                   <div className="flex flex-row lg:gap-3 sm:gap-2 gap-1 items-center w-full">
                     <button
                       type="button"
-                      onClick={() => setSUSDAmount(formattedSUSDAmount)}
+                      onClick={setBurnMaxHandler}
                       className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
                     >
                       {t("stakingBurn.burnMax")}
                     </button>
                     <button
                       type="button"
-                      onClick={() => setSUSDAmount(formattedSUSDAmount * 0.5)}
+                      onClick={setBurnTargetHandler}
                       className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
                     >
                       {t("stakingBurn.burnToTarget")}
@@ -403,8 +450,8 @@ const StakingBurn = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="number"
-                      value={sbxAmount || ""}
-                      onChange={(e) => handleInputChange(e, setSBXAmount)}
+                      value={sbxAmount}
+                      onChange={sbxAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary"
                       placeholder="Enter Amount"
                     />
@@ -424,13 +471,12 @@ const StakingBurn = () => {
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
-                      {Number.parseFloat(
-                        (Math.random() * 1).toString()
-                      ).toFixed(2)}
+                      {gasPrice}
                       &nbsp;BNB :&nbsp;
-                      {Number.parseFloat(
-                        (Math.random() * 5).toString()
-                      ).toFixed(2)}
+                      {BNBPrice !== null &&
+                        Number.parseFloat(
+                          (Number(gasPrice) * BNBPrice).toString()
+                        ).toFixed(4)}
                       &nbsp;$
                     </span>
                   </div>
@@ -439,18 +485,23 @@ const StakingBurn = () => {
                   {burnLoading ? (
                     <LoadingButton bgColor="#EE2D82" />
                   ) : (
-                    <button
-                      type="button"
-                      disabled={isDisabled}
-                      onClick={BurnHandler}
-                      className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
-                        isDisabled
-                          ? "opacity-50 hover:cursor-not-allowed"
-                          : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
-                      }`}
-                    >
-                      {t("stakingBurn.burn")}
-                    </button>
+                    <>
+                      <button
+                        type="button"
+                        disabled={isDisabled}
+                        onClick={BurnHandler}
+                        className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
+                          isDisabled
+                            ? "opacity-50 hover:cursor-not-allowed"
+                            : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
+                        }`}
+                      >
+                        {t("stakingBurn.burn")}
+                      </button>
+                      {error && (
+                        <div className="text-primaryButtonColor">{error}</div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

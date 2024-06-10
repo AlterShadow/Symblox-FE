@@ -5,15 +5,9 @@ import {
   useAccount,
   usePublicClient,
   useReadContracts,
-  useWalletClient,
   useWriteContract,
 } from "wagmi";
-import {
-  encodeAbiParameters,
-  encodeFunctionData,
-  formatEther,
-  parseEther,
-} from "viem";
+import { encodeFunctionData, formatEther, parseEther } from "viem";
 import {
   PriceOracleCA,
   StakingCA,
@@ -26,8 +20,10 @@ import {
   PriceOracleABI,
   SBXContractABI,
 } from "../../../config/abis";
-import LightTooltip from "../../widgets/LightTooltip";
 import { useTranslation } from "react-i18next";
+import { BNBToUSDTPrice } from "../../../hooks/BNBToUSDTPrice";
+
+import LightTooltip from "../../widgets/LightTooltip";
 import LoadingButton from "../../widgets/LoadingButton";
 
 const StakingMint = () => {
@@ -38,9 +34,11 @@ const StakingMint = () => {
   const [stakingLoading, setStakingLoading] = useState<boolean>(false);
   const [gasPrice, setGasPrice] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const { data: walletClient } = useWalletClient();
   const { writeContractAsync } = useWriteContract();
+  const BNBPrice = BNBToUSDTPrice();
   const publicClient = usePublicClient();
+
+  console.log("BNB Price: ", BNBPrice);
 
   const StakingContract = {
     address: StakingCA,
@@ -75,11 +73,6 @@ const StakingMint = () => {
         args: [SymbloxTokenCA],
       },
       {
-        ...StakingContract,
-        functionName: "getBorrowableAmount",
-        args: [parseEther(sbxAmount)],
-      },
-      {
         ...sUSDContract,
         functionName: "balanceOf",
         args: [address],
@@ -95,18 +88,8 @@ const StakingMint = () => {
     ? Number.parseFloat(formatEther(data?.[1].result as bigint))
     : 0;
 
-  const formattedBorrowableXUSDAmount = data
-    ? Number.parseFloat(formatEther((data?.[2].result as bigint) ?? 0n))
-    : 0;
-
-  console.log(
-    "********************Borrowable Amount:",
-    data,
-    parseEther(sbxAmount)
-  );
-
   const formattedSUSDAmount = data
-    ? Number.parseFloat(formatEther(data?.[3].result as bigint))
+    ? Number.parseFloat(formatEther(data?.[2].result as bigint))
     : 0;
 
   const setSBXAmountHandler = (percent: number) => {
@@ -379,9 +362,10 @@ const StakingMint = () => {
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
                       {gasPrice}
                       &nbsp;BNB :&nbsp;
-                      {Number.parseFloat(
-                        (Math.random() * 5).toString()
-                      ).toFixed(2)}
+                      {BNBPrice !== null &&
+                        Number.parseFloat(
+                          (Number(gasPrice) * BNBPrice).toString()
+                        ).toFixed(4)}
                       &nbsp;$
                     </span>
                   </div>
@@ -390,18 +374,23 @@ const StakingMint = () => {
                   {stakingLoading ? (
                     <LoadingButton bgColor="#EE2D82" />
                   ) : (
-                    <button
-                      type="button"
-                      disabled={isDisabled}
-                      onClick={MintHandler}
-                      className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
-                        isDisabled
-                          ? "opacity-50 hover:cursor-not-allowed"
-                          : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
-                      }`}
-                    >
-                      {t("stakingMint.mint")}
-                    </button>
+                    <>
+                      <button
+                        type="button"
+                        disabled={isDisabled}
+                        onClick={MintHandler}
+                        className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
+                          isDisabled
+                            ? "opacity-50 hover:cursor-not-allowed"
+                            : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
+                        }`}
+                      >
+                        {t("stakingMint.mint")}
+                      </button>
+                      {error && (
+                        <div className="text-primaryButtonColor">{error}</div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

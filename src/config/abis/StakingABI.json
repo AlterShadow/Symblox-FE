@@ -261,9 +261,8 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "issuedDebt", "type": "uint256" },
-      { "internalType": "uint256", "name": "activeDebt", "type": "uint256" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
+      { "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "internalType": "address", "name": "account", "type": "address" }
     ],
     "name": "getBurningAmount",
     "outputs": [
