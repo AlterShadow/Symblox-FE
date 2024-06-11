@@ -107,7 +107,13 @@ input::-webkit-inner-spin-button {
   font-family: "Barlow", "sans-serif" !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 470px) {
+  #wallet-button > div > button > div {
+    padding: 0 !important;
+  }
+}
+
+@media (max-width: 850px) {
   #wallet-button {
     font-family: "Barlow", "sans-serif";
     font-size: 14px;
@@ -152,12 +158,6 @@ button[data-testid="rk-account-button"] > div {
   padding-right: 6px;
   padding-bottom: 3px;
   color: white;
-}
-
-@media (max-width: 470px) {
-  #wallet-button > div > button > div {
-    padding: 0 !important;
-  }
 }
 
 .text-shadow {
