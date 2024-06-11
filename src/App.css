@@ -107,7 +107,7 @@ input::-webkit-inner-spin-button {
   font-family: "Barlow", "sans-serif" !important;
 }
 
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
   #wallet-button {
     font-family: "Barlow", "sans-serif";
     font-size: 14px;
@@ -120,9 +120,26 @@ input::-webkit-inner-spin-button {
   }
 }
 
+@media (max-width: 450px) {
+  #wallet-button > div > button {
+    padding: 6px 8px;
+    font-family: "Barlow", "sans-serif" !important;
+  }
+}
+
+button[data-testid="rk-account-button"] > div {
+  background: transparent !important;
+}
+
 #wallet-button > div > button > div {
   border: none !important;
   padding: 0 12px;
+}
+
+@media (max-width: 450px) {
+  #wallet-button > div > button > div {
+    padding: 0 !important;
+  }
 }
 
 .text-shadow {
@@ -167,4 +184,8 @@ input::-webkit-inner-spin-button {
 /* Adjustments for active state */
 .tab-button.active {
   border-bottom: 3px solid #00d1ff; /* Set border color for active tab */
+}
+
+::-webkit-scrollbar {
+  height: 4px;
 }

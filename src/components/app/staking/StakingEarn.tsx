@@ -98,7 +98,7 @@ const RewardItem = (remainingTime: any) => {
 
   return (
     <>
-      <div className="w-full flex flex-row">
+      <div className="w-full flex flex-row overflow-auto pb-2 md1:pb-0">
         <div>
           <div className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full mr-4 bg-gradient-to-b from-pink-500 to-cyan-500">
             <div className="w-[38px] h-[38px] bg-[white] rounded-full items-center justify-center flex">

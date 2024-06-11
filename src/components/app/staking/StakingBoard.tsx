@@ -37,7 +37,7 @@ const StakingBoard = () => {
       <div className="pt-[55px] pb-8 w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-11">
           <div className="w-full flex">
-            <div className="w-full flex flex-row">
+            <div className="w-full flex flex-row overflow-auto pb-2">
               <div className="w-full h-full flex flex-col flex-[1_0_0] items-start justify-between gap-4 bg-primaryBoxColor py-[34px] pl-6 pr-10 rounded-xl">
                 <div className="relative flex flex-col gap-3 pr-12 items-start self-stretch">
                   <div className="absolute right-0 top-0 lg:right-3">

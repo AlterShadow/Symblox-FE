@@ -22,7 +22,7 @@ const AppHeader = () => {
                 className="w-8 h-8 lg:hidden block"
               />
             </Link>
-            <div className="h-6 sm:h-4 md:h-5 bg-primaryButtonColor inline-flex py-1 px-2 items-center justify-center gap-[10px] rounded-[4px] text-white text-[12px] leading-[1em] font-normal uppercase sm:text-[10px] sm:font-medium md:font-medium">
+            <div className="hidden tiny:inline-flex h-6 sm:h-4 md:h-5 bg-primaryButtonColor py-1 px-2 items-center justify-center gap-[10px] rounded-[4px] text-white text-[12px] leading-[1em] font-normal uppercase sm:text-[10px] sm:font-medium md:font-medium">
               {t("header.staking")}
             </div>
           </div>
