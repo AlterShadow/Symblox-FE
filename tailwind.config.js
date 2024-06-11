@@ -13,7 +13,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        tiny: "450px",
+        tiny: "470px",
         sm: "640px",
         md: "768px",
         md1: "920px",

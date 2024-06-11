@@ -120,7 +120,7 @@ input::-webkit-inner-spin-button {
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 470px) {
   #wallet-button > div > button {
     padding: 6px 8px;
     font-family: "Barlow", "sans-serif" !important;
@@ -136,7 +136,25 @@ button[data-testid="rk-account-button"] > div {
   padding: 0 12px;
 }
 
-@media (max-width: 450px) {
+.wrapper {
+  height: 12px !important;
+}
+
+.container {
+  background-color: #ffffff0f;
+  display: flex;
+  align-items: center;
+}
+
+.label {
+  font-size: 12px;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-bottom: 3px;
+  color: white;
+}
+
+@media (max-width: 470px) {
   #wallet-button > div > button > div {
     padding: 0 !important;
   }

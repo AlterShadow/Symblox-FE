@@ -25,6 +25,7 @@ import { BNBToUSDTPrice } from "../../../hooks/BNBToUSDTPrice";
 
 import LoadingButton from "../../widgets/LoadingButton";
 import LightTooltip from "../../widgets/LightTooltip";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 const StakingBurn = () => {
   const { t } = useTranslation();
@@ -80,6 +81,15 @@ const StakingBurn = () => {
         functionName: "balanceOf",
         args: [address],
       },
+      {
+        ...StakingContract,
+        functionName: "getStakerCRatio",
+        args: [address],
+      },
+      {
+        ...StakingContract,
+        functionName: "getGlobalCRatio",
+      },
     ],
   });
 
@@ -94,6 +104,18 @@ const StakingBurn = () => {
   const stakedSBXAmount = data
     ? Number.parseFloat(formatEther(data?.[3].result as bigint) ?? 0n)
     : 0;
+
+  const stakerCRatio = data
+    ? Number.parseFloat(formatEther(data?.[4].result as bigint) ?? 0n)
+    : 0;
+
+  const globalCRatio = data
+    ? Number.parseFloat(formatEther(data?.[5].result as bigint) ?? 0n)
+    : 0;
+
+  console.log("StakerCRatio", data, globalCRatio / stakerCRatio);
+
+  const currentCRatio = globalCRatio / stakerCRatio;
 
   const BurnHandler = async () => {
     try {
@@ -184,9 +206,10 @@ const StakingBurn = () => {
       let data = await publicClient?.readContract({
         ...StakingContract,
         functionName: "getBurningAmount",
-        args: [parseEther(amount), address],
+        args: [amount, address],
       });
 
+      console.log("Burnable Amount:", data);
       return data;
     }
   };
@@ -326,10 +349,19 @@ const StakingBurn = () => {
                         </LightTooltip>
                       </div>
                     </div>
-                    <div className="relative w-full h-3 bg-[#ffffff0f]">
+                    <div className="" id="RatioBar">
+                      <ProgressBar
+                        completed={currentCRatio}
+                        className="wrapper"
+                        barContainerClassName="container"
+                        labelClassName="label"
+                        maxCompleted={4000}
+                      />
+                    </div>
+                    {/* <div className="relative w-full h-3 bg-[#ffffff0f]">
                       <div className="absolute w-[1px] h-10 bg-[#303037] left-5 bottom-[-15px]" />
                       <div className="absolute w-[1px] h-10 bg-[#303037] right-10 bottom-[-15px]" />
-                    </div>
+                    </div> */}
                   </div>
                   <div className="lg:w-[40%] flex flex-col w-full rounded-[4px] border border-primaryBoxColor bg-black">
                     <div className="flex flex-row justify-between items-center pt-3 px-4 pb-4">
@@ -349,7 +381,11 @@ const StakingBurn = () => {
                           />
                         </LightTooltip>
                       </div>
-                      <div className="w-12 h-5 rounded-sm anim-colorExchange" />
+                      {currentCRatio ? (
+                        <div className="text-white">{currentCRatio}%</div>
+                      ) : (
+                        <div className="w-12 h-5 rounded-sm anim-colorExchange" />
+                      )}
                     </div>
                     <div className="w-full opacity-60 bg-[#303037] h-[1px]" />
                     <div className="flex flex-row justify-between items-center pt-2 px-4 pb-10">
