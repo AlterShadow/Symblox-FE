@@ -139,7 +139,13 @@
     "hedgeDebt": "对冲债务",
     "hedgeDebtDescription": "购买 dSBX 对冲",
     "selfLiquidate": "自行清算",
-    "selfLiquidateDescription": "自行清算 SBX 抵押品"
+    "selfLiquidateDescription": "自行清算 SBX 抵押品",
+    "burnTooltip": "销毁您的 sUSD 或质押的 SBX",
+    "currentCRatio": "您当前的 C 比率",
+    "burnInputExplanation": "销毁 sUSD 以提高您的 C 比率",
+    "stakeInputExplanation": "当您的 C 比率低于目标时，您的所有 SBX 都将被质押",
+    "minHealthState": "您可能被标记为清算",
+    "maxHealthState": "需要领取奖励"
   },
   "stakingMint": {
     "stakeSNX": "通过铸造 sUSD 质押 SBX",

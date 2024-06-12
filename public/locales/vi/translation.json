@@ -139,7 +139,13 @@
     "hedgeDebt": "Hedge Debt",
     "hedgeDebtDescription": "Mua dSBX để phòng hộ",
     "selfLiquidate": "Tự thanh lý",
-    "selfLiquidateDescription": "Tự thanh lý tài sản thế chấp SBX"
+    "selfLiquidateDescription": "Tự thanh lý tài sản thế chấp SBX",
+    "burnTooltip": "Đốt sUSD hoặc SBX đã đặt cọc của bạn",
+    "currentCRatio": "Tỷ lệ C hiện tại của bạn",
+    "burnInputExplanation": "Đốt sUSD để tăng Tỷ lệ C của bạn",
+    "stakeInputExplanation": "Khi tỷ lệ c của bạn thấp hơn mục tiêu của bạn, tất cả SBX của bạn sẽ được đặt cọc",
+    "minHealthState": "Bạn có thể đã được gắn cờ để thanh lý",
+    "maxHealthState": "Cần thiết để yêu cầu phần thưởng"
   },
   "stakingMint": {
     "stakeSNX": "Đặt cọc SBX bằng cách đúc sUSD",

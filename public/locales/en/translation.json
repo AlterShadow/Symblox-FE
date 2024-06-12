@@ -125,7 +125,6 @@
     "current": "current",
     "currentHealth": "Current Health",
     "target": "Target",
-    "targetHealth": "Target Health",
     "activeDebt": "Active debt",
     "balance": "Balance",
     "burnMax": "Burn Max",
@@ -139,7 +138,14 @@
     "hedgeDebt": "Hedge Debt",
     "hedgeDebtDescription": "Buy dSBX to hedge",
     "selfLiquidate": "Self Liquidate",
-    "selfLiquidateDescription": "Self Liquidate SBX Collateral"
+    "selfLiquidateDescription": "Self Liquidate SBX Collateral",
+    "burnTooltip": "Burn Your sUSD or Staked SBX",
+    "currentCRatio": "Your Current C-Ratio",
+    "targetHealth": "Target Health",
+    "burnInputExplanation": "Burn sUSD to increase your C-ratio",
+    "stakeInputExplanation": "When your c-ratio is below target, all your SBX is staked",
+    "minHealthState": "You maybe flagged for liquidation",
+    "maxHealthState": "Required to claim rewards"
   },
   "stakingMint": {
     "stakeSNX": "Stake SBX By Minting sUSD",

@@ -266,7 +266,7 @@ const StakingBurn = () => {
                       {t("stakingBurn.burn")}
                     </span>
                     <LightTooltip
-                      title="Burn Your sUSD or Staked SBX"
+                      title={t("stakingBurn.burnTooltip")}
                       arrow
                       placement="right"
                     >
@@ -317,7 +317,7 @@ const StakingBurn = () => {
                           {t("stakingBurn.current")} &lt; 160%
                         </span>
                         <LightTooltip
-                          title="You maybe flagged for liquidation"
+                          title={t("stakingBurn.minHealthState")}
                           arrow
                           placement="bottom-start"
                         >
@@ -335,7 +335,7 @@ const StakingBurn = () => {
                           {t("stakingBurn.target")} 4000%
                         </span>
                         <LightTooltip
-                          title="Required to claim rewards"
+                          title={t("stakingBurn.maxHealthState")}
                           arrow
                           placement="bottom-start"
                         >
@@ -370,7 +370,7 @@ const StakingBurn = () => {
                           {t("stakingBurn.currentHealth")}
                         </span>
                         <LightTooltip
-                          title="Your Current C-ratio"
+                          title={t("stakingBurn.currentCRatio")}
                           arrow
                           placement="bottom-start"
                         >
@@ -394,7 +394,7 @@ const StakingBurn = () => {
                           {t("stakingBurn.targetHealth")}
                         </span>
                         <LightTooltip
-                          title="Target Health"
+                          title={t("stakingBurn.targetHealth")}
                           arrow
                           placement="bottom-start"
                         >
@@ -417,7 +417,7 @@ const StakingBurn = () => {
                       {t("stakingBurn.burnSUSD")}
                     </span>
                     <LightTooltip
-                      title="Burn sUSD to increase your C-ratio"
+                      title={t("stakingBurn.burnInputExplanation")}
                       arrow
                       placement="bottom-start"
                     >
@@ -469,7 +469,7 @@ const StakingBurn = () => {
                       {t("stakingBurn.unstaking")}
                     </span>
                     <LightTooltip
-                      title="When your c-ratio is below target, all your SBX is staked"
+                      title={t("stakingBurn.stakeInputExplanation")}
                       arrow
                       placement="bottom-start"
                     >

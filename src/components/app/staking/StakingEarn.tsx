@@ -147,7 +147,7 @@ const RewardItem = (remainingTime: any) => {
               className={`min-w-20 h-10 ml-4 text-white bg-primaryButtonColor rounded-[4px] font-bold ${
                 isDisabled
                   ? "opacity-50 hover:cursor-not-allowed"
-                  : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
+                  : "opacity-90 hover:cursor-pointer hover:opacity-100 active:opacity-100"
               }`}
             >
               {t("stakingReward.claim")}

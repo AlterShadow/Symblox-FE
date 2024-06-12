@@ -139,7 +139,13 @@
     "hedgeDebt": "ป้องกันหนี้",
     "hedgeDebtDescription": "ซื้อ dSBX เพื่อป้องกันหนี้",
     "selfLiquidate": "การชำระบัญชีตัวเอง",
-    "selfLiquidateDescription": "การชำระบัญชี SBX ที่เป็นหลักประกันด้วยตัวเอง"
+    "selfLiquidateDescription": "การชำระบัญชี SBX ที่เป็นหลักประกันด้วยตัวเอง",
+    "burnTooltip": "เผา sUSD หรือ SBX ที่เดิมพันไว้",
+    "currentCRatio": "อัตราส่วน C ปัจจุบันของคุณ",
+    "burnInputExplanation": "เผา sUSD เพื่อเพิ่มอัตราส่วน C ของคุณ",
+    "stakeInputExplanation": "เมื่ออัตราส่วน C ของคุณต่ำกว่าเป้าหมาย SBX ของคุณทั้งหมดจะถูกเดิมพัน",
+    "minHealthState": "คุณอาจถูกทำเครื่องหมายเพื่อทำการชำระบัญชี",
+    "maxHealthState": "จำเป็นต้องรับรางวัล"
   },
   "stakingMint": {
     "stakeSNX": "วางเดิมพัน SBX โดยการสร้าง sUSD",
