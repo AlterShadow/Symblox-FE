@@ -292,7 +292,7 @@ const StakingMint = () => {
                       type="number"
                       value={sbxAmount}
                       onChange={sbxAmountHandler}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar"
+                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
                       placeholder="Enter Amount"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
@@ -341,7 +341,7 @@ const StakingMint = () => {
                       type="number"
                       value={sUSDAmount || ""}
                       onChange={sUSDAmountHandler}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary"
+                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
                       placeholder="Enter Amount"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">

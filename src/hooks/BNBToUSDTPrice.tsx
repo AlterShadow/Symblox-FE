@@ -8,14 +8,13 @@ export const BNBToUSDTPrice = () => {
     const fetchPrice = async () => {
       try {
         const response = await axios.get(
-          "https://api.binance.com/api/v3/ticker/price",
-          {
-            params: {
-              symbol: "BNBUSDT",
-            },
-          }
+          "https://api.geckoterminal.com/api/v2/simple/networks/bsc/token_price/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
         );
-        setPrice(response.data.price);
+        setPrice(
+          response.data.data.attributes.token_prices[
+            "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
+          ]
+        );
       } catch (error) {
         console.error("Error fetching BNB/USDT price:", error);
       }

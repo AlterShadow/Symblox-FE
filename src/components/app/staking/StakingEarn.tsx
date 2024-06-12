@@ -231,7 +231,7 @@ const StakingEarn = () => {
                   {t("stakingReward.claimReward")}
                 </span>
                 <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
-                  ${0}
+                  $&nbsp;{0}
                 </span>
               </div>
               <div className="sm:p-5 p-4 border border-[#293745] rounded-[4px] lg:w-1/3 w-full bg-[#0a1a2a] flex flex-col md:items-center items-start gap-2 hover:bg-[rgba(255,255,255,0.08)]">

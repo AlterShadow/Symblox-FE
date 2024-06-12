@@ -47,8 +47,6 @@ const Migration = () => {
   const BNBPrice = BNBToUSDTPrice();
   const publicClient = usePublicClient();
 
-  console.log("BNB price: ", BNBPrice);
-
   const SYXContract = {
     address: SYXCA,
     abi: ERC20ABI,
@@ -313,7 +311,7 @@ const Migration = () => {
                       type="number"
                       value={syxAmount}
                       onChange={handleSYXAmountChange}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar"
+                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
                       placeholder={sbxAmount ? "" : t("migration.placeholder")}
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
@@ -362,12 +360,17 @@ const Migration = () => {
                       readOnly
                       type="number"
                       value={sbxAmount}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary"
+                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
                       placeholder={sbxAmount ? "" : t("migration.placeholder")}
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
-                      <div className="text-white text-[14px] leading-[1em] font-bold text-right">
-                        {formattedSBXAmount}&nbsp; SBX
+                      <div className="flex flex-row gap-1 justify-end">
+                        <div className="text-[#7f93a2] text-[12px] lg:text-[14px] leading-[1em] font-normal text-right">
+                          {formattedSBXAmount}
+                        </div>
+                        <div className="text-white text-[14px] leading-[1em] font-bold text-right">
+                          SBX
+                        </div>
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
                         {t("migration.lockedSBX")} : {lockedBalance}

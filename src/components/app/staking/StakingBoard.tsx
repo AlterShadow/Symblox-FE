@@ -23,7 +23,7 @@ const StakingBoard = () => {
   };
 
   const rewardButtonHandler = () => {
-    navigate("/staking/earn");
+    navigate("/staking/reward");
   };
 
   const migrationHandler = async () => {

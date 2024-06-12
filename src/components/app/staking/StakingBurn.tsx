@@ -278,7 +278,7 @@ const StakingBurn = () => {
                       </span>
                     </LightTooltip>
                   </span>
-                  <span className="lg:text-[16px] text-[12px] font-medium leading-[1em] text-white">
+                  <span className="lg:text-[16px] text-[12px] font-medium leading-[1em] text-white hidden tiny:flex">
                     {t("stakingBurn.burnSUSDOrStakedSBX")}
                   </span>
                 </div>
@@ -433,7 +433,7 @@ const StakingBurn = () => {
                       type="number"
                       value={sUSDAmount || ""}
                       onChange={sUSDAmountHandler}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar"
+                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
                       placeholder="Enter Amount"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
@@ -441,8 +441,7 @@ const StakingBurn = () => {
                         sUSD
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        {t("stakingBurn.activeDebt")} : {formattedSUSDAmount}
-                        &nbsp; sUSD {t("stakingBurn.balance")}:&nbsp;
+                        sUSD {t("stakingBurn.balance")}:&nbsp;
                         {formattedSUSDAmount}
                       </div>
                     </div>
@@ -488,7 +487,7 @@ const StakingBurn = () => {
                       type="number"
                       value={sbxAmount}
                       onChange={sbxAmountHandler}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary"
+                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
                       placeholder="Enter Amount"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">

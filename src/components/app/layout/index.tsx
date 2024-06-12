@@ -45,7 +45,7 @@ const AppLayout = () => {
             }
           />
           <Route
-            path="/earn"
+            path="/reward"
             element={
               <ProtectedRoute>
                 <StakingEarn />
