@@ -398,7 +398,7 @@ const StakingMint = () => {
             <div className="w-full flex lg:flex-row flex-col">
               <Link
                 to="/guide/staking"
-                className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full lg:border-r-0 border-r lg:rounded-l-xl rounded-l-none rounded-tr-xl lg:rounded-tr-none rounded-tl-xl bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
+                className="sm:p-5 p-4 border border-[#293745] lg:w-full w-full border-r rounded-xl bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
               >
                 <span className="text-white text-[16px] sm:font-bold font-semibold leading-[1em]">
                   {t("stakingMint.stakingGuide")}
@@ -407,7 +407,7 @@ const StakingMint = () => {
                   {t("stakingMint.guideYour")}
                 </span>
               </Link>
-              <Link
+              {/* <Link
                 to="/guide/debt"
                 className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full rounded-r-xl lg:rounded-tr-xl rounded-tr-none border-t-0 lg:border-t rounded-bl-xl lg:rounded-bl-none bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
               >
@@ -417,7 +417,7 @@ const StakingMint = () => {
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
                   {t("stakingMint.buydSBX")}
                 </span>
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

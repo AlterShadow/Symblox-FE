@@ -16,7 +16,7 @@
     "syntheticAssets": "สินทรัพย์สังเคราะห์",
     "easily": "ง่ายดาย",
     "mintAndTrade": "สร้างและซื้อขายสินทรัพย์สังเคราะห์เช่น คริปโต สินค้าโภคภัณฑ์ และหุ้นได้อย่างง่ายดาย",
-    "discoverMore": "ค้นหาข้อมูลเพิ่มเติม"
+    "launchApp": "เปิดตัวแอป"
   },
   "about": {
     "aboutSymblox": "เกี่ยวกับ Symblox",
@@ -112,7 +112,7 @@
     "hedgeDebt": "ป้องกันหนี้",
     "buydSBX": "ซื้อ dSBX เพื่อป้องกันหนี้",
     "help": "ช่วยเหลือ",
-    "learnMoreAbout": "เรียนรู้เพิ่มเติมเกี่ยวกับ Synthetix"
+    "learnMoreAbout": "เรียนรู้เพิ่มเติมเกี่ยวกับ Symblox"
   },
   "stakingBurn": {
     "title": "เผาหนี้",

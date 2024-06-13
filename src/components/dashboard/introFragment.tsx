@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import useScrollVisibility from "../../hooks/useScrollVisibility";
+import { Link } from "react-router-dom";
 
 const IntroFragment = () => {
   const { t } = useTranslation();
@@ -46,16 +47,16 @@ const IntroFragment = () => {
               {t("intro.mintAndTrade")}
             </span>
           </div>
-          <button
-            type="button"
-            className={`transition-all duration-500 delay-[900ms] ${
+          <Link
+            to="/staking"
+            className={`transition-all duration-500 delay-[900ms] z-10 ${
               isVisible
-                ? "opacity-100 translate-y-0"
+                ? "opacity-100 translate-y-0 hover:bg-white hover:text-[#EE2D82] hover:duration-1000 hover:delay-0 hover:transition-all"
                 : "opacity-0 translate-y-10"
             } flex items-center justify-center w-[205px] h-[56px] py-[18px] px-10 gap-[10px] bg-[#EE2D82] rounded-[60px] text-white font-bold leading-[20px] text-[20px]`}
           >
-            {t("intro.discoverMore")}
-          </button>
+            {t("intro.launchApp")}
+          </Link>
         </div>
         <div className="md:pt-[115px] -z-10 pb-0 md:px-[54px] absolute bottom-0 md:right-[calc(5%)] select-none pointer-events-none">
           <img src="/assets/Image/IntroBackground.png" alt="IntroBackground" />

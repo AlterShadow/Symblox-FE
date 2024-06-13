@@ -553,7 +553,7 @@ const StakingBurn = () => {
                   {t("stakingBurn.guideDescription")}
                 </span>
               </Link>
-              <Link
+              {/* <Link
                 to="/staking/self-liquidation"
                 className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full rounded-tr-none border-t-0 lg:border-t bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
               >
@@ -563,7 +563,7 @@ const StakingBurn = () => {
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
                   {t("stakingBurn.hedgeDebtDescription")}
                 </span>
-              </Link>
+              </Link> */}
               <Link
                 to="/staking/self-liquidation"
                 className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full rounded-r-xl lg:rounded-tr-xl rounded-tr-none border-t-0 lg:border-t rounded-bl-xl lg:rounded-bl-none bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"

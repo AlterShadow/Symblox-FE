@@ -128,7 +128,7 @@ const StakingBoard = () => {
                 type="button"
                 disabled={!isConnected}
                 onClick={ratiohandler}
-                className="h-10 py-[18px] flex justify-center items-center gap-[10px] rounded-[60px] text-white text-[16px] font-bold leading-[16px] border border-white min-w-[190px] hover:scale-[1.02]"
+                className="h-10 py-[18px] px-8 lg:px-6 flex items-center gap-[10px] rounded-[60px] bg-primaryButtonColor text-white text-[16px] font-bold leading-[16px] min-w-[190px] text-center justify-center hover:scale-[1.02]"
               >
                 {t("stakingBoard.cRatioExplained")}
               </button>
@@ -160,7 +160,7 @@ const StakingBoard = () => {
                 type="button"
                 onClick={rewardButtonHandler}
                 disabled={!isConnected}
-                className="h-10 py-[18px] flex justify-center items-center gap-[10px] rounded-[60px] text-white text-[16px] font-bold leading-[16px] border border-white min-w-[190px] hover:scale-[1.02]"
+                className="h-10 py-[18px] px-8 lg:px-6 flex items-center gap-[10px] rounded-[60px] bg-primaryButtonColor text-white text-[16px] font-bold leading-[16px] min-w-[190px] text-center justify-center hover:scale-[1.02]"
               >
                 {t("stakingBoard.rewardsExplained")}
               </button>
@@ -169,7 +169,7 @@ const StakingBoard = () => {
           <div className="w-full flex lg:flex-row flex-col mx-auto justify-center">
             <Link
               to="/"
-              className="lg:w-1/4 w-full p-5 flex flex-col gap-2 border border-[#293745] lg:rounded-bl-xl rounded-tl-xl rounded-bl-none lg:rounded-tr-none rounded-tr-xl border-b-0 lg:border-b hover:bg-[rgba(255,255,255,0.03)]"
+              className="lg:w-1/2 w-full p-5 flex flex-col gap-2 border border-[#293745] lg:rounded-bl-xl rounded-tl-xl rounded-bl-none lg:rounded-tr-none rounded-tr-xl border-b-0 lg:border-b hover:bg-[rgba(255,255,255,0.03)]"
             >
               <p className="lg:text-[14px] text-[12px] leading-[1em] font-normal text-white">
                 {t("stakingBoard.estimatedAPR")}
@@ -181,7 +181,7 @@ const StakingBoard = () => {
                 {t("stakingBoard.connectWalletFirst")}
               </p>
             </Link>
-            <Link
+            {/* <Link
               to="/"
               className="lg:w-1/4 w-full p-5 flex flex-col gap-2 border border-[#293745] lg:border-l-0 justify-center border-l border-b-0 lg:border-b hover:bg-[rgba(255,255,255,0.03)]"
             >
@@ -202,10 +202,10 @@ const StakingBoard = () => {
               <p className="lg:text-[14px] text-[12px] leading-[1em] font-normal text-secondaryText">
                 {t("stakingBoard.buydSBX")}
               </p>
-            </Link>
+            </Link> */}
             <Link
               to="/"
-              className="lg:w-1/4 w-full p-5 flex flex-col gap-2 border border-[#293745] lg:border-l-0 rounded-br-xl lg:rounded-tr-xl rounded-tr-none border-l rounded-bl-xl lg:rounded-bl-none justify-center hover:bg-[rgba(255,255,255,0.03)]"
+              className="lg:w-1/2 w-full p-5 flex flex-col gap-2 border border-[#293745] lg:border-l-0 rounded-br-xl lg:rounded-tr-xl rounded-tr-none border-l rounded-bl-xl lg:rounded-bl-none justify-center hover:bg-[rgba(255,255,255,0.03)]"
             >
               <p className="lg:text-[20px] text-[16px] leading-[1em] font-bold text-white">
                 {t("stakingBoard.help")}

@@ -76,7 +76,7 @@ const Header = () => {
           </select>
           <Link
             to="/staking"
-            className="hidden md:flex py-2 px-6 items-center rounded-full bg-primaryButtonColor text-white font-bold"
+            className="transition-all duration-1000 delay-0 hidden md:flex py-2 px-6 items-center rounded-full bg-primaryButtonColor text-white font-bold hover:bg-white hover:text-primaryButtonColor"
           >
             {t("navigation.stakingApp")}
           </Link>

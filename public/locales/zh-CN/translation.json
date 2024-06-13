@@ -16,7 +16,7 @@
     "syntheticAssets": "合成资产",
     "easily": "简单",
     "mintAndTrade": "轻松铸造和交易合成资产，如加密货币、大宗商品和股票。",
-    "discoverMore": "了解更多"
+    "launchApp": "启动应用程序"
   },
   "about": {
     "aboutSymblox": "关于 Symblox",
@@ -112,7 +112,7 @@
     "hedgeDebt": "对冲债务",
     "buydSBX": "购买 dSBX 进行对冲",
     "help": "帮助",
-    "learnMoreAbout": "了解更多关于 Synthetix 的信息"
+    "learnMoreAbout": "了解更多关于 Symblox 的信息"
   },
   "stakingBurn": {
     "title": "烧毁债务",
