@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount, useConnect } from "wagmi";
+import { useAccount, useConnect, useSwitchChain } from "wagmi";
 import { useTranslation } from "react-i18next";
 import PrivacyModal from "../modal/privacy";
 import { bscTestnet } from "viem/chains";
@@ -10,12 +9,22 @@ import { injected } from "wagmi/connectors";
 const StakingBoard = () => {
   const { t } = useTranslation();
   const { isConnected, address } = useAccount();
+  const { switchChain } = useSwitchChain();
   const { connectAsync } = useConnect();
 
   const navigate = useNavigate();
 
   const stakingHandler = () => {
     navigate("/staking/mint");
+  };
+
+  const walletConnectHandler = async () => {
+    try {
+      await connectAsync({ connector: injected() });
+      await switchChain({ chainId: bscTestnet.id });
+    } catch (error) {
+      console.error("Failed to connect wallet", error);
+    }
   };
 
   const ratiohandler = () => {
@@ -96,9 +105,16 @@ const StakingBoard = () => {
                   {t("stakingBoard.startStaking")}
                 </button>
               ) : (
-                <div id="wallet-button">
-                  <ConnectButton label="Connect Wallet" />
-                </div>
+                // <div id="wallet-button">
+                //   <ConnectButton label="Connect Wallet" />
+                // </div>
+                <button
+                  type="button"
+                  onClick={walletConnectHandler}
+                  className="h-10 py-[18px] px-8 lg:px-6 flex items-center gap-[10px] rounded-[60px] bg-primaryButtonColor text-white text-[16px] font-bold leading-[16px] min-w-[190px] text-center justify-center hover:scale-[1.02]"
+                >
+                  Connect Wallet
+                </button>
               )}
             </div>
             <div
@@ -186,7 +202,7 @@ const StakingBoard = () => {
               className="lg:w-1/4 w-full p-5 flex flex-col gap-2 border border-[#293745] lg:border-l-0 justify-center border-l border-b-0 lg:border-b hover:bg-[rgba(255,255,255,0.03)]"
             >
               <p className="lg:text-[20px] text-[16px] leading-[1em] font-bold text-white">
-                {t("stakingBoard.SNXBridge")}
+                {t("stakingBoard.SBXBridge")}
               </p>
               <p className="lg:text-[14px] text-[12px] leading-[1em] font-normal text-secondaryText">
                 {t("stakingBoard.transferAsset")}

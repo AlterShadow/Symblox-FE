@@ -107,7 +107,7 @@
     "rewardsExplained": "Giải thích phần thưởng",
     "estimatedAPR": "APR ước tính",
     "connectWalletFirst": "Kết nối ví trước để hiển thị APR",
-    "SNXBridge": "Cầu SBX",
+    "SBXBridge": "Cầu SBX",
     "transferAsset": "Chuyển tài sản giữa các blockchain",
     "hedgeDebt": "Hedge Debt",
     "buydSBX": "Mua dSBX để phòng hộ",
@@ -148,7 +148,7 @@
     "maxHealthState": "Cần thiết để yêu cầu phần thưởng"
   },
   "stakingMint": {
-    "stakeSNX": "Đặt cọc SBX bằng cách đúc sUSD",
+    "stakeSBX": "Đặt cọc SBX bằng cách đúc sUSD",
     "mintSUSD": "Đúc sUSD bằng cách đặt cọc SBX của bạn. Người đặt cọc SBX nhận được phần thưởng đặt cọc hàng tuần để đổi lấy việc quản lý tỷ lệ tài sản thế chấp và nợ của họ.",
     "yourStakedSBX": "SBX đã đặt cọc của bạn sẽ bị khóa trong 7 ngày.",
     "epoch": "EPOCH",
@@ -167,8 +167,8 @@
     "buydSBX": "Mua dSBX để phòng hộ"
   },
   "stakingReward": {
-    "rewardSNX": "Kiếm phần thưởng",
-    "earnSBX": "Kiếm phần thưởng bằng cách đặt cọc mã thông báo SNX để nhận phần thưởng hàng tuần bằng cả SNX lạm phát và sUSD từ phí giao dịch.",
+    "rewardSBX": "Kiếm phần thưởng",
+    "earnSBX": "Kiếm phần thưởng bằng cách đặt cọc mã thông báo SBX để nhận phần thưởng hàng tuần bằng cả SBX lạm phát và sUSD từ phí giao dịch.",
     "yourRewardSBX": "Tìm hiểu thêm",
     "claimReward": "Phần thưởng có thể yêu cầu",
     "earning": "Kiếm tiền",

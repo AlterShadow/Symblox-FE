@@ -319,7 +319,8 @@ const Migration = () => {
                         SYX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        {t("migration.availableSYX")} : {formattedSYXAmount}
+                        {t("migration.availableSYX")} :{" "}
+                        {Number(formattedSYXAmount.toFixed(8))}
                       </div>
                     </div>
                   </div>
@@ -373,7 +374,8 @@ const Migration = () => {
                         </div>
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        {t("migration.lockedSBX")} : {lockedBalance}
+                        {t("migration.lockedSBX")} :{" "}
+                        {Number(lockedBalance.toFixed(8))}
                       </div>
                     </div>
                   </div>
@@ -384,7 +386,7 @@ const Migration = () => {
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
-                      {gasPrice}
+                      {Number(gasPrice).toFixed(8)}
                       &nbsp;BNB :&nbsp;
                       {BNBPrice !== null &&
                         Number.parseFloat(

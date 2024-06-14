@@ -107,7 +107,7 @@
     "rewardsExplained": "奖励说明",
     "estimatedAPR": "预计年收益率",
     "connectWalletFirst": "先连接钱包以显示年收益率",
-    "SNXBridge": "SBX 桥",
+    "SBXBridge": "SBX 桥",
     "transferAsset": "跨链转移资产",
     "hedgeDebt": "对冲债务",
     "buydSBX": "购买 dSBX 进行对冲",
@@ -116,7 +116,7 @@
   },
   "stakingBurn": {
     "title": "烧毁债务",
-    "description": "烧毁您的 sUSD 债务以解锁您质押的 SNX。这将提高您的抵押率并减少您的债务。了解更多。",
+    "description": "烧毁您的 sUSD 债务以解锁您质押的 SBX。这将提高您的抵押率并减少您的债务。了解更多。",
     "burn": "烧毁",
     "burnSUSD": "烧毁 sUSD",
     "burnSUSDOrStakedSBX": "烧毁 sUSD 或质押的 SBX",
@@ -148,7 +148,7 @@
     "maxHealthState": "需要领取奖励"
   },
   "stakingMint": {
-    "stakeSNX": "通过铸造 sUSD 质押 SBX",
+    "stakeSBX": "通过铸造 sUSD 质押 SBX",
     "mintSUSD": "通过质押您的 SBX 铸造 sUSD。SBX 质押者通过管理他们的抵押率和债务来获得每周质押奖励。",
     "yourStakedSBX": "您质押的 SBX 将被锁定 7 天。",
     "epoch": "周期",
@@ -167,8 +167,8 @@
     "buydSBX": "购买 dSBX 对冲"
   },
   "stakingReward": {
-    "rewardSNX": "赚取奖励",
-    "earnSBX": "通过质押 SNX 代币赚取奖励，每周获得通胀 SNX 和 sUSD 的交易费用奖励。",
+    "rewardSBX": "赚取奖励",
+    "earnSBX": "通过质押 SBX 代币赚取奖励，每周获得通胀 SBX 和 sUSD 的交易费用奖励。",
     "yourRewardSBX": "了解更多",
     "claimReward": "可领取奖励",
     "earning": "收益",

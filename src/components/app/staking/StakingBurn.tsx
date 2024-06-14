@@ -290,7 +290,7 @@ const StakingBurn = () => {
                       </span>
                     </span>
                     <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
-                      ${sbxPrice}
+                      ${Number(sbxPrice.toFixed(8))}
                     </span>
                   </div>
                   <div className="flex flex-row gap-2 flex-[1_0_0] items-center">
@@ -351,11 +351,11 @@ const StakingBurn = () => {
                     </div>
                     <div className="" id="RatioBar">
                       <ProgressBar
-                        completed={currentCRatio}
+                        completed={Number(currentCRatio.toFixed(2))}
                         className="wrapper"
                         barContainerClassName="container"
                         labelClassName="label"
-                        maxCompleted={4000}
+                        maxCompleted={700}
                       />
                     </div>
                     {/* <div className="relative w-full h-3 bg-[#ffffff0f]">
@@ -382,7 +382,9 @@ const StakingBurn = () => {
                         </LightTooltip>
                       </div>
                       {currentCRatio ? (
-                        <div className="text-white">{currentCRatio}%</div>
+                        <div className="text-white">
+                          {Number(currentCRatio.toFixed(2))}%
+                        </div>
                       ) : (
                         <div className="w-12 h-5 rounded-sm anim-colorExchange" />
                       )}
@@ -406,7 +408,7 @@ const StakingBurn = () => {
                         </LightTooltip>
                       </div>
                       <span className="lg:text-[20px] text-[16px] text-[#2DFF8C] font-medium leading-[1em]">
-                        4,000%
+                        700%
                       </span>
                     </div>
                   </div>
@@ -442,7 +444,7 @@ const StakingBurn = () => {
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
                         sUSD {t("stakingBurn.balance")}:&nbsp;
-                        {formattedSUSDAmount}
+                        {Number(formattedSUSDAmount.toFixed(8))}
                       </div>
                     </div>
                   </div>
@@ -495,7 +497,8 @@ const StakingBurn = () => {
                         SBX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        {t("stakingBurn.staked")} SBX : {stakedSBXAmount}
+                        {t("stakingBurn.staked")} SBX :{" "}
+                        {Number(stakedSBXAmount.toFixed(8))}
                       </div>
                     </div>
                   </div>
@@ -506,7 +509,7 @@ const StakingBurn = () => {
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
-                      {gasPrice}
+                      {Number(gasPrice).toFixed(8)}
                       &nbsp;BNB :&nbsp;
                       {BNBPrice !== null &&
                         Number.parseFloat(

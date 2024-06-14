@@ -107,7 +107,7 @@
     "rewardsExplained": "Rewards explained",
     "estimatedAPR": "Estimated APR",
     "connectWalletFirst": "Connect wallet first to reveal the APR",
-    "SNXBridge": "SBX Bridge",
+    "SBXBridge": "SBX Bridge",
     "transferAsset": "Transfer Asset between blockchains",
     "hedgeDebt": "Hedge Debt",
     "buydSBX": "Buy dSBX to hedge",
@@ -116,7 +116,7 @@
   },
   "stakingBurn": {
     "title": "Burn Debt",
-    "description": "Burn your sUSD debt to unlock your staked SNX. This will increase your Collateralization Ratio and reduce your debt. Learn more.",
+    "description": "Burn your sUSD debt to unlock your staked SBX. This will increase your Collateralization Ratio and reduce your debt. Learn more.",
     "burn": "Burn",
     "burnSUSD": "Burn sUSD",
     "burnSUSDOrStakedSBX": "Burn sUSD or Staked SBX",
@@ -148,7 +148,7 @@
     "maxHealthState": "Required to claim rewards"
   },
   "stakingMint": {
-    "stakeSNX": "Stake SBX By Minting sUSD",
+    "stakeSBX": "Stake SBX By Minting sUSD",
     "mintSUSD": "Mint sUSD by staking your SBX. SBX stakers earn weekly staking rewards in exchange for managing their Collateralization Ratio and debt.",
     "yourStakedSBX": "Your staked SBX will be locked for 7 days.",
     "epoch": "EPOCH",
@@ -167,8 +167,8 @@
     "buydSBX": "Buy dSBX to hedge"
   },
   "stakingReward": {
-    "rewardSNX": "Earn Reward",
-    "earnSBX": "Earn Rewards Staking SNX tokens offers weekly rewards in both inflationary SNX and sUSD from trading fees.",
+    "rewardSBX": "Earn Reward",
+    "earnSBX": "Earn Rewards Staking SBX tokens offers weekly rewards in both inflationary SBX and sUSD from trading fees.",
     "yourRewardSBX": "Learn more",
     "claimReward": "Claimable Rewards",
     "earning": "Earning",

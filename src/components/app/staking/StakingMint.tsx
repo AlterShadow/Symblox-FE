@@ -218,7 +218,7 @@ const StakingMint = () => {
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
           <div className="flex flex-col gap-4 items-center">
             <p className="lg:text-[24px] md:text-[22px] text-[20px] leading-[1em] font-medium text-white">
-              {t("stakingMint.stakeSNX")}
+              {t("stakingMint.stakeSBX")}
             </p>
             <span className="max-w-[695px] text-center lg:text-[16px] text-[14px] font-normal leading-[1.1em] inline-block text-secondaryText">
               {t("stakingMint.mintSUSD")}&nbsp;
@@ -262,7 +262,7 @@ const StakingMint = () => {
                     </span>
                   </span>
                   <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
-                    ${sbxPrice}
+                    ${Number(sbxPrice.toFixed(8))}
                   </span>
                 </div>
               </div>
@@ -300,7 +300,8 @@ const StakingMint = () => {
                         SBX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        {t("stakingMint.unstaked")} SBX : {formattedSBXAmount}
+                        {t("stakingMint.unstaked")} SBX :{" "}
+                        {Number(formattedSBXAmount.toFixed(8))}
                       </div>
                     </div>
                   </div>
@@ -349,7 +350,8 @@ const StakingMint = () => {
                         sUSD
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        sUSD {t("stakingMint.balance")} : {formattedSUSDAmount}
+                        sUSD {t("stakingMint.balance")} :{" "}
+                        {Number(formattedSUSDAmount.toFixed(8))}
                       </div>
                     </div>
                   </div>
@@ -360,7 +362,7 @@ const StakingMint = () => {
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
-                      {gasPrice}
+                      {Number(gasPrice).toFixed(8)}
                       &nbsp;BNB :&nbsp;
                       {BNBPrice !== null &&
                         Number.parseFloat(

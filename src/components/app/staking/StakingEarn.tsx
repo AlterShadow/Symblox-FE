@@ -215,7 +215,7 @@ const StakingEarn = () => {
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
           <div className="flex flex-col gap-4 items-center">
             <p className="lg:text-[24px] md:text-[22px] text-[20px] leading-[1em] font-medium text-white">
-              {t("stakingReward.rewardSNX")}
+              {t("stakingReward.rewardSBX")}
             </p>
             <span className="max-w-[695px] text-center lg:text-[16px] text-[14px] font-normal leading-[1.1em] inline-block text-secondaryText">
               {t("stakingReward.earnSBX")} &nbsp;
