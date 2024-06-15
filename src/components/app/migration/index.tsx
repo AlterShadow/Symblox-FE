@@ -32,7 +32,6 @@ import { injected } from "wagmi/connectors";
 
 const Migration = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { address } = useAccount();
   const { connectAsync } = useConnect();
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -281,7 +280,7 @@ const Migration = () => {
                     </LightTooltip>
                   </span>
                   <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-white">
-                    {claimableAmount}
+                    {Number(claimableAmount.toFixed(8))}
                   </span>
                 </div>
               </div>

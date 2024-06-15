@@ -106,7 +106,9 @@ const StakingBurn = () => {
     : 0;
 
   const stakerCRatio = data
-    ? Number.parseFloat(formatEther(data?.[4].result as bigint) ?? 0n)
+    ? Number.parseFloat(
+        formatEther((data?.[4].result as bigint) ?? 1000000000000000000n)
+      )
     : 0;
 
   const globalCRatio = data
