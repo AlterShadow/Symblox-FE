@@ -150,7 +150,7 @@ const StakingMint = () => {
         setError("Insufficient allowance");
       }
     } catch (error) {
-      setError("An error occurred during the migration process");
+      setError("An error occurred during the Mint process");
       console.error(error);
     } finally {
       setStakingLoading(false);

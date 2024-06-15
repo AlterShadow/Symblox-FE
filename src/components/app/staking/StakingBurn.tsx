@@ -161,7 +161,7 @@ const StakingBurn = () => {
         setError("Insufficient allowance");
       }
     } catch (error) {
-      setError("An error occurred during the migration process");
+      setError("An error occurred during the burning process");
       console.error(error);
     } finally {
       setBurnLoading(false);
@@ -489,10 +489,11 @@ const StakingBurn = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="number"
+                      readOnly
                       value={sbxAmount}
                       onChange={sbxAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
-                      placeholder="Enter Amount"
+                      placeholder="0"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
                       <div className="text-white text-[14px] leading-[1em] font-bold text-right">

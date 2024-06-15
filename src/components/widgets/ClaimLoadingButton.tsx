@@ -8,7 +8,7 @@ const ClaimLoadingButton: React.FC<ClaimLoadingButtonProps> = ({ bgColor }) => {
       <button
         type="button"
         style={{ backgroundColor: bgColor }}
-        className={`min-w-20 h-10 ml-4 text-white bg-primaryButtonColor rounded-[4px] text-[16px] font-bold text-center justify-center leading-[1em] items-center flex flex-row ${"opacity-100"}`}
+        className={`tiny:min-w-20 min-w-[120px] tiny:h-10 h-8 ml-4 text-white bg-primaryButtonColor rounded-[4px] text-[16px] font-bold text-center justify-center leading-[1em] items-center flex flex-row ${"opacity-100"}`}
       >
         <div role="status">
           <svg

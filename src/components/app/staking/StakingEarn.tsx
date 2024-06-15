@@ -98,35 +98,38 @@ const RewardItem = (remainingTime: any) => {
 
   return (
     <>
-      <div className="w-full flex flex-row overflow-auto pb-2 md1:pb-0">
-        <div>
-          <div className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full mr-4 bg-gradient-to-b from-pink-500 to-cyan-500">
-            <div className="w-[38px] h-[38px] bg-[white] rounded-full items-center justify-center flex">
-              <img className="w-8 h-8" src="/favicon.svg" alt="logo" />
+      <div className="w-full flex flex-row pb-2 md1:pb-0 justify-between items-center">
+        <div className="flex flex-row gap-2 mx-auto tiny:mx-0">
+          <div>
+            <div className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full mr-4 bg-gradient-to-b from-pink-500 to-cyan-500">
+              <div className="w-[38px] h-[38px] bg-[white] rounded-full items-center justify-center flex">
+                <img className="w-8 h-8" src="/favicon.svg" alt="logo" />
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-row">
+            <div className="min-w-[120px] mr-4 flex flex-col justify-center">
+              <span className=" text-white text-[14px] sm:font-bold font-semibold leading-[1em]">
+                Symblox
+              </span>
+              <span className="mt-1 text-secondaryText leading-[1em] text-[13px] font-medium">
+                {t("stakingReward.stakingRewards")}
+              </span>
+            </div>
+            <div className="min-w-20 flex flex-col justify-center">
+              <span className=" text-white text-[14px] sm:font-bold font-semibold leading-[1em]">
+                0.08%
+              </span>
+              <span className="mt-1 text-secondaryText leading-[1em] text-[13px] font-medium">
+                {t("stakingReward.estimateAPR")}
+              </span>
             </div>
           </div>
         </div>
-        <div className="flex flex-row">
-          <div className="min-w-[120px] mr-4 flex flex-col justify-center">
-            <span className=" text-white text-[14px] sm:font-bold font-semibold leading-[1em]">
-              Symblox
-            </span>
-            <span className="mt-1 text-secondaryText leading-[1em] text-[13px] font-medium">
-              {t("stakingReward.stakingRewards")}
-            </span>
-          </div>
-          <div className="w-[210px] min-w-20 flex flex-col justify-center">
-            <span className=" text-white text-[14px] sm:font-bold font-semibold leading-[1em]">
-              0.08%
-            </span>
-            <span className="mt-1 text-secondaryText leading-[1em] text-[13px] font-medium">
-              {t("stakingReward.estimateAPR")}
-            </span>
-          </div>
-        </div>
-        <div className="w-[210px] flex flex-col mx-5 justify-center">
+
+        <div className="hidden tiny:flex flex-col mx-5 justify-center">
           <RewardProgressBar currentTimeStamp={100} totalTimeStamp={1000} />
-          <div className="flex flex-row justify-between items-center mt-[10px]">
+          <div className="flex flex-row justify-between items-center mt-[10px] gap-2">
             <span className="text-secondaryText leading-[1em] text-[14px] font-bold">
               {t("stakingReward.timeRemaining")}
             </span>
@@ -135,8 +138,7 @@ const RewardItem = (remainingTime: any) => {
             </span>
           </div>
         </div>
-        <div className="flex flex-grow justify-between items-center">
-          <div className="min-w-[182px] flex flex-col ml-7" />
+        <div className="hidden sm:flex flex-row justify-between items-center">
           {claimLoading ? (
             <ClaimLoadingButton bgColor="#EE2D82" />
           ) : (
@@ -154,6 +156,35 @@ const RewardItem = (remainingTime: any) => {
             </button>
           )}
         </div>
+      </div>
+      <div className="tiny:hidden flex flex-col mx-5 justify-center">
+        <RewardProgressBar currentTimeStamp={100} totalTimeStamp={1000} />
+        <div className="flex flex-row justify-evenly items-center mt-[10px] gap-2">
+          <span className="text-secondaryText leading-[1em] text-[14px] font-bold">
+            {t("stakingReward.timeRemaining")}
+          </span>
+          <span className="text-[#47FAC2] font-bold leading-[1.2em] text-[0.75rem]">
+            {timeFormatter(remainingTime)}
+          </span>
+        </div>
+      </div>
+      <div className="sm:hidden flex mx-auto">
+        {claimLoading ? (
+          <ClaimLoadingButton bgColor="#EE2D82" />
+        ) : (
+          <button
+            type="button"
+            disabled={isDisabled}
+            onClick={ClaimHandler}
+            className={`min-w-[120px] h-8 ml-4 text-white bg-primaryButtonColor rounded-[4px] font-medium ${
+              isDisabled
+                ? "opacity-50 hover:cursor-not-allowed"
+                : "opacity-90 hover:cursor-pointer hover:opacity-100 active:opacity-100"
+            }`}
+          >
+            {t("stakingReward.claim")}
+          </button>
+        )}
       </div>
     </>
   );
