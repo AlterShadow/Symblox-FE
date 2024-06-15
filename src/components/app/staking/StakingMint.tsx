@@ -290,7 +290,7 @@ const StakingMint = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="number"
-                      value={sbxAmount}
+                      value={Number(Number(sbxAmount).toFixed(8))}
                       onChange={sbxAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
                       placeholder="Enter Amount"
@@ -340,7 +340,7 @@ const StakingMint = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="number"
-                      value={sUSDAmount || ""}
+                      value={Number(Number(sUSDAmount).toFixed(8)) || ""}
                       onChange={sUSDAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
                       placeholder="Enter Amount"
