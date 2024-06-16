@@ -29,7 +29,7 @@ import LoadingButton from "../../widgets/LoadingButton";
 const StakingMint = () => {
   const { t } = useTranslation();
   const { address } = useAccount();
-  const [sbxAmount, setSBXAmount] = useState<string>("");
+  const [sbxAmount, setSBXAmount] = useState("");
   const [sUSDAmount, setSUSDAmount] = useState<string>("");
   const [stakingLoading, setStakingLoading] = useState<boolean>(false);
   const [gasPrice, setGasPrice] = useState<string>("");
@@ -98,12 +98,11 @@ const StakingMint = () => {
   };
 
   const sbxAmountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
+    console.log("sddddddddddddd", e.target.value);
     setSBXAmount(e.target.value); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
   };
 
   const sUSDAmountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
     setSUSDAmount(e.target.value); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
   };
 
@@ -172,16 +171,16 @@ const StakingMint = () => {
     setGasPrice(formatEther(estimatedGas * gasPrice));
   };
 
-  const getBorrowableAmount = async (amount: string) => {
-    if (amount) {
-      let data = await publicClient?.readContract({
-        ...StakingContract,
-        functionName: "getBorrowableAmount",
-        args: [parseEther(amount)],
-      });
+  const getBorrowableAmount = async (amount: string): Promise<string> => {
+    if (!amount) return "0";
 
-      return data;
-    }
+    const data = await publicClient?.readContract({
+      ...StakingContract,
+      functionName: "getBorrowableAmount",
+      args: [parseEther(amount)],
+    });
+
+    return formatEther(data as bigint);
   };
 
   useEffect(() => {
@@ -191,21 +190,11 @@ const StakingMint = () => {
   }, [address]);
 
   useEffect(() => {
-    if (
-      sbxAmount === "0" ||
-      sbxAmount === undefined ||
-      sbxAmount === null ||
-      sbxAmount === ""
-    ) {
+    if (!sbxAmount) {
       setSUSDAmount("");
     } else {
-      getBorrowableAmount(sbxAmount).then((data) => {
-        if (data) {
-          const borrowableAmount = Number.parseFloat(
-            formatEther((data as bigint) ?? 0n)
-          );
-          setSUSDAmount(borrowableAmount.toString());
-        }
+      getBorrowableAmount(sbxAmount).then((borrowableAmount) => {
+        setSUSDAmount(borrowableAmount);
       });
     }
   }, [sbxAmount]);
@@ -290,7 +279,7 @@ const StakingMint = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="number"
-                      value={Number(Number(sbxAmount).toFixed(8))}
+                      value={sbxAmount}
                       onChange={sbxAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
                       placeholder="Enter Amount"
@@ -339,11 +328,12 @@ const StakingMint = () => {
                   </span>
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
+                      readOnly
                       type="number"
                       value={Number(Number(sUSDAmount).toFixed(8)) || ""}
                       onChange={sUSDAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
-                      placeholder="Enter Amount"
+                      placeholder="0"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
                       <div className="text-white text-[14px] leading-[1em] font-bold text-right">
@@ -381,7 +371,7 @@ const StakingMint = () => {
                         type="button"
                         disabled={isDisabled}
                         onClick={MintHandler}
-                        className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
+                        className={`rounded-[60px] bg-primaryButtonColor w-36 sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
                           isDisabled
                             ? "opacity-50 hover:cursor-not-allowed"
                             : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"

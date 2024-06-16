@@ -112,7 +112,11 @@
     "hedgeDebt": "ป้องกันหนี้",
     "buydSBX": "ซื้อ dSBX เพื่อป้องกันหนี้",
     "help": "ช่วยเหลือ",
-    "learnMoreAbout": "เรียนรู้เพิ่มเติมเกี่ยวกับ Symblox"
+    "learnMoreAbout": "เรียนรู้เพิ่มเติมเกี่ยวกับ Symblox",
+    "SYX_Balance": "SYX สมดุล",
+    "SBX_Balance": "SBX สมดุล",
+    "sUSD_Balance": "sUSD สมดุล",
+    "SBX_Price": "SBX ราคา"
   },
   "stakingBurn": {
     "title": "เผาหนี้",

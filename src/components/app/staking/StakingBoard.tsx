@@ -64,11 +64,6 @@ const StakingBoard = () => {
     else navigate("/migration");
   };
 
-  const StakingContract = {
-    address: StakingCA,
-    abi: StakingABI,
-  } as const;
-
   const SBXContract = {
     address: SymbloxTokenCA,
     abi: SBXContractABI,
@@ -136,16 +131,20 @@ const StakingBoard = () => {
         {address && (
           <div className="text-white max-w-[1276px] mx-auto w-full px-10 mb-5 py-[10px] flex flex-row flex-wrap justify-evenly items-center bg-primaryBoxColor rounded-lg gap-3">
             <div className="">
-              SYX Amount :&nbsp;{Number(formattedSYXAmount.toFixed(8))}
+              {t("stakingBoard.SYX_Balance")} :&nbsp;
+              {Number(formattedSYXAmount.toFixed(8))}
             </div>
             <div className="">
-              SBX Amount :&nbsp;{Number(formattedSBXAmount.toFixed(8))}
+              {t("stakingBoard.SBX_Balance")} :&nbsp;
+              {Number(formattedSBXAmount.toFixed(8))}
             </div>
             <div className="">
-              sUSD Amount :&nbsp;{Number(formattedSUSDAmount.toFixed(8))}
+              {t("stakingBoard.sUSD_Balance")} :&nbsp;
+              {Number(formattedSUSDAmount.toFixed(8))}
             </div>
             <div className="">
-              SBX Price :&nbsp;{Number(sbxPrice.toFixed(8))}&nbsp;$
+              {t("stakingBoard.SBX_Price")} :&nbsp;
+              {Number(sbxPrice.toFixed(8))}&nbsp;$
             </div>
           </div>
         )}

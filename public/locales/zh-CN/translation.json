@@ -112,7 +112,11 @@
     "hedgeDebt": "对冲债务",
     "buydSBX": "购买 dSBX 进行对冲",
     "help": "帮助",
-    "learnMoreAbout": "了解更多关于 Symblox 的信息"
+    "learnMoreAbout": "了解更多关于 Symblox 的信息",
+    "SYX_Balance": "SYX 余额",
+    "SBX_Balance": "SBX 余额",
+    "sUSD_Balance": "sUSD 余额",
+    "SBX_Price": "SBX 价格"
   },
   "stakingBurn": {
     "title": "烧毁债务",

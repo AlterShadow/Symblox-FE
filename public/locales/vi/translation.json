@@ -112,7 +112,11 @@
     "hedgeDebt": "Hedge Debt",
     "buydSBX": "Mua dSBX để phòng hộ",
     "help": "Giúp đỡ",
-    "learnMoreAbout": "Tìm hiểu thêm về Symblox"
+    "learnMoreAbout": "Tìm hiểu thêm về Symblox",
+    "SYX_Balance": "Số dư SYX",
+    "SBX_Balance": "Số dư SBX",
+    "sUSD_Balance": "Số dư sUSD",
+    "SBX_Price": "Giá SBX"
   },
   "stakingBurn": {
     "title": "Đốt nợ",

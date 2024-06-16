@@ -112,7 +112,11 @@
     "hedgeDebt": "Hedge Debt",
     "buydSBX": "Buy dSBX to hedge",
     "help": "Help",
-    "learnMoreAbout": "Learn more about Symblox"
+    "learnMoreAbout": "Learn more about Symblox",
+    "SYX_Balance": "SYX Balance",
+    "SBX_Balance": "SBX Balance",
+    "sUSD_Balance": "sUSD Balance",
+    "SBX_Price": "SBX Price"
   },
   "stakingBurn": {
     "title": "Burn Debt",

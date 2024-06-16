@@ -181,12 +181,10 @@ const StakingBurn = () => {
   };
 
   const sbxAmountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
     setSBXAmount(e.target.value); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
   };
 
   const sUSDAmountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
     setSUSDAmount(e.target.value); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
   };
 
@@ -215,7 +213,7 @@ const StakingBurn = () => {
     setGasPrice(formatEther(estimatedApproveGas * gasPrice));
   };
 
-  const getBurnableAmount = async (amount: string) => {
+  const getBurnableAmount = async (amount: string): Promise<bigint> => {
     if (amount) {
       const data = await publicClient?.readContract({
         ...StakingContract,
@@ -224,29 +222,19 @@ const StakingBurn = () => {
       });
       console.log("SUSDAmount:", parseEther(amount));
       console.log("Burnable Amount:", data);
-      return data;
+      return data as bigint;
     }
+    return 0n;
   };
 
   useEffect(() => {
-    if (
-      sUSDAmount === "0" ||
-      sUSDAmount === undefined ||
-      sUSDAmount === null ||
-      sUSDAmount === ""
-    ) {
-      setSUSDAmount("");
-    } else {
-      getBurnableAmount(sUSDAmount).then((data) => {
-        if (data) {
-          const burnableAmount = Number.parseFloat(
-            formatEther((data as bigint) ?? 0n)
-          );
-          setSBXAmount(burnableAmount.toString());
-        }
-      });
-    }
-  }, [sUSDAmount, address]);
+    getBurnableAmount(sUSDAmount).then((data) => {
+      if (data) {
+        const burnableAmount = Number.parseFloat(formatEther(data || 0n));
+        setSBXAmount(burnableAmount.toString());
+      }
+    });
+  }, [sUSDAmount]);
 
   useEffect(() => {
     if (address) {
@@ -346,7 +334,7 @@ const StakingBurn = () => {
                       </div>
                       <div className="flex flex-row gap-1 items-center">
                         <span className="text-[#63636E] sm:text-[10px] text-[12px] font-normal leading-[1em]">
-                          {t("stakingBurn.target")} 4000%
+                          {t("stakingBurn.target")} {targetCRatio * 100}%
                         </span>
                         <LightTooltip
                           title={t("stakingBurn.maxHealthState")}
@@ -369,7 +357,7 @@ const StakingBurn = () => {
                         className="wrapper"
                         barContainerClassName="container"
                         labelClassName="label"
-                        maxCompleted={700}
+                        maxCompleted={targetCRatio * 100}
                       />
                     </div>
                     {/* <div className="relative w-full h-3 bg-[#ffffff0f]">
@@ -447,7 +435,7 @@ const StakingBurn = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="number"
-                      value={Number(Number(sUSDAmount).toFixed(8))}
+                      value={sUSDAmount}
                       onChange={sUSDAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
                       placeholder="Enter Amount"
@@ -500,12 +488,11 @@ const StakingBurn = () => {
                   </span>
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
-                      readOnly
                       type="number"
                       value={sbxAmount}
                       onChange={sbxAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
-                      placeholder="0"
+                      placeholder="Enter Amount"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
                       <div className="text-white text-[14px] leading-[1em] font-bold text-right">
@@ -543,7 +530,7 @@ const StakingBurn = () => {
                         type="button"
                         disabled={isDisabled}
                         onClick={BurnHandler}
-                        className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
+                        className={`rounded-[60px] bg-primaryButtonColor w-36 sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] ${
                           isDisabled
                             ? "opacity-50 hover:cursor-not-allowed"
                             : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"

@@ -99,15 +99,19 @@ const Migration = () => {
       },
     ],
   });
+
   const formattedSYXAmount = data
-    ? Number.parseFloat(formatEther(data?.[0].result as bigint))
+    ? Number.parseFloat(formatEther(data?.[0].result as bigint) ?? 0n)
     : 0;
+
   const formattedSBXAmount = data
-    ? Number.parseFloat(formatEther(data?.[1].result as bigint))
+    ? Number.parseFloat(formatEther(data?.[1].result as bigint) ?? 0n)
     : 0;
+
   const migrationOwner = data ? data?.[2].result : "";
+
   const lockedBalance = data
-    ? Number.parseFloat(formatEther(data?.[3].result as bigint))
+    ? Number.parseFloat(formatEther((data?.[3].result as bigint) ?? 0n))
     : 0;
 
   const claimableAmount = data
@@ -361,7 +365,7 @@ const Migration = () => {
                       type="number"
                       value={sbxAmount}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
-                      placeholder={sbxAmount ? "" : t("migration.placeholder")}
+                      placeholder="0"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
                       <div className="flex flex-row gap-1 justify-end">
@@ -404,7 +408,7 @@ const Migration = () => {
                         type="button"
                         disabled={isDisabled}
                         onClick={MigrateHandler}
-                        className={`rounded-[60px] bg-primaryButtonColor w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
+                        className={`rounded-[60px] bg-primaryButtonColor w-36 sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
                           isDisabled
                             ? "opacity-50 hover:cursor-not-allowed"
                             : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
@@ -426,7 +430,7 @@ const Migration = () => {
                         type="button"
                         disabled={releaseButtonState}
                         onClick={ReleaseHandler}
-                        className={`rounded-[60px] bg-[#4C80C2] w-full sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
+                        className={`rounded-[60px] bg-[#4C80C2] w-36 sm:w-80 h-10 justify-center text-white text-[16px] font-bold leading-[1em] transition-all duration-300 ease-in-out ${
                           releaseButtonState
                             ? "opacity-50 hover:cursor-not-allowed"
                             : "opacity-100 hover:scale-[1.02] hover:cursor-pointer active:scale-[0.95]"
