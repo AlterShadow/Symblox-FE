@@ -235,7 +235,7 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "issuedDebt", "type": "uint256" }
+      { "internalType": "address", "name": "account", "type": "address" }
     ],
     "name": "getActiveDebt",
     "outputs": [
@@ -261,7 +261,7 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "amount", "type": "uint256" },
+      { "internalType": "uint256", "name": "xUSDamount", "type": "uint256" },
       { "internalType": "address", "name": "account", "type": "address" }
     ],
     "name": "getBurningAmount",
@@ -311,6 +311,11 @@
         "type": "address"
       },
       {
+        "internalType": "contract IGovernanceNFT",
+        "name": "_gSYMNFT",
+        "type": "address"
+      },
+      {
         "internalType": "contract IPriceOracle",
         "name": "_priceOracle",
         "type": "address"
@@ -338,6 +343,13 @@
   {
     "inputs": [],
     "name": "lastUpdateTime",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "lockTime",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
@@ -435,6 +447,15 @@
       }
     ],
     "name": "setRewardsDuration",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_targetCRatio", "type": "uint256" }
+    ],
+    "name": "setTargetCRatio",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

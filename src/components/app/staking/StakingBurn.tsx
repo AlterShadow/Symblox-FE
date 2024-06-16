@@ -90,6 +90,10 @@ const StakingBurn = () => {
         ...StakingContract,
         functionName: "getGlobalCRatio",
       },
+      {
+        ...StakingContract,
+        functionName: "targetCRatio",
+      },
     ],
   });
 
@@ -115,9 +119,17 @@ const StakingBurn = () => {
     ? Number.parseFloat(formatEther(data?.[5].result as bigint) ?? 0n)
     : 0;
 
-  console.log("StakerCRatio", data, globalCRatio / stakerCRatio);
+  const targetCRatio = data
+    ? Number.parseFloat(formatEther((data?.[6].result as bigint) ?? 0n))
+    : 0;
 
-  const currentCRatio = globalCRatio / stakerCRatio;
+  console.log(
+    "StakerCRatio",
+    data,
+    globalCRatio * 100,
+    stakerCRatio * 100,
+    targetCRatio * 100
+  );
 
   const BurnHandler = async () => {
     try {
@@ -179,11 +191,11 @@ const StakingBurn = () => {
   };
 
   const setBurnMaxHandler = () => {
-    setSBXAmount(stakedSBXAmount.toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
+    setSUSDAmount(formattedSUSDAmount.toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
   };
 
   const setBurnTargetHandler = () => {
-    setSBXAmount(stakedSBXAmount.toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole numberSBXAmount(sta.toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
+    setSUSDAmount(formattedSUSDAmount.toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole numberSBXAmount(sta.toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
   };
 
   const getEstimateGas = async () => {
@@ -205,12 +217,12 @@ const StakingBurn = () => {
 
   const getBurnableAmount = async (amount: string) => {
     if (amount) {
-      let data = await publicClient?.readContract({
+      const data = await publicClient?.readContract({
         ...StakingContract,
         functionName: "getBurningAmount",
-        args: [amount, address],
+        args: [parseEther(amount), address],
       });
-
+      console.log("SUSDAmount:", parseEther(amount));
       console.log("Burnable Amount:", data);
       return data;
     }
@@ -218,23 +230,23 @@ const StakingBurn = () => {
 
   useEffect(() => {
     if (
-      sbxAmount === "0" ||
-      sbxAmount === undefined ||
-      sbxAmount === null ||
-      sbxAmount === ""
+      sUSDAmount === "0" ||
+      sUSDAmount === undefined ||
+      sUSDAmount === null ||
+      sUSDAmount === ""
     ) {
       setSUSDAmount("");
     } else {
-      getBurnableAmount(sbxAmount).then((data) => {
+      getBurnableAmount(sUSDAmount).then((data) => {
         if (data) {
           const burnableAmount = Number.parseFloat(
             formatEther((data as bigint) ?? 0n)
           );
-          setSUSDAmount(burnableAmount.toString());
+          setSBXAmount(burnableAmount.toString());
         }
       });
     }
-  }, [sbxAmount]);
+  }, [sUSDAmount, address]);
 
   useEffect(() => {
     if (address) {
@@ -242,7 +254,7 @@ const StakingBurn = () => {
     }
   }, [address]);
 
-  const isDisabled = !(sbxAmount && sUSDAmount);
+  const isDisabled = !sUSDAmount;
 
   return (
     <>
@@ -353,7 +365,7 @@ const StakingBurn = () => {
                     </div>
                     <div className="" id="RatioBar">
                       <ProgressBar
-                        completed={Number(currentCRatio.toFixed(2))}
+                        completed={Number((stakerCRatio * 100).toFixed(2))}
                         className="wrapper"
                         barContainerClassName="container"
                         labelClassName="label"
@@ -383,9 +395,9 @@ const StakingBurn = () => {
                           />
                         </LightTooltip>
                       </div>
-                      {currentCRatio ? (
+                      {stakerCRatio ? (
                         <div className="text-white">
-                          {Number(currentCRatio.toFixed(2))}%
+                          {Number(Number(100 * stakerCRatio).toFixed(2))}%
                         </div>
                       ) : (
                         <div className="w-12 h-5 rounded-sm anim-colorExchange" />
@@ -410,7 +422,7 @@ const StakingBurn = () => {
                         </LightTooltip>
                       </div>
                       <span className="lg:text-[20px] text-[16px] text-[#2DFF8C] font-medium leading-[1em]">
-                        700%
+                        {targetCRatio * 100}%
                       </span>
                     </div>
                   </div>
@@ -435,7 +447,7 @@ const StakingBurn = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="number"
-                      value={sUSDAmount || ""}
+                      value={Number(Number(sUSDAmount).toFixed(8))}
                       onChange={sUSDAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
                       placeholder="Enter Amount"
@@ -488,8 +500,8 @@ const StakingBurn = () => {
                   </span>
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
-                      type="number"
                       readOnly
+                      type="number"
                       value={sbxAmount}
                       onChange={sbxAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
@@ -526,7 +538,7 @@ const StakingBurn = () => {
                   {burnLoading ? (
                     <LoadingButton bgColor="#EE2D82" />
                   ) : (
-                    <>
+                    <div className="flex flex-col gap-3">
                       <button
                         type="button"
                         disabled={isDisabled}
@@ -540,9 +552,11 @@ const StakingBurn = () => {
                         {t("stakingBurn.burn")}
                       </button>
                       {error && (
-                        <div className="text-primaryButtonColor">{error}</div>
+                        <div className="text-primaryButtonColor flex flex-row justify-center items-center">
+                          {error}
+                        </div>
                       )}
-                    </>
+                    </div>
                   )}
                 </div>
               </div>

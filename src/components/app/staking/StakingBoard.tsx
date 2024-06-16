@@ -1,10 +1,33 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useAccount, useConnect, useSwitchChain } from "wagmi";
 import { useTranslation } from "react-i18next";
 import PrivacyModal from "../modal/privacy";
 import { bscTestnet } from "viem/chains";
 import { injected } from "wagmi/connectors";
+import {
+  useAccount,
+  usePublicClient,
+  useReadContracts,
+  useWriteContract,
+  useConnect,
+  useSwitchChain,
+} from "wagmi";
+import { encodeFunctionData, formatEther, parseEther } from "viem";
+import {
+  PriceOracleCA,
+  StakingCA,
+  SymbloxTokenCA,
+  xUSDCA,
+  SYXCA,
+} from "../../../config/params/contractAddresses";
+import {
+  sUSDABI,
+  StakingABI,
+  PriceOracleABI,
+  SBXContractABI,
+  ERC20ABI,
+} from "../../../config/abis";
+import { useEffect } from "react";
 
 const StakingBoard = () => {
   const { t } = useTranslation();
@@ -41,10 +64,92 @@ const StakingBoard = () => {
     else navigate("/migration");
   };
 
+  const StakingContract = {
+    address: StakingCA,
+    abi: StakingABI,
+  } as const;
+
+  const SBXContract = {
+    address: SymbloxTokenCA,
+    abi: SBXContractABI,
+  } as const;
+
+  const PriceOracleContract = {
+    address: PriceOracleCA,
+    abi: PriceOracleABI,
+  } as const;
+
+  const sUSDContract = {
+    address: xUSDCA,
+    abi: sUSDABI,
+  } as const;
+
+  const SYXContract = {
+    address: SYXCA,
+    abi: ERC20ABI,
+  } as const;
+
+  const { data } = useReadContracts({
+    contracts: [
+      {
+        ...SBXContract,
+        functionName: "balanceOf",
+        args: [address],
+      },
+      {
+        ...PriceOracleContract,
+        functionName: "getTokenPrice",
+        args: [SymbloxTokenCA],
+      },
+      {
+        ...sUSDContract,
+        functionName: "balanceOf",
+        args: [address],
+      },
+      {
+        ...SYXContract,
+        functionName: "balanceOf",
+        args: [address],
+      },
+    ],
+  });
+
+  const formattedSBXAmount = data
+    ? Number.parseFloat(formatEther((data?.[0].result as bigint) ?? 0n))
+    : 0;
+
+  const sbxPrice = data
+    ? Number.parseFloat(formatEther((data?.[1].result as bigint) ?? 0n))
+    : 0;
+
+  const formattedSUSDAmount = data
+    ? Number.parseFloat(formatEther((data?.[2].result as bigint) ?? 0n))
+    : 0;
+
+  const formattedSYXAmount = data
+    ? Number.parseFloat(formatEther((data?.[3].result as bigint) ?? 0n))
+    : 0;
+
   return (
     <>
-      <div className="pt-[55px] pb-8 w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
-        <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-11">
+      <div className=" md1:pt-[55px] pt-[0px] pb-8 w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
+        {address && (
+          <div className="text-white max-w-[1276px] mx-auto w-full px-10 mb-5 py-[10px] flex flex-row flex-wrap justify-evenly items-center bg-primaryBoxColor rounded-lg gap-3">
+            <div className="">
+              SYX Amount :&nbsp;{Number(formattedSYXAmount.toFixed(8))}
+            </div>
+            <div className="">
+              SBX Amount :&nbsp;{Number(formattedSBXAmount.toFixed(8))}
+            </div>
+            <div className="">
+              sUSD Amount :&nbsp;{Number(formattedSUSDAmount.toFixed(8))}
+            </div>
+            <div className="">
+              SBX Price :&nbsp;{Number(sbxPrice.toFixed(8))}&nbsp;$
+            </div>
+          </div>
+        )}
+        <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-11 mt-3">
           <div className="w-full flex">
             <div className="w-full flex flex-row overflow-auto pb-2">
               <div className="w-full h-full flex flex-col flex-[1_0_0] items-start justify-between gap-4 bg-primaryBoxColor py-[34px] pl-6 pr-10 rounded-xl">

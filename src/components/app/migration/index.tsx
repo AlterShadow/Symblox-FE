@@ -421,7 +421,7 @@ const Migration = () => {
                   {releaseLoading ? (
                     <LoadingButton bgColor="#4C80C2" />
                   ) : (
-                    <>
+                    <div className="flex flex-col gap-3">
                       <button
                         type="button"
                         disabled={releaseButtonState}
@@ -435,9 +435,11 @@ const Migration = () => {
                         {t("migration.claim")}
                       </button>
                       {error && (
-                        <div className="text-primaryButtonColor">{error}</div>
+                        <div className="text-primaryButtonColor flex flex-row justify-center items-center">
+                          {error}
+                        </div>
                       )}
-                    </>
+                    </div>
                   )}
                 </div>
               </div>

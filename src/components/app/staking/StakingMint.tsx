@@ -376,7 +376,7 @@ const StakingMint = () => {
                   {stakingLoading ? (
                     <LoadingButton bgColor="#EE2D82" />
                   ) : (
-                    <>
+                    <div className="flex flex-col gap-3">
                       <button
                         type="button"
                         disabled={isDisabled}
@@ -390,9 +390,11 @@ const StakingMint = () => {
                         {t("stakingMint.mint")}
                       </button>
                       {error && (
-                        <div className="text-primaryButtonColor">{error}</div>
+                        <div className="text-primaryButtonColor flex flex-row justify-center items-center">
+                          {error}
+                        </div>
                       )}
-                    </>
+                    </div>
                   )}
                 </div>
               </div>
