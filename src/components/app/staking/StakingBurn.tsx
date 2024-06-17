@@ -160,7 +160,7 @@ const StakingBurn = () => {
         args: [address, StakingCA],
       })) as bigint;
 
-      if (allowance >= parseEther(sbxAmount.toString())) {
+      if (allowance >= parseEther(sUSDAmount.toString())) {
         hash = await writeContractAsync({
           ...StakingContract,
           functionName: "unstake",
@@ -192,8 +192,13 @@ const StakingBurn = () => {
     setSUSDAmount(formattedSUSDAmount.toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
   };
 
-  const setBurnTargetHandler = () => {
-    setSUSDAmount(formattedSUSDAmount.toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole numberSBXAmount(sta.toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
+  const setBurnTargetHandler = async () => {
+    if (!address) {
+      console.error("Address is undefined");
+      return;
+    }
+    const sUSDAmount = await getBurnableSUSDAmountToTarget(address);
+    setSUSDAmount(Number(formatEther(sUSDAmount)).toString());
   };
 
   const getEstimateGas = async () => {
@@ -217,12 +222,27 @@ const StakingBurn = () => {
     if (amount) {
       const data = await publicClient?.readContract({
         ...StakingContract,
-        functionName: "getBurningAmount",
-        args: [parseEther(amount), address],
+        functionName: "getBurnableSBXAmount",
+        args: [address, parseEther(amount)],
       });
       console.log("SUSDAmount:", parseEther(amount));
       console.log("Burnable Amount:", data);
-      return data as bigint;
+      return (data as bigint) ?? 0n;
+    }
+    return 0n;
+  };
+
+  const getBurnableSUSDAmountToTarget = async (
+    address: string
+  ): Promise<bigint> => {
+    if (address) {
+      const data = await publicClient?.readContract({
+        ...StakingContract,
+        functionName: "getBurnableSUSDAmountToTarget",
+        args: [address],
+      });
+      console.log("Burnable Amount:", data);
+      return (data as bigint) ?? 0n;
     }
     return 0n;
   };
@@ -230,7 +250,7 @@ const StakingBurn = () => {
   useEffect(() => {
     getBurnableAmount(sUSDAmount).then((data) => {
       if (data) {
-        const burnableAmount = Number.parseFloat(formatEther(data || 0n));
+        const burnableAmount = Number(formatEther(data || 0n));
         setSBXAmount(burnableAmount.toString());
       }
     });
@@ -243,6 +263,7 @@ const StakingBurn = () => {
   }, [address]);
 
   const isDisabled = !sUSDAmount;
+  const targetDisabled = stakerCRatio < targetCRatio;
 
   return (
     <>
@@ -460,8 +481,13 @@ const StakingBurn = () => {
                     </button>
                     <button
                       type="button"
+                      disabled={!targetDisabled}
                       onClick={setBurnTargetHandler}
-                      className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
+                      className={`w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6 ${
+                        targetDisabled === false
+                          ? " cursor-not-allowed"
+                          : "cursor:pointer"
+                      }`}
                     >
                       {t("stakingBurn.burnToTarget")}
                     </button>

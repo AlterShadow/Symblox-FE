@@ -80,25 +80,22 @@ const StakingMint = () => {
     ],
   });
 
-  const formattedSBXAmount = data
-    ? Number.parseFloat(formatEther(data?.[0].result as bigint))
-    : 0;
+  const formattedSBXAmount = (data?.[0].result as bigint) ?? 0n;
 
-  const sbxPrice = data
-    ? Number.parseFloat(formatEther(data?.[1].result as bigint))
-    : 0;
+  console.log(
+    "SBX Balance: ",
+    parseFloat(formatEther(formattedSBXAmount).toString()).toFixed(3)
+  );
+  const sbxPrice = (data?.[1].result as bigint) ?? 0n;
 
-  const formattedSUSDAmount = data
-    ? Number.parseFloat(formatEther(data?.[2].result as bigint))
-    : 0;
+  const formattedSUSDAmount = (data?.[2].result as bigint) ?? 0n;
 
   const setSBXAmountHandler = (percent: number) => {
-    const newAmount = (formattedSBXAmount * percent) / 100;
-    setSBXAmount(newAmount.toString());
+    const newAmount = (formattedSBXAmount * BigInt(percent)) / 100n;
+    setSBXAmount(formatEther(newAmount));
   };
 
   const sbxAmountHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("sddddddddddddd", e.target.value);
     setSBXAmount(e.target.value); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
   };
 
@@ -251,7 +248,7 @@ const StakingMint = () => {
                     </span>
                   </span>
                   <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
-                    ${Number(sbxPrice.toFixed(8))}
+                    ${Number(formatEther(sbxPrice)).toFixed(8)}
                   </span>
                 </div>
               </div>
@@ -290,7 +287,7 @@ const StakingMint = () => {
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
                         {t("stakingMint.unstaked")} SBX :{" "}
-                        {Number(formattedSBXAmount.toFixed(8))}
+                        {formatEther(formattedSBXAmount)}
                       </div>
                     </div>
                   </div>
@@ -341,7 +338,7 @@ const StakingMint = () => {
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
                         sUSD {t("stakingMint.balance")} :{" "}
-                        {Number(formattedSUSDAmount.toFixed(8))}
+                        {Number(formatEther(formattedSUSDAmount)).toFixed(8)}
                       </div>
                     </div>
                   </div>
