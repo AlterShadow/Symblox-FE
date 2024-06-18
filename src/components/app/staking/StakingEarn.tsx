@@ -241,7 +241,7 @@ const StakingEarn = () => {
   // const isDisabled = sbxAmount || sUSDAmount;
 
   return (
-    <>
+    <div id="staking-reward">
       <div className="relative pt-12 lg:pb-[112px] pb-8 sm: w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
           <div className="flex flex-col gap-4 items-center">
@@ -331,7 +331,7 @@ const StakingEarn = () => {
           </span>
         </Link>
       </div>
-    </>
+    </div>
   );
 };
 

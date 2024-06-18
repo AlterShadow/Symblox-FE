@@ -19,6 +19,7 @@ import Escrow from "./components/app/escrow";
 
 import "@rainbow-me/rainbowkit/styles.css";
 import "./App.css";
+import ScrollToTop from "./hooks/ScrollToTop";
 
 type LayoutWithNavbarAndFooterProps = {
   children: React.ReactNode;
@@ -52,6 +53,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route
           path="/"

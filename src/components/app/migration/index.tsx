@@ -29,6 +29,8 @@ import LightTooltip from "../../widgets/LightTooltip";
 import LoadingButton from "../../widgets/LoadingButton";
 import { bscTestnet } from "viem/chains";
 import { injected } from "wagmi/connectors";
+import { watch } from "fs";
+import formatterDecimal from "../../../utils/formatters/formatterDecimal";
 
 const Migration = () => {
   const { t } = useTranslation();
@@ -66,7 +68,7 @@ const Migration = () => {
     abi: PriceOracleABI,
   } as const;
 
-  const { data } = useReadContracts({
+  const { data, refetch: readRefetch } = useReadContracts({
     contracts: [
       {
         ...SYXContract,
@@ -100,26 +102,19 @@ const Migration = () => {
     ],
   });
 
-  const formattedSYXAmount = data
-    ? Number.parseFloat(formatEther(data?.[0].result as bigint) ?? 0n)
-    : 0;
+  const formattedSYXAmount = (data?.[0].result as bigint) ?? 0n;
 
-  const formattedSBXAmount = data
-    ? Number.parseFloat(formatEther(data?.[1].result as bigint) ?? 0n)
-    : 0;
+  const formattedSBXAmount = (data?.[1].result as bigint) ?? 0n;
 
   const migrationOwner = data ? data?.[2].result : "";
 
-  const lockedBalance = data
-    ? Number.parseFloat(formatEther((data?.[3].result as bigint) ?? 0n))
-    : 0;
+  const lockedBalance = (data?.[3].result as bigint) ?? 0n;
 
-  const claimableAmount = data
-    ? Number.parseFloat(formatEther((data?.[4].result as bigint) ?? 0n))
-    : 0;
+  const claimableAmount = (data?.[4].result as bigint) ?? 0n;
 
   const setSYXAmountHandler = (percent: number) => {
-    const newSYXAmount = (formattedSYXAmount * percent) / 100;
+    const newSYXAmount =
+      (Number(formatEther(formattedSYXAmount)) * percent) / 100;
     setSYXAmount(newSYXAmount.toString());
 
     const newSBXAmount =
@@ -178,11 +173,12 @@ const Migration = () => {
 
         // biome-ignore lint/style/noNonNullAssertion: <explanation>
         await publicClient?.waitForTransactionReceipt({ hash: hash! });
+        await readRefetch();
       } else {
         setError("Insufficient allowance");
       }
     } catch (error) {
-      setError("An error occurred during the migration process");
+      setError((error as any)?.shortMessage);
       console.error(error);
     } finally {
       setMigrateLoading(false);
@@ -220,7 +216,7 @@ const Migration = () => {
   };
 
   const isDisabled = syxAmount === "" || Number(syxAmount) === 0;
-  const releaseButtonState: boolean = claimableAmount === 0;
+  const releaseButtonState: boolean = claimableAmount === 0n;
 
   const ConnectHandler = async () => {
     await connectAsync({ chainId: bscTestnet.id, connector: injected() });
@@ -284,7 +280,7 @@ const Migration = () => {
                     </LightTooltip>
                   </span>
                   <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-white">
-                    {Number(claimableAmount.toFixed(8))}
+                    {formatterDecimal(formatEther(claimableAmount))}
                   </span>
                 </div>
               </div>
@@ -322,8 +318,8 @@ const Migration = () => {
                         SYX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        {t("migration.availableSYX")} :{" "}
-                        {Number(formattedSYXAmount.toFixed(8))}
+                        {t("migration.availableSYX")} :&nbsp;
+                        {formatterDecimal(formatEther(formattedSYXAmount))}
                       </div>
                     </div>
                   </div>
@@ -370,15 +366,15 @@ const Migration = () => {
                     <div className="flex flex-col gap-1 absolute pr-4">
                       <div className="flex flex-row gap-1 justify-end">
                         <div className="text-[#7f93a2] text-[12px] lg:text-[14px] leading-[1em] font-normal text-right">
-                          {formattedSBXAmount}
+                          {formatterDecimal(formatEther(formattedSBXAmount))}
                         </div>
                         <div className="text-white text-[14px] leading-[1em] font-bold text-right">
                           SBX
                         </div>
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        {t("migration.lockedSBX")} :{" "}
-                        {Number(lockedBalance.toFixed(8))}
+                        {t("migration.lockedSBX")} :&nbsp;
+                        {formatterDecimal(formatEther(lockedBalance))}
                       </div>
                     </div>
                   </div>
@@ -389,12 +385,12 @@ const Migration = () => {
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
-                      {Number(gasPrice).toFixed(8)}
+                      {formatterDecimal(gasPrice)}
                       &nbsp;BNB :&nbsp;
-                      {BNBPrice !== null &&
-                        Number.parseFloat(
+                      {BNBPrice &&
+                        formatterDecimal(
                           (Number(gasPrice) * BNBPrice).toString()
-                        ).toFixed(4)}
+                        )}
                       &nbsp;$
                     </span>
                   </div>

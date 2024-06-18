@@ -25,6 +25,7 @@ import { BNBToUSDTPrice } from "../../../hooks/BNBToUSDTPrice";
 
 import LightTooltip from "../../widgets/LightTooltip";
 import LoadingButton from "../../widgets/LoadingButton";
+import formatterDecimal from "../../../utils/formatters/formatterDecimal";
 
 const StakingMint = () => {
   const { t } = useTranslation();
@@ -60,7 +61,7 @@ const StakingMint = () => {
     abi: sUSDABI,
   } as const;
 
-  const { data } = useReadContracts({
+  const { data, refetch: readRefetch } = useReadContracts({
     contracts: [
       {
         ...SBXContract,
@@ -142,11 +143,12 @@ const StakingMint = () => {
 
         // biome-ignore lint/style/noNonNullAssertion: <explanation>
         await publicClient?.waitForTransactionReceipt({ hash: hash! });
+        await readRefetch();
       } else {
         setError("Insufficient allowance");
       }
     } catch (error) {
-      setError("An error occurred during the Mint process");
+      setError((error as any)?.shortMessage);
       console.error(error);
     } finally {
       setStakingLoading(false);
@@ -168,8 +170,8 @@ const StakingMint = () => {
     setGasPrice(formatEther(estimatedGas * gasPrice));
   };
 
-  const getBorrowableAmount = async (amount: string): Promise<string> => {
-    if (!amount) return "0";
+  const getBorrowableAmount = async (amount: string): Promise<bigint> => {
+    if (!amount) return 0n;
 
     const data = await publicClient?.readContract({
       ...StakingContract,
@@ -177,7 +179,7 @@ const StakingMint = () => {
       args: [parseEther(amount)],
     });
 
-    return formatEther(data as bigint);
+    return (data as bigint) ?? 0n;
   };
 
   useEffect(() => {
@@ -191,7 +193,7 @@ const StakingMint = () => {
       setSUSDAmount("");
     } else {
       getBorrowableAmount(sbxAmount).then((borrowableAmount) => {
-        setSUSDAmount(borrowableAmount);
+        setSUSDAmount(Number(formatEther(borrowableAmount)).toString());
       });
     }
   }, [sbxAmount]);
@@ -199,7 +201,7 @@ const StakingMint = () => {
   const isDisabled = sbxAmount === "" || Number(sbxAmount) === 0;
 
   return (
-    <>
+    <div id="staking-mint">
       <div className="relative pt-12 lg:pb-[112px] pb-8 sm: w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
           <div className="flex flex-col gap-4 items-center">
@@ -248,7 +250,8 @@ const StakingMint = () => {
                     </span>
                   </span>
                   <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
-                    ${Number(formatEther(sbxPrice)).toFixed(8)}
+                    $
+                    {formatterDecimal(Number(formatEther(sbxPrice)).toString())}
                   </span>
                 </div>
               </div>
@@ -287,7 +290,9 @@ const StakingMint = () => {
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
                         {t("stakingMint.unstaked")} SBX :{" "}
-                        {formatEther(formattedSBXAmount)}
+                        {formatterDecimal(
+                          formatEther(formattedSBXAmount).toString()
+                        )}
                       </div>
                     </div>
                   </div>
@@ -326,8 +331,8 @@ const StakingMint = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       readOnly
-                      type="number"
-                      value={Number(Number(sUSDAmount).toFixed(8)) || ""}
+                      type="text"
+                      value={sUSDAmount}
                       onChange={sUSDAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
                       placeholder="0"
@@ -337,8 +342,8 @@ const StakingMint = () => {
                         sUSD
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        sUSD {t("stakingMint.balance")} :{" "}
-                        {Number(formatEther(formattedSUSDAmount)).toFixed(8)}
+                        sUSD {t("stakingMint.balance")} :&nbsp;
+                        {formatterDecimal(formatEther(formattedSUSDAmount))}
                       </div>
                     </div>
                   </div>
@@ -349,12 +354,12 @@ const StakingMint = () => {
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
-                      {Number(gasPrice).toFixed(8)}
+                      {formatterDecimal(gasPrice)}
                       &nbsp;BNB :&nbsp;
-                      {BNBPrice !== null &&
-                        Number.parseFloat(
+                      {BNBPrice &&
+                        formatterDecimal(
                           (Number(gasPrice) * BNBPrice).toString()
-                        ).toFixed(4)}
+                        )}
                       &nbsp;$
                     </span>
                   </div>
@@ -422,7 +427,7 @@ const StakingMint = () => {
           </span>
         </Link>
       </div>
-    </>
+    </div>
   );
 };
 

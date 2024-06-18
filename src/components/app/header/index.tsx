@@ -7,8 +7,8 @@ const AppHeader = () => {
 
   return (
     <>
-      <div className="fixed z-50 w-full font-Barlow border-b border-[rgba(255,255,255,0.2)] px-5 sm:px-5 md:px-10">
-        <div className="py-6 sm:py-3 md:py-3 flex items-center justify-between max-w-[1276px] w-full mx-auto font-Barlow bg-primaryBackground">
+      <div className="fixed z-50 w-full font-Barlow border-b border-[rgba(255,255,255,0.2)] bg-primaryBackground">
+        <div className="px-5 sm:px-5 md:px-10 py-6 sm:py-3 md:py-3 flex items-center justify-between max-w-[1276px] w-full mx-auto font-Barlow ">
           <div className="flex flex-row gap-[15px] items-center sm:gap-2 md:gap-[10px]">
             <Link to="/">
               <img

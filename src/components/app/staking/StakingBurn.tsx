@@ -26,6 +26,7 @@ import { BNBToUSDTPrice } from "../../../hooks/BNBToUSDTPrice";
 import LoadingButton from "../../widgets/LoadingButton";
 import LightTooltip from "../../widgets/LightTooltip";
 import ProgressBar from "@ramonak/react-progress-bar";
+import formatterDecimal from "../../../utils/formatters/formatterDecimal";
 
 const StakingBurn = () => {
   const { t } = useTranslation();
@@ -59,7 +60,7 @@ const StakingBurn = () => {
     abi: sUSDABI,
   } as const;
 
-  const { data } = useReadContracts({
+  const { data, refetch: readRefetch } = useReadContracts({
     contracts: [
       {
         ...SBXContract,
@@ -97,39 +98,17 @@ const StakingBurn = () => {
     ],
   });
 
-  const sbxPrice = data
-    ? Number.parseFloat(formatEther(data?.[1].result as bigint) ?? 0n)
-    : 0;
+  const sbxPrice = (data?.[1].result as bigint) ?? 0n;
 
-  const formattedSUSDAmount = data
-    ? Number.parseFloat(formatEther(data?.[2].result as bigint) ?? 0n)
-    : 0;
+  const formattedSUSDAmount = (data?.[2].result as bigint) ?? 0n;
 
-  const stakedSBXAmount = data
-    ? Number.parseFloat(formatEther(data?.[3].result as bigint) ?? 0n)
-    : 0;
+  const stakedSBXAmount = (data?.[3].result as bigint) ?? 0n;
 
-  const stakerCRatio = data
-    ? Number.parseFloat(
-        formatEther((data?.[4].result as bigint) ?? 1000000000000000000n)
-      )
-    : 0;
+  const stakerCRatio = (data?.[4].result as bigint) ?? 0n;
 
-  const globalCRatio = data
-    ? Number.parseFloat(formatEther(data?.[5].result as bigint) ?? 0n)
-    : 0;
+  const globalCRatio = (data?.[5].result as bigint) ?? 0n;
 
-  const targetCRatio = data
-    ? Number.parseFloat(formatEther((data?.[6].result as bigint) ?? 0n))
-    : 0;
-
-  console.log(
-    "StakerCRatio",
-    data,
-    globalCRatio * 100,
-    stakerCRatio * 100,
-    targetCRatio * 100
-  );
+  const targetCRatio = (data?.[6].result as bigint) ?? 0n;
 
   const BurnHandler = async () => {
     try {
@@ -169,11 +148,12 @@ const StakingBurn = () => {
 
         // biome-ignore lint/style/noNonNullAssertion: <explanation>
         await publicClient?.waitForTransactionReceipt({ hash: hash! });
+        await readRefetch();
       } else {
         setError("Insufficient allowance");
       }
     } catch (error) {
-      setError("An error occurred during the burning process");
+      setError((error as any)?.shortMessage);
       console.error(error);
     } finally {
       setBurnLoading(false);
@@ -189,7 +169,7 @@ const StakingBurn = () => {
   };
 
   const setBurnMaxHandler = () => {
-    setSUSDAmount(formattedSUSDAmount.toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
+    setSUSDAmount(Number(formatEther(formattedSUSDAmount)).toString()); // Use Math.floor if you want to round down, or Math.round for rounding to the nearest whole number
   };
 
   const setBurnTargetHandler = async () => {
@@ -215,10 +195,11 @@ const StakingBurn = () => {
 
     const gasPrice = await publicClient!.getGasPrice();
 
-    setGasPrice(formatEther(estimatedApproveGas * gasPrice));
+    setGasPrice(Number(formatEther(estimatedApproveGas * gasPrice)).toString());
   };
 
   const getBurnableAmount = async (amount: string): Promise<bigint> => {
+    console.log(amount);
     if (amount) {
       const data = await publicClient?.readContract({
         ...StakingContract,
@@ -241,7 +222,7 @@ const StakingBurn = () => {
         functionName: "getBurnableSUSDAmountToTarget",
         args: [address],
       });
-      console.log("Burnable Amount:", data);
+
       return (data as bigint) ?? 0n;
     }
     return 0n;
@@ -266,7 +247,7 @@ const StakingBurn = () => {
   const targetDisabled = stakerCRatio < targetCRatio;
 
   return (
-    <>
+    <div id="staking-burn">
       <div className="relative pt-12 lg:pb-[112px] pb-8 sm: w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-[30px] items-center">
           <div className="flex flex-col gap-4 items-center">
@@ -313,7 +294,7 @@ const StakingBurn = () => {
                       </span>
                     </span>
                     <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
-                      ${Number(sbxPrice.toFixed(8))}
+                      ${formatterDecimal(formatEther(sbxPrice))}
                     </span>
                   </div>
                   <div className="flex flex-row gap-2 flex-[1_0_0] items-center">
@@ -355,7 +336,8 @@ const StakingBurn = () => {
                       </div>
                       <div className="flex flex-row gap-1 items-center">
                         <span className="text-[#63636E] sm:text-[10px] text-[12px] font-normal leading-[1em]">
-                          {t("stakingBurn.target")} {targetCRatio * 100}%
+                          {t("stakingBurn.target")}{" "}
+                          {Number(formatEther(targetCRatio)) * 100}%
                         </span>
                         <LightTooltip
                           title={t("stakingBurn.maxHealthState")}
@@ -374,11 +356,13 @@ const StakingBurn = () => {
                     </div>
                     <div className="" id="RatioBar">
                       <ProgressBar
-                        completed={Number((stakerCRatio * 100).toFixed(2))}
+                        completed={(
+                          Number(formatEther(stakerCRatio)) * 100
+                        ).toFixed(2)}
                         className="wrapper"
                         barContainerClassName="container"
                         labelClassName="label"
-                        maxCompleted={targetCRatio * 100}
+                        maxCompleted={Number(formatEther(targetCRatio)) * 100}
                       />
                     </div>
                     {/* <div className="relative w-full h-3 bg-[#ffffff0f]">
@@ -406,7 +390,8 @@ const StakingBurn = () => {
                       </div>
                       {stakerCRatio ? (
                         <div className="text-white">
-                          {Number(Number(100 * stakerCRatio).toFixed(2))}%
+                          {(Number(formatEther(stakerCRatio)) * 100).toFixed(2)}
+                          %
                         </div>
                       ) : (
                         <div className="w-12 h-5 rounded-sm anim-colorExchange" />
@@ -431,7 +416,10 @@ const StakingBurn = () => {
                         </LightTooltip>
                       </div>
                       <span className="lg:text-[20px] text-[16px] text-[#2DFF8C] font-medium leading-[1em]">
-                        {targetCRatio * 100}%
+                        {formatterDecimal(
+                          (Number(formatEther(targetCRatio)) * 100).toString()
+                        )}
+                        %
                       </span>
                     </div>
                   </div>
@@ -455,7 +443,7 @@ const StakingBurn = () => {
                   </div>
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
-                      type="number"
+                      type="text"
                       value={sUSDAmount}
                       onChange={sUSDAmountHandler}
                       className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
@@ -467,7 +455,7 @@ const StakingBurn = () => {
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
                         sUSD {t("stakingBurn.balance")}:&nbsp;
-                        {Number(formattedSUSDAmount.toFixed(8))}
+                        {formatterDecimal(formatEther(formattedSUSDAmount))}
                       </div>
                     </div>
                   </div>
@@ -484,16 +472,16 @@ const StakingBurn = () => {
                       disabled={!targetDisabled}
                       onClick={setBurnTargetHandler}
                       className={`w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6 ${
-                        targetDisabled === false
-                          ? " cursor-not-allowed"
-                          : "cursor:pointer"
+                        targetDisabled
+                          ? "cursor:pointer"
+                          : "cursor-not-allowed border-[red] hover:bg-transparent"
                       }`}
                     >
                       {t("stakingBurn.burnToTarget")}
                     </button>
                   </div>
                 </div>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 pt-8">
                   <span className="flex flex-row gap-1 items-center">
                     <span className="text-white sm:text-[16px] text-[14px] font-normal leading-[1em]">
                       {t("stakingBurn.unstaking")}
@@ -514,10 +502,15 @@ const StakingBurn = () => {
                   </span>
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
-                      type="number"
+                      disabled={targetDisabled}
+                      type="text"
                       value={sbxAmount}
                       onChange={sbxAmountHandler}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
+                      className={`relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px] ${
+                        !targetDisabled
+                          ? "cursor-pointer"
+                          : "cursor-not-allowed border-[red]"
+                      }`}
                       placeholder="Enter Amount"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
@@ -525,11 +518,16 @@ const StakingBurn = () => {
                         SBX
                       </div>
                       <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
-                        {t("stakingBurn.staked")} SBX :{" "}
-                        {Number(stakedSBXAmount.toFixed(8))}
+                        {t("stakingBurn.staked")} SBX :&nbsp;
+                        {formatterDecimal(formatEther(stakedSBXAmount))}
                       </div>
                     </div>
                   </div>
+                  {!targetDisabled && (
+                    <div className="text-[red]">
+                      Can only burn sUSD when below C-ratio
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-row w-full justify-between items-center">
                   <span className="text-white text-[16px] font-normal leading-[1em]">
@@ -537,12 +535,12 @@ const StakingBurn = () => {
                   </span>
                   <div className="">
                     <span className="text-white text-[16px] font-normal leading-[1em] flex items-center justify-center">
-                      {Number(gasPrice).toFixed(8)}
+                      {formatterDecimal(gasPrice)}
                       &nbsp;BNB :&nbsp;
-                      {BNBPrice !== null &&
-                        Number.parseFloat(
+                      {BNBPrice &&
+                        formatterDecimal(
                           (Number(gasPrice) * BNBPrice).toString()
-                        ).toFixed(4)}
+                        )}
                       &nbsp;$
                     </span>
                   </div>
@@ -621,7 +619,7 @@ const StakingBurn = () => {
           </span>
         </Link>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -28,13 +28,13 @@ import {
   ERC20ABI,
 } from "../../../config/abis";
 import { useEffect } from "react";
+import useScrollVisibility from "../../../hooks/useScrollVisibility";
 
 const StakingBoard = () => {
   const { t } = useTranslation();
   const { isConnected, address } = useAccount();
   const { switchChain } = useSwitchChain();
   const { connectAsync } = useConnect();
-
   const navigate = useNavigate();
 
   const stakingHandler = () => {
@@ -51,11 +51,11 @@ const StakingBoard = () => {
   };
 
   const ratiohandler = () => {
-    navigate("/staking/burn");
+    navigate("/staking/burn#");
   };
 
   const rewardButtonHandler = () => {
-    navigate("/staking/reward");
+    navigate("/staking/reward#");
   };
 
   const migrationHandler = async () => {
@@ -126,14 +126,16 @@ const StakingBoard = () => {
     : 0;
 
   return (
-    <>
+    <div id="staking-board">
       <div className=" md1:pt-[55px] pt-[0px] pb-8 w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
         {address && (
           <div className="text-white max-w-[1276px] mx-auto w-full px-10 mb-5 py-[10px] flex flex-row flex-wrap justify-evenly items-center bg-primaryBoxColor rounded-lg gap-3">
-            <div className="">
-              {t("stakingBoard.SYX_Balance")} :&nbsp;
-              {Number(formattedSYXAmount.toFixed(8))}
-            </div>
+            {formattedSYXAmount !== 0 && (
+              <div className=" ">
+                {t("stakingBoard.SYX_Balance")} :&nbsp;
+                {Number(formattedSYXAmount.toFixed(8))}
+              </div>
+            )}
             <div className="">
               {t("stakingBoard.SBX_Balance")} :&nbsp;
               {Number(formattedSBXAmount.toFixed(8))}
@@ -149,37 +151,39 @@ const StakingBoard = () => {
           </div>
         )}
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-11 mt-3">
-          <div className="w-full flex">
-            <div className="w-full flex flex-row overflow-auto pb-2">
-              <div className="w-full h-full flex flex-col flex-[1_0_0] items-start justify-between gap-4 bg-primaryBoxColor py-[34px] pl-6 pr-10 rounded-xl">
-                <div className="relative flex flex-col gap-3 pr-12 items-start self-stretch">
-                  <div className="absolute right-0 top-0 lg:right-3">
-                    <img
-                      src="/assets/Image/Perpetual/Perpetual1.svg"
-                      alt="migrationImg"
-                      className="w-full h-full lg:w-[160px]"
-                    />
+          {formattedSYXAmount !== 0 && (
+            <div className="w-full flex">
+              <div className="w-full flex flex-row overflow-auto pb-2">
+                <div className="w-full h-full flex flex-col flex-[1_0_0] items-start justify-between gap-4 bg-primaryBoxColor py-[34px] pl-6 pr-10 rounded-xl">
+                  <div className="relative flex flex-col gap-3 pr-12 items-start self-stretch">
+                    <div className="absolute right-0 top-0 lg:right-3">
+                      <img
+                        src="/assets/Image/Perpetual/Perpetual1.svg"
+                        alt="migrationImg"
+                        className="w-full h-full lg:w-[160px]"
+                      />
+                    </div>
+                    <p className="text-white lg:text-[14px] text-[12px] font-normal leading-[1em]">
+                      {t("stakingBoard.coreStep")}
+                    </p>
+                    <p className="text-white lg:text-[22px] text-[20px] font-bold leading-[1em]">
+                      {t("stakingBoard.migrateSYX")}
+                    </p>
+                    <p className="text-white lg:text-[16px] text-[14px] font-normal leading-[1em]">
+                      {t("stakingBoard.migrateContent")}
+                    </p>
                   </div>
-                  <p className="text-white lg:text-[14px] text-[12px] font-normal leading-[1em]">
-                    {t("stakingBoard.coreStep")}
-                  </p>
-                  <p className="text-white lg:text-[22px] text-[20px] font-bold leading-[1em]">
-                    {t("stakingBoard.migrateSYX")}
-                  </p>
-                  <p className="text-white lg:text-[16px] text-[14px] font-normal leading-[1em]">
-                    {t("stakingBoard.migrateContent")}
-                  </p>
+                  <button
+                    onClick={migrationHandler}
+                    type="button"
+                    className="h-10 py-[18px] px-8 lg:px-6 flex items-center mt-8 gap-[10px] rounded-[60px] bg-[#4C80C2] text-white text-[16px] font-bold leading-[16px] min-w-[190px] text-center justify-center hover:scale-[1.02]"
+                  >
+                    {t("stakingBoard.migration")}
+                  </button>
                 </div>
-                <button
-                  onClick={migrationHandler}
-                  type="button"
-                  className="h-10 py-[18px] px-8 lg:px-6 flex items-center mt-8 gap-[10px] rounded-[60px] bg-[#4C80C2] text-white text-[16px] font-bold leading-[16px] min-w-[190px] text-center justify-center hover:scale-[1.02]"
-                >
-                  {t("stakingBoard.migration")}
-                </button>
               </div>
             </div>
-          </div>
+          )}
           <div className="w-full flex flex-col lg:flex-row justify-between items-center lg:gap-6 gap-4">
             <div className="flex flex-col lg:h-[268px] h-full gap-4 flex-[1_0_0] bg-primaryBoxColor py-[34px] px-6 rounded-2xl items-start justify-between w-full">
               <div className="flex flex-col gap-3 pr-12 items-start self-stretch relative">
@@ -338,7 +342,7 @@ const StakingBoard = () => {
         </div>
       </div>
       <PrivacyModal />
-    </>
+    </div>
   );
 };
 
