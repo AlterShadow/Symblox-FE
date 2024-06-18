@@ -523,7 +523,7 @@ const StakingBurn = () => {
                       </div>
                     </div>
                   </div>
-                  {!targetDisabled && (
+                  {targetDisabled && (
                     <div className="text-[red]">
                       Can only burn sUSD when below C-ratio
                     </div>
