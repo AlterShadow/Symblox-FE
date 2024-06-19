@@ -51,11 +51,11 @@ const StakingBoard = () => {
   };
 
   const ratiohandler = () => {
-    navigate("/staking/burn#");
+    navigate("/staking/burn");
   };
 
   const rewardButtonHandler = () => {
-    navigate("/staking/reward#");
+    navigate("/staking/reward");
   };
 
   const migrationHandler = async () => {

@@ -52,7 +52,6 @@ const Footer = () => {
           <div className="flex flex-col items-start gap-4 text-primaryText">
             <Link
               to="/staking"
-              target="_blank"
               className="text-[16px] leading-[16px] font-normal"
             >
               {t("footer.staking")}

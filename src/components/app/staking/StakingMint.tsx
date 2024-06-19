@@ -40,8 +40,6 @@ const StakingMint = () => {
   const BNBPrice = BNBToUSDTPrice();
   const publicClient = usePublicClient();
 
-  console.log("BNB Price: ", BNBPrice);
-
   const StakingContract = {
     address: StakingCA,
     abi: StakingABI,
@@ -88,10 +86,6 @@ const StakingMint = () => {
 
   const formattedSBXAmount = (data?.[0].result as bigint) ?? 0n;
 
-  console.log(
-    "SBX Balance: ",
-    parseFloat(formatEther(formattedSBXAmount).toString()).toFixed(3)
-  );
   const sbxPrice = (data?.[1].result as bigint) ?? 0n;
 
   const formattedSUSDAmount = (data?.[2].result as bigint) ?? 0n;
@@ -128,7 +122,6 @@ const StakingMint = () => {
       })) as bigint;
 
       if (allowance < parseEther(sbxAmount.toString())) {
-        // console.log(formatEther(estimatedGas * gasPrice));
         hash = await writeContractAsync({
           ...SBXContract,
           functionName: "approve",
@@ -209,8 +202,6 @@ const StakingMint = () => {
   }, [sbxAmount]);
 
   const isDisabled = sbxAmount === "" || Number(sbxAmount) === 0;
-
-  console.log(sbxAmount);
 
   return (
     <div id="staking-mint">

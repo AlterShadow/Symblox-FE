@@ -55,6 +55,7 @@ const RewardItem = () => {
   const { address } = useAccount();
   const { writeContractAsync } = useWriteContract();
   const [claimLoading, setClaimLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const publicClient = usePublicClient();
 
   const StakingContract = {
@@ -103,13 +104,11 @@ const RewardItem = () => {
       // biome-ignore lint/style/noNonNullAssertion: <explanation>
       await publicClient?.waitForTransactionReceipt({ hash: hash! });
     } catch (error) {
-      console.log(error);
+      setError((error as any)?.shortMessage);
     } finally {
       setClaimLoading(false);
     }
   };
-
-  console.log(timeFormatter(remainingTime));
 
   const isDisabled = remainingTime > 0;
 

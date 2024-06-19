@@ -199,15 +199,13 @@ const StakingBurn = () => {
   };
 
   const getBurnableAmount = async (amount: string): Promise<bigint> => {
-    console.log(amount);
     if (amount) {
       const data = await publicClient?.readContract({
         ...StakingContract,
         functionName: "getBurnableSBXAmount",
         args: [address, parseEther(amount)],
       });
-      console.log("SUSDAmount:", parseEther(amount));
-      console.log("Burnable Amount:", data);
+
       return (data as bigint) ?? 0n;
     }
     return 0n;
@@ -598,7 +596,7 @@ const StakingBurn = () => {
             </div>
             <div className="w-full flex lg:flex-row flex-col">
               <Link
-                to="/guide/staking"
+                to="https://darkakatsukis-organization.gitbook.io/symblox"
                 className="sm:p-5 p-4 border border-[#293745] lg:w-1/2 w-full lg:border-r-0 border-r lg:rounded-l-xl rounded-l-none rounded-tr-xl lg:rounded-tr-none rounded-tl-xl bg-[#0a1a2a] flex flex-col gap-2 hover:bg-[rgba(255,255,255,0.08)]"
               >
                 <span className="text-white text-[16px] sm:font-bold font-semibold leading-[1em]">
