@@ -38,7 +38,7 @@ const Footer = () => {
               {t("footer.home")}
             </Link>
             <Link
-              to="/https://darkakatsukis-organization.gitbook.io/symblox/"
+              to="https://darkakatsukis-organization.gitbook.io/symblox/"
               className="text-[16px] sm:text-sm leading-[1em] font-normal"
             >
               {t("footer.faq")}
