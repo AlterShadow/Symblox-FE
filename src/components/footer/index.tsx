@@ -32,7 +32,7 @@ const Footer = () => {
           </span>
           <div className="flex flex-col items-start gap-4 text-primaryText">
             <Link
-              to=""
+              to="/"
               className="text-[16px] sm:text-sm leading-[1em] font-normal"
             >
               {t("footer.home")}
