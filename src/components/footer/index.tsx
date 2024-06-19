@@ -32,13 +32,13 @@ const Footer = () => {
           </span>
           <div className="flex flex-col items-start gap-4 text-primaryText">
             <Link
-              to="https://darkakatsukis-organization.gitbook.io/symblox/"
+              to=""
               className="text-[16px] sm:text-sm leading-[1em] font-normal"
             >
               {t("footer.home")}
             </Link>
             <Link
-              to="/faq"
+              to="/https://darkakatsukis-organization.gitbook.io/symblox/"
               className="text-[16px] sm:text-sm leading-[1em] font-normal"
             >
               {t("footer.faq")}
