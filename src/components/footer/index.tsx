@@ -43,12 +43,6 @@ const Footer = () => {
             >
               {t("footer.faq")}
             </Link>
-            <Link
-              to="/contact"
-              className="text-[16px] sm:text-sm leading-[1em] font-normal"
-            >
-              {t("footer.contact")}
-            </Link>
           </div>
         </div>
         <div className="w-[200px] flex flex-col items-start order-3">
