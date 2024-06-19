@@ -26,6 +26,7 @@ import { BNBToUSDTPrice } from "../../../hooks/BNBToUSDTPrice";
 import LightTooltip from "../../widgets/LightTooltip";
 import LoadingButton from "../../widgets/LoadingButton";
 import formatterDecimal from "../../../utils/formatters/formatterDecimal";
+import { timeFormatter } from "../../../utils/formatters/timeFormatter";
 
 const StakingMint = () => {
   const { t } = useTranslation();
@@ -78,6 +79,10 @@ const StakingMint = () => {
         functionName: "balanceOf",
         args: [address],
       },
+      {
+        ...StakingContract,
+        functionName: "periodFinish",
+      },
     ],
   });
 
@@ -90,6 +95,11 @@ const StakingMint = () => {
   const sbxPrice = (data?.[1].result as bigint) ?? 0n;
 
   const formattedSUSDAmount = (data?.[2].result as bigint) ?? 0n;
+
+  const periodFinish = Number(data?.[3].result as bigint) ?? 0n;
+
+  const remainingTime =
+    periodFinish * 1000 >= Date.now() ? periodFinish * 1000 - Date.now() : 0;
 
   const setSBXAmountHandler = (percent: number) => {
     const newAmount = (formattedSBXAmount * BigInt(percent)) / 100n;
@@ -200,6 +210,8 @@ const StakingMint = () => {
 
   const isDisabled = sbxAmount === "" || Number(sbxAmount) === 0;
 
+  console.log(sbxAmount);
+
   return (
     <div id="staking-mint">
       <div className="relative pt-12 lg:pb-[112px] pb-8 sm: w-full min-h-screen font-Barlow px-5 md:px-10 lg:px-5">
@@ -240,7 +252,7 @@ const StakingMint = () => {
                     </LightTooltip>
                   </span>
                   <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-white">
-                    02D 20H 42M
+                    {timeFormatter(remainingTime)}
                   </span>
                 </div>
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-end">
@@ -278,17 +290,17 @@ const StakingMint = () => {
                   </div>
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
-                      type="number"
-                      value={sbxAmount}
+                      type="text"
+                      value={formatterDecimal(sbxAmount)}
                       onChange={sbxAmountHandler}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
+                      className="relative bg-primaryBoxColor py-[16px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
                       placeholder="Enter Amount"
                     />
-                    <div className="flex flex-col gap-1 absolute pr-4">
+                    <div className="flex flex-col gap-[6px] absolute pr-4">
                       <div className="text-white text-[14px] leading-[1em] font-bold text-right">
                         SBX
                       </div>
-                      <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right">
+                      <div className="text-secondaryText text-[12px] leading-[1em] font-normal text-right mt-[1px]">
                         {t("stakingMint.unstaked")} SBX :{" "}
                         {formatterDecimal(
                           formatEther(formattedSBXAmount).toString()
@@ -332,9 +344,9 @@ const StakingMint = () => {
                     <input
                       readOnly
                       type="text"
-                      value={sUSDAmount}
+                      value={formatterDecimal(sUSDAmount)}
                       onChange={sUSDAmountHandler}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
+                      className="relative bg-primaryBoxColor py-4 pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
                       placeholder="0"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">

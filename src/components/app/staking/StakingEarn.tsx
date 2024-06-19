@@ -27,6 +27,8 @@ import { timeFormatter } from "../../../utils/formatters/timeFormatter";
 import { isDisabled } from "@testing-library/user-event/dist/utils";
 import LoadingButton from "../../widgets/LoadingButton";
 import ClaimLoadingButton from "../../widgets/ClaimLoadingButton";
+import ProgressBar from "@ramonak/react-progress-bar";
+import formatterDecimal from "../../../utils/formatters/formatterDecimal";
 
 interface ProgressBarProps extends LinearProgressProps {
   totalTimeStamp: number;
@@ -48,8 +50,9 @@ const RewardProgressBar: React.FC<ProgressBarProps> = ({
   );
 };
 
-const RewardItem = (remainingTime: any) => {
+const RewardItem = () => {
   const { t } = useTranslation();
+  const { address } = useAccount();
   const { writeContractAsync } = useWriteContract();
   const [claimLoading, setClaimLoading] = useState<boolean>(false);
   const publicClient = usePublicClient();
@@ -63,16 +66,28 @@ const RewardItem = (remainingTime: any) => {
     contracts: [
       {
         ...StakingContract,
-        functionName: "getRewardDuration",
+        functionName: "stakeInfos",
+        args: [address],
+      },
+      {
+        ...StakingContract,
+        functionName: "LOCK_TIME",
       },
     ],
   });
 
-  const rewardForDuration = data
-    ? Number.parseFloat(formatEther((data?.[0].result as bigint) ?? 0n))
-    : 0;
+  const StakerInfo = (data?.[0].result as any) ?? {};
 
-  console.log(rewardForDuration);
+  const lock_time = (data?.[1].result as bigint) ?? 0n;
+
+  const stakerLastTime = (StakerInfo?.[4] as bigint) ?? 0n;
+
+  const claimableReward = (StakerInfo?.[1] as bigint) ?? 0n;
+
+  const remainingTime =
+    Number(stakerLastTime + lock_time) * 1000 >= Date.now()
+      ? Number(stakerLastTime + lock_time) * 1000 - Date.now()
+      : 0;
 
   const ClaimHandler = async () => {
     try {
@@ -94,7 +109,9 @@ const RewardItem = (remainingTime: any) => {
     }
   };
 
-  const isDisabled = false;
+  console.log(timeFormatter(remainingTime));
+
+  const isDisabled = remainingTime > 0;
 
   return (
     <>
@@ -193,52 +210,45 @@ const RewardItem = (remainingTime: any) => {
 const StakingEarn = () => {
   const { t } = useTranslation();
   const { address } = useAccount();
-  const [sbxAmount, setSBXAmount] = useState<number>(0);
-  const [sUSDAmount, setSUSDAmount] = useState<string>("");
-  const [claimLoading, setClaimLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const { data: walletClient } = useWalletClient();
-  const { writeContractAsync } = useWriteContract();
-  const publicClient = usePublicClient();
 
   const StakingContract = {
     address: StakingCA,
     abi: StakingABI,
   } as const;
 
-  const SBXContract = {
-    address: SymbloxTokenCA,
-    abi: SBXContractABI,
+  const PriceOracleContract = {
+    address: PriceOracleCA,
+    abi: PriceOracleABI,
   } as const;
 
-  // const { data } = useReadContracts({
-  //   contracts: [
-  //     {
-  //       ...StakingContract,
-  //       functionName: "getRewardAmount",
-  //       args: [address],
-  //     },
-  //     {
-  //       ...StakingContract,
-  //       functionName: "stakes",
-  //       args: [address],
-  //     },
-  //   ],
-  // });
+  const { data } = useReadContracts({
+    contracts: [
+      {
+        ...StakingContract,
+        functionName: "stakeInfos",
+        args: [address],
+      },
+      {
+        ...StakingContract,
+        functionName: "LOCK_TIME",
+      },
+      {
+        ...PriceOracleContract,
+        functionName: "getTokenPrice",
+        args: [SymbloxTokenCA],
+      },
+    ],
+  });
 
-  // const claimableAmount = data
-  //   ? Number.parseFloat(formatEther(data?.[0].result as bigint))
-  //   : 0;
+  const StakerInfo = (data?.[0].result as any) ?? {};
 
-  // const remainingTime = data
-  //   ? Number.parseFloat(
-  //       formatEther(((data?.[1].result as any)?.lastStakedTime as bigint) || 0n)
-  //     )
-  //   : 0;
+  const claimableReward = (StakerInfo?.[1] as bigint) ?? 0n;
 
-  // console.log("Get Claimable Amount: ", remainingTime);
+  const StakedBalance = (StakerInfo?.[0] as bigint) ?? 0n;
 
-  // const isDisabled = sbxAmount || sUSDAmount;
+  const sbxPrice = (data?.[2].result as bigint) ?? 0n;
+
+  const rewardPerTokenPaid = (StakerInfo?.[3] as bigint) ?? 0n;
 
   return (
     <div id="staking-reward">
@@ -262,7 +272,13 @@ const StakingEarn = () => {
                   {t("stakingReward.claimReward")}
                 </span>
                 <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
-                  $&nbsp;{0}
+                  $&nbsp;
+                  {formatterDecimal(
+                    (
+                      Number(formatEther(claimableReward)) *
+                      Number(formatEther(sbxPrice))
+                    ).toString()
+                  )}
                 </span>
               </div>
               <div className="sm:p-5 p-4 border border-[#293745] rounded-[4px] lg:w-1/3 w-full bg-[#0a1a2a] flex flex-col md:items-center items-start gap-2 hover:bg-[rgba(255,255,255,0.08)]">
@@ -270,7 +286,13 @@ const StakingEarn = () => {
                   {t("stakingReward.earning")}
                 </span>
                 <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
-                  0.08%
+                  {formatterDecimal(
+                    (
+                      (100 * Number(formatEther(claimableReward))) /
+                      Number(formatEther(StakedBalance))
+                    ).toString()
+                  )}
+                  %
                 </span>
               </div>
               <div className="sm:p-5 p-4 border border-[#293745] rounded-[4px] lg:w-1/3 w-full bg-[#0a1a2a] flex flex-col md:items-end items-start gap-2 hover:bg-[rgba(255,255,255,0.08)]">
@@ -278,19 +300,26 @@ const StakingEarn = () => {
                   {t("stakingReward.lifetimeReward")}
                 </span>
                 <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
-                  $0.00
+                  $
+                  {formatterDecimal(
+                    (
+                      Number(formatEther(StakedBalance)) *
+                      Number(formatEther(sbxPrice)) *
+                      Number(formatEther(rewardPerTokenPaid))
+                    ).toString()
+                  )}
                 </span>
               </div>
             </div>
           </div>
           <div className="w-full flex flex-col gap-4">
             <hr className="border-[#293745]" />
-            <RewardItem remainingTime={0} />
+            <RewardItem />
             <hr className="border-[#293745]" />
             <RewardItem />
             <hr className="border-[#293745]" />
           </div>
-          <div className="w-full flex md:flex-row flex-col mt-8 gap-3 justify-between">
+          {/* <div className="w-full flex md:flex-row flex-col mt-8 gap-3 justify-between">
             <div className="sm:p-5 p-4 border border-[#293745] rounded-[4px] lg:w-1/3 w-full bg-[#0a1a2a] flex flex-col items-start gap-2 hover:bg-[rgba(255,255,255,0.08)]">
               <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
                 {t("stakingReward.lastEpochFeeBurned")}
@@ -315,11 +344,11 @@ const StakingEarn = () => {
                 $0.00
               </span>
             </div>
-          </div>
-          <div className="w-full flex flex-col gap-4">
+          </div> */}
+          {/* <div className="w-full flex flex-col gap-4">
             <hr className="border-[#293745]" />
             <RewardItem />
-          </div>
+          </div> */}
         </div>
         <Link
           to="/staking"

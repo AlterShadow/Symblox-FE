@@ -307,10 +307,10 @@ const Migration = () => {
                   </div>
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
-                      type="number"
-                      value={syxAmount}
+                      type="text"
+                      value={formatterDecimal(syxAmount)}
                       onChange={handleSYXAmountChange}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
+                      className="relative bg-primaryBoxColor py-4 pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
                       placeholder={sbxAmount ? "" : t("migration.placeholder")}
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
@@ -358,9 +358,9 @@ const Migration = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       readOnly
-                      type="number"
-                      value={sbxAmount}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
+                      type="text"
+                      value={formatterDecimal(sbxAmount)}
+                      className="relative bg-primaryBoxColor py-4 pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px]"
                       placeholder="0"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">

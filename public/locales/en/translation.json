@@ -149,7 +149,9 @@
     "burnInputExplanation": "Burn sUSD to increase your C-ratio",
     "stakeInputExplanation": "When your c-ratio is below target, all your SBX is staked",
     "minHealthState": "You maybe flagged for liquidation",
-    "maxHealthState": "Required to claim rewards"
+    "maxHealthState": "Required to claim rewards",
+    "burnMaxTooltip": "Burn all your debt or all the available sUSD",
+    "burnToTargetTooltip": "Burn to target c-Ratio"
   },
   "stakingMint": {
     "stakeSBX": "Stake SBX By Minting sUSD",

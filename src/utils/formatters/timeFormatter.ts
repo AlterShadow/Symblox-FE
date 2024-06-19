@@ -1,16 +1,29 @@
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-export function timeFormatter(timestamp: any) {
-  const days = Number(timestamp / (24 * 60 * 60));
-  const hours = Number((timestamp / (60 * 60)) % 24);
-  const minutes = Number((timestamp / 60) % 60);
+export function timeFormatter(timestamp: number) {
+  // const days = Number(timestamp / (24 * 60 * 60));
+  // const hours = Number((timestamp % (60 * 60)) % 24);
+  // const minutes = Number((timestamp % 60) % 60);
+  // console.log("Days:", days, hours, minutes);
+  // if (Number.isNaN(days) || Number.isNaN(hours) || Number.isNaN(minutes)) {
+  //   return "00D " + "00H " + "00M";
+  // }
+  // const formattedDays = days.toString().slice(0, days.toString().indexOf("."));
+  // const formattedHours = hours
+  //   .toString()
+  //   .slice(0, hours.toString().indexOf("."));
+  // const formattedMinutes = minutes
+  //   .toString()
+  //   .slice(0, minutes.toString().indexOf("."));
+  // return formattedDays + "D " + formattedHours + "H " + formattedMinutes + "M";
 
-  if (Number.isNaN(days) || Number.isNaN(hours) || Number.isNaN(minutes)) {
-    return "00D 00H 00M"; // Return a default value if the input is invalid
-  }
+  const date = new Date(timestamp);
+  const dateString = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
 
-  const formattedDays = days.toString().padStart(2, "0");
-  const formattedHours = hours.toString().padStart(2, "0");
-  const formattedMinutes = minutes.toString().padStart(2, "0");
+  console.log(`Date: ${dateString}`);
+  console.log(`Hours: ${hours}`);
+  console.log(`Minutes: ${minutes}`);
 
-  return `${formattedDays}D${formattedHours}H${formattedMinutes}M`;
+  return dateString + "D " + hours + "H " + minutes + "M";
 }

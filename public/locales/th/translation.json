@@ -149,7 +149,9 @@
     "burnInputExplanation": "เผา sUSD เพื่อเพิ่มอัตราส่วน C ของคุณ",
     "stakeInputExplanation": "เมื่ออัตราส่วน C ของคุณต่ำกว่าเป้าหมาย SBX ของคุณทั้งหมดจะถูกเดิมพัน",
     "minHealthState": "คุณอาจถูกทำเครื่องหมายเพื่อทำการชำระบัญชี",
-    "maxHealthState": "จำเป็นต้องรับรางวัล"
+    "maxHealthState": "จำเป็นต้องรับรางวัล",
+    "burnMaxTooltip": "เผาหนี้ทั้งหมดของคุณหรือ sUSD ที่มีอยู่ทั้งหมด",
+    "burnToTargetTooltip": "เผาเพื่อกำหนดเป้าหมายอัตราส่วน c"
   },
   "stakingMint": {
     "stakeSBX": "วางเดิมพัน SBX โดยการสร้าง sUSD",

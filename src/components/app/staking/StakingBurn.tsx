@@ -313,7 +313,7 @@ const StakingBurn = () => {
                 className="sm:px-6 sm:py-8 px-4 py-5 flex flex-col gap-6 w-full rounded-b-[14px] border border-[#293745] border-t-0 bg-[#0a1a2a]"
                 id="burn-body"
               >
-                <div className="w-full md:flex flex-row hidden justify-between">
+                <div className="w-full flex md:flex-row flex-col justify-between">
                   <div className="lg:w-[58%] w-full flex flex-col py-5 px-4 rounded-[4px] border border-primaryBoxColor bg-black gap-8">
                     <div className="w-full flex flex-row justify-between items-center">
                       <div className="flex flex-row gap-1 items-center">
@@ -444,9 +444,9 @@ const StakingBurn = () => {
                   <div className="flex flex-row gap-3 items-center justify-end">
                     <input
                       type="text"
-                      value={sUSDAmount}
+                      value={formatterDecimal(sUSDAmount)}
                       onChange={sUSDAmountHandler}
-                      className="relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
+                      className="relative bg-primaryBoxColor py-4 pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary hidden-scrollbar text-[14px] sm:text-[16px]"
                       placeholder="Enter Amount"
                     />
                     <div className="flex flex-col gap-1 absolute pr-4">
@@ -463,21 +463,45 @@ const StakingBurn = () => {
                     <button
                       type="button"
                       onClick={setBurnMaxHandler}
-                      className="w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
+                      className="relative w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6"
                     >
                       {t("stakingBurn.burnMax")}
+                      <div className="absolute right-5">
+                        <LightTooltip
+                          title={t("stakingBurn.burnInputExplanation")}
+                          arrow
+                          placement="bottom-start"
+                        >
+                          <img
+                            src="/assets/Icon/question-mark.svg"
+                            className="mt-[2px]"
+                            alt="question-mark"
+                          />
+                        </LightTooltip>
+                      </div>
                     </button>
                     <button
                       type="button"
                       disabled={!targetDisabled}
                       onClick={setBurnTargetHandler}
-                      className={`w-1/2 rounded-[18px] justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6 ${
-                        targetDisabled
-                          ? "cursor:pointer"
-                          : "cursor-not-allowed border-[red] hover:bg-transparent"
+                      className={`relative w-1/2 rounded-[18px] flex-row justify-center border border-[#33485E] items-center flex py-[18px] text-[#C3E6FF] font-bold sm:text-[14px] text-[12px] leading-[1em] hover:bg-[rgba(255,255,255,0.08)] focus:border-[#EE2D82] focus:shadow-primary h-8 px-4 sm:px-8 md:px-6 ${
+                        targetDisabled ? "cursor:pointer" : "cursor-not-allowed"
                       }`}
                     >
                       {t("stakingBurn.burnToTarget")}
+                      <div className="absolute right-5">
+                        <LightTooltip
+                          title={t("stakingBurn.burnInputExplanation")}
+                          arrow
+                          placement="bottom-start"
+                        >
+                          <img
+                            src="/assets/Icon/question-mark.svg"
+                            className="mt-[2px]"
+                            alt="question-mark"
+                          />
+                        </LightTooltip>
+                      </div>
                     </button>
                   </div>
                 </div>
@@ -504,9 +528,9 @@ const StakingBurn = () => {
                     <input
                       disabled={targetDisabled}
                       type="text"
-                      value={sbxAmount}
+                      value={formatterDecimal(sbxAmount)}
                       onChange={sbxAmountHandler}
-                      className={`relative bg-primaryBoxColor py-[13px] pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px] ${
+                      className={`relative bg-primaryBoxColor py-4 pl-4 w-full rounded-lg text-white border border-[transparent] focus:outline-none focus:border-primaryButtonColor focus:shadow-primary text-[14px] sm:text-[16px] ${
                         !targetDisabled
                           ? "cursor-pointer"
                           : "cursor-not-allowed border-[red]"

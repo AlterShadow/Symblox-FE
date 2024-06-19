@@ -149,7 +149,9 @@
     "burnInputExplanation": "Đốt sUSD để tăng Tỷ lệ C của bạn",
     "stakeInputExplanation": "Khi tỷ lệ c của bạn thấp hơn mục tiêu của bạn, tất cả SBX của bạn sẽ được đặt cọc",
     "minHealthState": "Bạn có thể đã được gắn cờ để thanh lý",
-    "maxHealthState": "Cần thiết để yêu cầu phần thưởng"
+    "maxHealthState": "Cần thiết để yêu cầu phần thưởng",
+    "burnMaxTooltip": "Đốt cháy tất cả các khoản nợ của bạn hoặc tất cả các sUSD có sẵn",
+    "burnToTargetTooltip": "Đốt cháy để đạt được mục tiêu c-Ratio"
   },
   "stakingMint": {
     "stakeSBX": "Đặt cọc SBX bằng cách đúc sUSD",

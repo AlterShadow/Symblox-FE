@@ -149,7 +149,9 @@
     "burnInputExplanation": "销毁 sUSD 以提高您的 C 比率",
     "stakeInputExplanation": "当您的 C 比率低于目标时，您的所有 SBX 都将被质押",
     "minHealthState": "您可能被标记为清算",
-    "maxHealthState": "需要领取奖励"
+    "maxHealthState": "需要领取奖励",
+    "burnMaxTooltip": "销毁所有债务或所有可用的 sUSD",
+    "burnToTargetTooltip": "销毁以达到目标 C 比率"
   },
   "stakingMint": {
     "stakeSBX": "通过铸造 sUSD 质押 SBX",
