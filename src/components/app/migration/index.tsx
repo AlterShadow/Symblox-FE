@@ -27,9 +27,8 @@ import { BNBToUSDTPrice } from "../../../hooks/BNBToUSDTPrice";
 
 import LightTooltip from "../../widgets/LightTooltip";
 import LoadingButton from "../../widgets/LoadingButton";
-import { bscTestnet } from "viem/chains";
+import { bsc } from "viem/chains";
 import { injected } from "wagmi/connectors";
-import { watch } from "fs";
 import formatterDecimal from "../../../utils/formatters/formatterDecimal";
 
 const Migration = () => {
@@ -219,7 +218,7 @@ const Migration = () => {
   const releaseButtonState: boolean = claimableAmount === 0n;
 
   const ConnectHandler = async () => {
-    await connectAsync({ chainId: bscTestnet.id, connector: injected() });
+    await connectAsync({ chainId: bsc.id, connector: injected() });
   };
 
   useEffect(() => {

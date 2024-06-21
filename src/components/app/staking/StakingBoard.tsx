@@ -2,33 +2,27 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import PrivacyModal from "../modal/privacy";
-import { bscTestnet } from "viem/chains";
+import { bsc } from "viem/chains";
 import { injected } from "wagmi/connectors";
 import {
   useAccount,
-  usePublicClient,
   useReadContracts,
-  useWriteContract,
   useConnect,
   useSwitchChain,
 } from "wagmi";
-import { encodeFunctionData, formatEther, parseEther } from "viem";
+import { formatEther } from "viem";
 import {
   PriceOracleCA,
-  StakingCA,
   SymbloxTokenCA,
   xUSDCA,
   SYXCA,
 } from "../../../config/params/contractAddresses";
 import {
   sUSDABI,
-  StakingABI,
   PriceOracleABI,
   SBXContractABI,
   ERC20ABI,
 } from "../../../config/abis";
-import { useEffect } from "react";
-import useScrollVisibility from "../../../hooks/useScrollVisibility";
 
 const StakingBoard = () => {
   const { t } = useTranslation();
@@ -44,7 +38,7 @@ const StakingBoard = () => {
   const walletConnectHandler = async () => {
     try {
       await connectAsync({ connector: injected() });
-      await switchChain({ chainId: bscTestnet.id });
+      await switchChain({ chainId: bsc.id });
     } catch (error) {
       console.error("Failed to connect wallet", error);
     }
@@ -60,7 +54,7 @@ const StakingBoard = () => {
 
   const migrationHandler = async () => {
     if (!address)
-      await connectAsync({ chainId: bscTestnet.id, connector: injected() });
+      await connectAsync({ chainId: bsc.id, connector: injected() });
     else navigate("/migration");
   };
 
