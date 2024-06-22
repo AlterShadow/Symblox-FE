@@ -23,12 +23,15 @@ import {
   SBXContractABI,
   ERC20ABI,
 } from "../../../config/abis";
+import { BNBToUSDTPrice } from "../../../hooks/BNBToUSDTPrice";
+import formatterDecimal from "../../../utils/formatters/formatterDecimal";
 
 const StakingBoard = () => {
   const { t } = useTranslation();
   const { isConnected, address } = useAccount();
   const { switchChain } = useSwitchChain();
   const { connectAsync } = useConnect();
+  const BNBPrice = BNBToUSDTPrice();
   const navigate = useNavigate();
 
   const stakingHandler = () => {
@@ -138,10 +141,13 @@ const StakingBoard = () => {
               {t("stakingBoard.sUSD_Balance")} :&nbsp;
               {Number(formattedSUSDAmount.toFixed(8))}
             </div>
-            <div className="">
-              {t("stakingBoard.SBX_Price")} :&nbsp;
-              {Number(sbxPrice.toFixed(8))}&nbsp;$
-            </div>
+            {BNBPrice && (
+              <div className="">
+                {t("stakingBoard.SBX_Price")} :&nbsp;
+                {formatterDecimal(Number(sbxPrice * BNBPrice).toString())}
+                &nbsp;$
+              </div>
+            )}
           </div>
         )}
         <div className="max-w-[1276px] mx-auto w-full flex flex-col gap-11 mt-3">

@@ -252,10 +252,16 @@ const StakingMint = () => {
                       {t("stakingMint.sbxPrice")}
                     </span>
                   </span>
-                  <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
-                    $
-                    {formatterDecimal(Number(formatEther(sbxPrice)).toString())}
-                  </span>
+                  {BNBPrice && (
+                    <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
+                      $
+                      {formatterDecimal(
+                        Number(
+                          Number(formatEther(sbxPrice)) * BNBPrice
+                        ).toString()
+                      )}
+                    </span>
+                  )}
                 </div>
               </div>
               <div

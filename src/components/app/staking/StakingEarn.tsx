@@ -29,6 +29,7 @@ import LoadingButton from "../../widgets/LoadingButton";
 import ClaimLoadingButton from "../../widgets/ClaimLoadingButton";
 import ProgressBar from "@ramonak/react-progress-bar";
 import formatterDecimal from "../../../utils/formatters/formatterDecimal";
+import { BNBToUSDTPrice } from "../../../hooks/BNBToUSDTPrice";
 
 interface ProgressBarProps extends LinearProgressProps {
   totalTimeStamp: number;
@@ -209,6 +210,7 @@ const RewardItem = () => {
 const StakingEarn = () => {
   const { t } = useTranslation();
   const { address } = useAccount();
+  const BNBPrice = BNBToUSDTPrice();
 
   const StakingContract = {
     address: StakingCA,
@@ -270,15 +272,18 @@ const StakingEarn = () => {
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
                   {t("stakingReward.claimReward")}
                 </span>
-                <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
-                  $&nbsp;
-                  {formatterDecimal(
-                    (
-                      Number(formatEther(claimableReward)) *
-                      Number(formatEther(sbxPrice))
-                    ).toString()
-                  )}
-                </span>
+                {BNBPrice && (
+                  <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
+                    $&nbsp;
+                    {formatterDecimal(
+                      (
+                        Number(formatEther(claimableReward)) *
+                        Number(formatEther(sbxPrice)) *
+                        BNBPrice
+                      ).toString()
+                    )}
+                  </span>
+                )}
               </div>
               <div className="sm:p-5 p-4 border border-[#293745] rounded-[4px] lg:w-1/3 w-full bg-[#0a1a2a] flex flex-col md:items-center items-start gap-2 hover:bg-[rgba(255,255,255,0.08)]">
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
@@ -298,16 +303,19 @@ const StakingEarn = () => {
                 <span className="text-secondaryText leading-[1em] text-[14px] font-normal">
                   {t("stakingReward.lifetimeReward")}
                 </span>
-                <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
-                  $
-                  {formatterDecimal(
-                    (
-                      Number(formatEther(StakedBalance)) *
-                      Number(formatEther(sbxPrice)) *
-                      Number(formatEther(rewardPerTokenPaid))
-                    ).toString()
-                  )}
-                </span>
+                {BNBPrice && (
+                  <span className="mt-1 text-white text-[24px] sm:font-bold font-semibold leading-[1em]">
+                    $
+                    {formatterDecimal(
+                      (
+                        Number(formatEther(StakedBalance)) *
+                        Number(formatEther(sbxPrice)) *
+                        Number(formatEther(rewardPerTokenPaid)) *
+                        BNBPrice
+                      ).toString()
+                    )}
+                  </span>
+                )}
               </div>
             </div>
           </div>

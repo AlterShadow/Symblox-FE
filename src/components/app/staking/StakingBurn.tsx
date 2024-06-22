@@ -291,9 +291,16 @@ const StakingBurn = () => {
                         {t("stakingBurn.sbxPrice")}
                       </span>
                     </span>
-                    <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
-                      ${formatterDecimal(formatEther(sbxPrice))}
-                    </span>
+                    {BNBPrice && (
+                      <span className="lg:text-[16px] text-[14px] font-medium leading-[1em] text-[#2DFF8C]">
+                        $
+                        {formatterDecimal(
+                          Number(
+                            Number(formatEther(sbxPrice)) * BNBPrice
+                          ).toString()
+                        )}
+                      </span>
+                    )}
                   </div>
                   <div className="flex flex-row gap-2 flex-[1_0_0] items-center">
                     <span className="flex flex-row gap-1 items-center">
