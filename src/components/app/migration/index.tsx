@@ -95,7 +95,7 @@ const Migration = () => {
       },
       {
         ...PriceOracleContract,
-        functionName: "getTokenPrice",
+        functionName: "getUnderlyingPrice",
         args: [0x91a14891bc882561aabefc1e2b1626c13b38f37c],
       },
     ],
