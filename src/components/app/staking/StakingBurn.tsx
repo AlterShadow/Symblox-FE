@@ -27,6 +27,7 @@ import LoadingButton from "../../widgets/LoadingButton";
 import LightTooltip from "../../widgets/LightTooltip";
 import ProgressBar from "@ramonak/react-progress-bar";
 import formatterDecimal from "../../../utils/formatters/formatterDecimal";
+import { timeFormatter } from "../../../utils/formatters/timeFormatter";
 
 const StakingBurn = () => {
   const { t } = useTranslation();
@@ -95,6 +96,15 @@ const StakingBurn = () => {
         ...StakingContract,
         functionName: "targetCRatio",
       },
+      {
+        ...StakingContract,
+        functionName: "stakeInfos",
+        args: [address],
+      },
+      {
+        ...StakingContract,
+        functionName: "LOCK_TIME",
+      },
     ],
   });
 
@@ -109,6 +119,19 @@ const StakingBurn = () => {
   const globalCRatio = (data?.[5].result as bigint) ?? 0n;
 
   const targetCRatio = (data?.[6].result as bigint) ?? 0n;
+
+  const stakerInfo = (data?.[7].result as any) ?? {};
+
+  const stakerLastTime = (stakerInfo?.[4] as bigint) ?? 0n;
+
+  const lock_time = (data?.[8].result as bigint) ?? 0n;
+
+  const remainingTime =
+    Number(stakerLastTime + lock_time) * 1000 >= Date.now()
+      ? Number(stakerLastTime + lock_time) * 1000 - Date.now()
+      : 0;
+
+  console.log("Last Staked Time:", timeFormatter(remainingTime));
 
   const BurnHandler = async () => {
     try {
@@ -280,9 +303,9 @@ const StakingBurn = () => {
                       </span>
                     </LightTooltip>
                   </span>
-                  <span className="lg:text-[16px] text-[12px] font-medium leading-[1em] text-white hidden tiny:flex">
-                    {t("stakingBurn.burnSUSDOrStakedSBX")}
-                  </span>
+                  <div className="text-white text-[14px] lg:text-[16px]">
+                    {timeFormatter(remainingTime)}
+                  </div>
                 </div>
                 <div className="flex flex-col gap-2 flex-[1_0_0] items-end">
                   <div className="flex flex-row gap-2 flex-[1_0_0] items-center">
